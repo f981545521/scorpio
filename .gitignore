@@ -35,3 +35,7 @@ out/
 
 # Mac
 .DS_Store
+
+# Log
+logs/
+*/*.log
