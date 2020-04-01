@@ -1,4 +1,4 @@
-package cn.acyou.framework.aop;
+package cn.acyou.framework.mybatis.plugin;
 
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;

@@ -85,7 +85,6 @@
                 <artifactId>jpinyin</artifactId>
                 <version>1.1.8</version>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-autoconfigure</artifactId>
@@ -101,8 +100,6 @@
                 <artifactId>spring-boot-starter-jdbc</artifactId>
                 <version>2.1.10.RELEASE</version>
             </dependency>
-
-
             <dependency>
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper</artifactId>
@@ -123,7 +120,6 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.10</version>
             </dependency>
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
@@ -134,7 +130,6 @@
                 <artifactId>persistence-api</artifactId>
                 <version>1.0</version>
             </dependency>
-
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>

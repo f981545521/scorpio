@@ -1,6 +1,6 @@
 package cn.acyou.scorpio.conf;
 
-import cn.acyou.framework.aop.PerformanceInterceptor;
+import cn.acyou.framework.mybatis.plugin.PerformanceInterceptor;
 import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;

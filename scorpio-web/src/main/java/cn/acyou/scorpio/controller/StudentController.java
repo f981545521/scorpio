@@ -34,7 +34,7 @@ public class StudentController {
     @RequestMapping(value = "students", method = {RequestMethod.GET})
     @ApiOperation("增加一个学生")
     @ResponseBody
-    public Result selectStudent() {
+    public Result<List<Student>> selectStudent() {
         List<Student> students = studentMapper.selectAll();
         log.info("查询学生");
         return Result.success(students);
