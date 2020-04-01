@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 import java.lang.annotation.Annotation;
 
 
+/**
+ * 1、filter，这是java的过滤器，和框架无关的，是所有过滤组件中最外层的，从粒度来说是最大的。
+ * 2、interceptor，spring框架的拦截器。
+ * 3、aspect，可以自定义要切入的类甚至再细的方法，粒度最小。加个注解用效果更佳。
+ */
 @Aspect
 @Component
 public class ParameterValidateAspect {
