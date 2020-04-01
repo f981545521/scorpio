@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:分类管理 -->
+<mapper namespace="cn.acyou.scorpio.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="cn.acyou.scorpio.entity.Student">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, age
+    </sql>
+
+</mapper>
