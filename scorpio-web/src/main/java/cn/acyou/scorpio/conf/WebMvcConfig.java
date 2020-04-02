@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 
@@ -157,7 +157,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         });
     }
 
-    private void responseResult(HttpServletResponse response, Result result) {
+    private void responseResult(HttpServletResponse response, Result<Object> result) {
         response.setCharacterEncoding("UTF-8");
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString());
         response.setStatus(200);
@@ -184,7 +184,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 SerializerFeature.DisableCircularReferenceDetect,
                 SerializerFeature.WriteNullNumberAsZero);
         converter.setFastJsonConfig(config);
-        converter.setDefaultCharset(Charset.forName("UTF-8"));
+        converter.setDefaultCharset(StandardCharsets.UTF_8);
         return converter;
     }
 
