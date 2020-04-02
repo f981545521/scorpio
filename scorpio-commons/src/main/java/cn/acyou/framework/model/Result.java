@@ -39,33 +39,33 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> error(int code, String message) {
-        Result result = new Result(code, message);
+        Result<T> result = new Result<T>(code, message);
         result.setSuccess(false);
         return result;
     }
 
     public static <T> Result<T> error(String code, String message) {
-        Result result = new Result(Integer.parseInt(code), message);
+        Result<T> result = new Result<T>(Integer.parseInt(code), message);
         result.setSuccess(false);
         return result;
     }
 
     public static <T> Result<T> error(int code, T data, String message) {
-        Result<T> result = new Result(code, data, message);
+        Result<T> result = new Result<T>(code, data, message);
         result.setSuccess(false);
         return result;
     }
 
     public static <T> Result<T> success() {
-        return success(null, "处理成功");
+        return success(null, SUCCESS_MESSAGE);
     }
 
     public static <T> Result<T> success(T data) {
-        return success(data, "处理成功");
+        return success(data, SUCCESS_MESSAGE);
     }
 
     public static <T> Result<T> success(T data, String message) {
-        return new Result(0, data, message);
+        return new Result<T>(0, data, message);
     }
 
     public int getCode() {
