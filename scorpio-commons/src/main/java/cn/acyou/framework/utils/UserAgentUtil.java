@@ -12,6 +12,9 @@ public class UserAgentUtil {
 
     /**
      * 判断 移动端/PC端
+     *
+     * @param request 请求
+     * @return boolean
      */
     public static boolean isMobile(HttpServletRequest request) {
         List<String> mobileAgents = Arrays.asList("ipad", "iphone os", "rv:1.2.3.4", "ucweb", "android", "windows ce", "windows mobile");
@@ -26,8 +29,11 @@ public class UserAgentUtil {
 
     /**
      * 是否微信浏览器
+     *
+     * @param request 请求
+     * @return boolean
      */
-    public static boolean isWechat(HttpServletRequest request) {
+    public static boolean isWeChat(HttpServletRequest request) {
         String ua = request.getHeader("User-Agent").toLowerCase();
         if (ua.contains("micromessenger")) {
             return true;//微信
@@ -39,8 +45,8 @@ public class UserAgentUtil {
     /**
      * 判断是否是IE浏览器
      *
-     * @param request
-     * @return
+     * @param request 请求
+     * @return boolean
      */
     public static boolean isIEBrowser(HttpServletRequest request) {
         String[] IEBrowserSignals = {"MSIE", "Trident", "Edge"};
