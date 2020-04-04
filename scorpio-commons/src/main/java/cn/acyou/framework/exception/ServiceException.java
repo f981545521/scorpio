@@ -12,13 +12,13 @@ import cn.acyou.framework.model.Result;
  **/
 public class ServiceException extends RuntimeException {
 
-    private Result result;
+    private Result<Object> result;
 
-    public Result getResult() {
+    public Result<Object> getResult() {
         return result;
     }
 
-    public void setResult(Result result) {
+    public void setResult(Result<Object> result) {
         this.result = result;
     }
 
@@ -48,7 +48,7 @@ public class ServiceException extends RuntimeException {
      *
      * @param result result信息
      */
-    public ServiceException(Result result) {
+    public ServiceException(Result<Object> result) {
         super(result.getMessage());
         this.result = result;
     }
