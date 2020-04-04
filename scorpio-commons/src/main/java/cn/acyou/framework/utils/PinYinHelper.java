@@ -22,7 +22,7 @@ public class PinYinHelper {
      * @param str
      * @return 拼音
      */
-    public static String tranferToPinYin(String str) {
+    public static String transferToPinYin(String str) {
         try {
             return PinyinHelper.getShortPinyin(str).toUpperCase();
         } catch (PinyinException e) {
@@ -81,11 +81,16 @@ public class PinYinHelper {
 
 
     /**
-     * parsePinyinInitial 生成字符串拼音首字母大写
-     * 如：内存 result ：内存,neicun,nc
+     * 生成字符串拼音首字母
+     * Example:
+     * <pre>
+     *     parsePinyinInitial("内存") return: n
+     *     parsePinyinInitial("SKU") return: S
+     * </pre>
      * 若首字母是非字母： #
      *
-     * @return String
+     * @param str 字符串
+     * @return String 首字母
      */
     public static String parsePinyinInitial(String str) {
         if (StringUtils.isNotEmpty(str)) {
@@ -104,18 +109,42 @@ public class PinYinHelper {
         return INITIAL_OTHER;
     }
 
+    /**
+     * 生成字符串拼音首字母（大写） 参考：{@link #parsePinyinInitial}
+     * Example:
+     * <pre>
+     *     parsePinyinInitial("内存") return: N
+     *     parsePinyinInitial("SKU") return: S
+     * </pre>
+     * 若首字母是非字母： #
+     *
+     * @param str 字符串
+     * @return String 首字母大写
+     */
     public static String parsePinyinInitialUpperCase(String str) {
         return parsePinyinInitial(str).toUpperCase();
     }
 
+    /**
+     * 生成字符串拼音首字母（小写） 参考：{@link #parsePinyinInitial}
+     * Example:
+     * <pre>
+     *     parsePinyinInitial("内存") return: n
+     *     parsePinyinInitial("SKU") return: s
+     * </pre>
+     * 若首字母是非字母： #
+     *
+     * @param str 字符串
+     * @return String 首字母小写
+     */
     public static String parsePinyinInitialLowerCase(String str) {
         return parsePinyinInitial(str).toLowerCase();
     }
 
 
     public static void main(String[] args) {
-        String str = "内存SKU";
-        String pinyin = parsePinyinInitialUpperCase(str);
+        String str = "SKU";
+        String pinyin = parsePinyinInitial("SKU");
         System.out.println(str + " result ：" + pinyin);
     }
 
