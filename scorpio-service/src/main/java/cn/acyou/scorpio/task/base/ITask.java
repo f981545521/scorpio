@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.task;
+package cn.acyou.scorpio.task.base;
 
 import cn.acyou.scorpio.task.entity.ScheduleJob;
 

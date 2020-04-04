@@ -1,6 +1,7 @@
 package cn.acyou.scorpio.task;
 
 import cn.acyou.framework.utils.SpringHelper;
+import cn.acyou.scorpio.task.base.ITask;
 import cn.acyou.scorpio.task.entity.ScheduleJob;
 import cn.acyou.scorpio.task.mapper.ScheduleJobMapper;
 import org.springframework.beans.factory.annotation.Autowired;

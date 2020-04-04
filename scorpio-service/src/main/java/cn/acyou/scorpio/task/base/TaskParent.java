@@ -1,8 +1,7 @@
-package cn.acyou.scorpio.task.impl;
+package cn.acyou.scorpio.task.base;
 
 import cn.acyou.framework.constant.Constant;
 import cn.acyou.framework.utils.DateUtil;
-import cn.acyou.scorpio.task.ITask;
 import cn.acyou.scorpio.task.ScheduleJobLogService;
 import cn.acyou.scorpio.task.entity.ScheduleJob;
 import cn.acyou.scorpio.task.mapper.ScheduleJobMapper;
@@ -16,11 +15,11 @@ import java.util.concurrent.ScheduledFuture;
 
 /**
  * @author acyou
- * @version [1.0.0, 2020-4-4 下午 09:20]
+ * @version [1.0.0, 2020-4-4 下午 11:26]
  **/
 @Slf4j
 @Component
-public class testTask implements ITask {
+public class TaskParent implements ITask {
 
     private ScheduleJob scheduleJob;
     @Autowired
@@ -29,26 +28,32 @@ public class testTask implements ITask {
     private ScheduleJobMapper scheduleJobMapper;
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
-
     private ScheduledFuture<?> future;
 
 
     public void taskBody() {
-        log.info("执行了testTask，时间为:" + DateUtil.getCurrentDateFormat());
+        //实现
+        log.info("执行了TaskParent，时间为:" + DateUtil.getCurrentDateFormat());
     }
 
 
     private Runnable doTask() {
-        return () -> {
-            try {
-                long start = System.currentTimeMillis();
-                taskBody();
-                long times = System.currentTimeMillis() - start;
-                scheduleJobLogService.success(scheduleJob, "执行成功", Long.valueOf(times).intValue());
-            } catch (Exception e) {
-                scheduleJobLogService.error(scheduleJob, e.getMessage());
+        return () -> recordLogStart(true);
+    }
+
+    public void recordLogStart(boolean auto) {
+        try {
+            long start = System.currentTimeMillis();
+            taskBody();
+            long times = System.currentTimeMillis() - start;
+            if (auto) {
+                scheduleJobLogService.success(scheduleJob, "自动执行成功", Long.valueOf(times).intValue());
+            } else {
+                scheduleJobLogService.success(scheduleJob, "手动执行成功", Long.valueOf(times).intValue());
             }
-        };
+        } catch (Exception e) {
+            scheduleJobLogService.error(scheduleJob, e.getMessage());
+        }
     }
 
 
@@ -60,7 +65,7 @@ public class testTask implements ITask {
     @Override
     public void run(ScheduleJob job) {
         scheduleJob = job;
-        taskBody();
+        recordLogStart(false);
         log.info("run job method : " + job.getBeanName());
     }
 
