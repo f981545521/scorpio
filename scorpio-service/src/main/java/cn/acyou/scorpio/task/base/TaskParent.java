@@ -1,7 +1,6 @@
 package cn.acyou.scorpio.task.base;
 
 import cn.acyou.framework.constant.Constant;
-import cn.acyou.framework.utils.DateUtil;
 import cn.acyou.scorpio.task.ScheduleJobLogService;
 import cn.acyou.scorpio.task.entity.ScheduleJob;
 import cn.acyou.scorpio.task.mapper.ScheduleJobMapper;
@@ -9,32 +8,38 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
-import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ScheduledFuture;
 
 /**
- * @author acyou
+ *
+ * 定时任务父类
+ *
+ * 因为子类要实例化前，一定会先实例化他的父类。这样创建了继承抽象类的子类的对象，也就具有其父类（抽象类）所有属性和方法了
+ *
+ * 继承此类，重写抽象方法{@link #run(String)}
+ *
+ * @author youfang
  * @version [1.0.0, 2020-4-4 下午 11:26]
  **/
 @Slf4j
-@Component
-public class TaskParent implements ITask {
+public abstract class TaskParent implements ITask {
 
-    private ScheduleJob scheduleJob;
     @Autowired
     private ScheduleJobLogService scheduleJobLogService;
     @Autowired
     private ScheduleJobMapper scheduleJobMapper;
     @Autowired
     private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    private ScheduleJob scheduleJob;
     private ScheduledFuture<?> future;
 
 
-    public void taskBody(String params) {
-        //实现
-        log.info("执行了TaskParent，时间为:" + DateUtil.getCurrentDateFormat());
-    }
+    /**
+     * 抽象方法 ： 子类必须重写
+     * @param params 参数
+     */
+    public abstract void run(String params);
 
 
     private Runnable doTask() {
@@ -44,7 +49,7 @@ public class TaskParent implements ITask {
     public void recordLogStart(boolean auto) {
         try {
             long start = System.currentTimeMillis();
-            taskBody(scheduleJob.getParams());
+            run(scheduleJob.getParams());
             long times = System.currentTimeMillis() - start;
             if (auto) {
                 scheduleJobLogService.success(scheduleJob, "自动执行成功", Long.valueOf(times).intValue());
@@ -63,7 +68,7 @@ public class TaskParent implements ITask {
      * @param job 任务
      */
     @Override
-    public void run(ScheduleJob job) {
+    public void runJob(ScheduleJob job) {
         scheduleJob = job;
         recordLogStart(false);
         log.info("run job method : " + job.getBeanName());
@@ -75,7 +80,7 @@ public class TaskParent implements ITask {
      * @param job 任务
      */
     @Override
-    public void pause(ScheduleJob job) {
+    public void pauseJob(ScheduleJob job) {
         if (future != null) {
             future.cancel(true);
         }
@@ -90,8 +95,8 @@ public class TaskParent implements ITask {
      * @param job 任务
      */
     @Override
-    public void resume(ScheduleJob job) {
-        pause(job);
+    public void resumeJob(ScheduleJob job) {
+        pauseJob(job);
         scheduleJob = job;
         future = threadPoolTaskScheduler.schedule(doTask(), new CronTrigger(job.getCronExpression()));
         log.info("resume job start : " + job.getBeanName());

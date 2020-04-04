@@ -30,7 +30,7 @@ public class ScheduleJobService {
         List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByCondition(condition);
         for (ScheduleJob scheduleJob : scheduleJobs) {
             ITask iTask = SpringHelper.getBean(scheduleJob.getBeanName());
-            iTask.resume(scheduleJob);
+            iTask.resumeJob(scheduleJob);
         }
     }
 
@@ -38,20 +38,20 @@ public class ScheduleJobService {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
         ITask iTask = SpringHelper.getBean(beanName);
-        iTask.run(scheduleJob);
+        iTask.runJob(scheduleJob);
     }
 
     public void pause(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
         ITask iTask = SpringHelper.getBean(beanName);
-        iTask.pause(scheduleJob);
+        iTask.pauseJob(scheduleJob);
     }
 
     public void resume(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
         ITask iTask = SpringHelper.getBean(beanName);
-        iTask.resume(scheduleJob);
+        iTask.resumeJob(scheduleJob);
     }
 }

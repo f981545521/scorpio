@@ -15,7 +15,7 @@ public interface ITask {
      *
      * @param job 工作
      */
-    void run(ScheduleJob job);
+    void runJob(ScheduleJob job);
 
     /**
      * 暂停
@@ -23,7 +23,7 @@ public interface ITask {
      *
      * @param job 工作
      */
-    void pause(ScheduleJob job);
+    void pauseJob(ScheduleJob job);
 
     /**
      * 恢复
@@ -31,5 +31,5 @@ public interface ITask {
      *
      * @param job 工作
      */
-    void resume(ScheduleJob job);
+    void resumeJob(ScheduleJob job);
 }

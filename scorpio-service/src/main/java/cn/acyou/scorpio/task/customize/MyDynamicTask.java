@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * @author acyou
+ * @author youfang
  * @version [1.0.0, 2020-4-4 下午 09:20]
  **/
 @Slf4j
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class MyDynamicTask extends TaskParent {
 
     @Override
-    public void taskBody(String params) {
+    public void run(String params) {
         log.info("执行了MyDynamicTask，时间为:" + DateUtil.getCurrentDateFormat());
     }
 }
