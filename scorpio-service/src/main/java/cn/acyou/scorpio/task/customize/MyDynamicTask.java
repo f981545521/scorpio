@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class MyDynamicTask extends TaskParent {
 
     @Override
-    public void taskBody() {
+    public void taskBody(String params) {
         log.info("执行了MyDynamicTask，时间为:" + DateUtil.getCurrentDateFormat());
     }
 }

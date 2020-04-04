@@ -31,7 +31,7 @@ public class TaskParent implements ITask {
     private ScheduledFuture<?> future;
 
 
-    public void taskBody() {
+    public void taskBody(String params) {
         //实现
         log.info("执行了TaskParent，时间为:" + DateUtil.getCurrentDateFormat());
     }
@@ -44,7 +44,7 @@ public class TaskParent implements ITask {
     public void recordLogStart(boolean auto) {
         try {
             long start = System.currentTimeMillis();
-            taskBody();
+            taskBody(scheduleJob.getParams());
             long times = System.currentTimeMillis() - start;
             if (auto) {
                 scheduleJobLogService.success(scheduleJob, "自动执行成功", Long.valueOf(times).intValue());

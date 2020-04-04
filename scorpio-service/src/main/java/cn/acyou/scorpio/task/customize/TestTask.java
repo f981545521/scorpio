@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class testTask extends TaskParent {
+public class TestTask extends TaskParent {
 
     @Override
-    public void taskBody() {
+    public void taskBody(String params) {
         log.info("执行了testTask，时间为:" + DateUtil.getCurrentDateFormat());
     }
 
