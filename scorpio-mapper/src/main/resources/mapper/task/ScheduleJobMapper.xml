@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.acyou.scorpio.task.mapper.ScheduleJobMapper">
+
+    <resultMap id="Base_Result_Map" type="cn.acyou.scorpio.task.entity.ScheduleJob">
+        <result column="job_id" jdbcType="BIGINT" property="jobId"/>
+        <result column="bean_name" jdbcType="VARCHAR" property="beanName"/>
+        <result column="params" jdbcType="VARCHAR" property="params"/>
+        <result column="cron_expression" jdbcType="VARCHAR" property="cronExpression"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        job_id, bean_name, params, cron_expression, status, remark, create_time
+    </sql>
+
+    <sql id="Alisa_Column_List">
+        t.job_id, t.bean_name, t.params, t.cron_expression, t.status, t.remark, t.create_time
+    </sql>
+
+    <update id="updateListSelective">
+        <if test="list==null or list.size()==0">
+            select 0 from dual
+        </if>
+        <foreach collection="list" item="it">
+            update t_task_schedule_job
+            <set>
+                <if test="it.beanName!=null and it.beanName!=''">bean_name = #{it.beanName},</if>
+                <if test="it.params!=null and it.params!=''">params = #{it.params},</if>
+                <if test="it.cronExpression!=null and it.cronExpression!=''">cron_expression = #{it.cronExpression},
+                </if>
+                <if test="it.status!=null">status = #{it.status},</if>
+                <if test="it.remark!=null and it.remark!=''">remark = #{it.remark},</if>
+                <if test="it.createTime!=null">create_time = #{it.createTime},</if>
+            </set>
+            WHERE id = #{it.id};
+        </foreach>
+    </update>
+
+
+</mapper>

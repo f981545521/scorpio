@@ -19,7 +19,7 @@ public class MyBatisMapperScannerConfig {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("cn.acyou.scorpio.mapper");
+        mapperScannerConfigurer.setBasePackage("cn.acyou.scorpio.*.mapper");
         Properties properties = new Properties();
         properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper");
         properties.setProperty("ORDER", "BEFORE");

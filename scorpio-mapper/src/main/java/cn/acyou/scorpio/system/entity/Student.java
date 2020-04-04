@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.entity;
+package cn.acyou.scorpio.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

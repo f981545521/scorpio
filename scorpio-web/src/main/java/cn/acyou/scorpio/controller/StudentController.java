@@ -2,8 +2,8 @@ package cn.acyou.scorpio.controller;
 
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.redis.RedisUtils;
-import cn.acyou.scorpio.entity.Student;
-import cn.acyou.scorpio.mapper.StudentMapper;
+import cn.acyou.scorpio.system.entity.Student;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;

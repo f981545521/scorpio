@@ -1,6 +1,5 @@
 package cn.acyou.scorpio.conf;
 
-import cn.acyou.framework.mybatis.plugin.PerformanceInterceptor;
 import com.github.pagehelper.PageHelper;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -36,7 +35,7 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         SqlSessionFactoryBean sqlsession = new SqlSessionFactoryBean();
         sqlsession.setDataSource(dataSource);
         // typeAliasesPackage：它一般对应我们的实体类所在的包，这个时候会自动取对应包中不包括包名的简单类名作为包括包名的别名。多个package之间可以用逗号或者分号等来进行分隔。(value的值一定要是包的全名)
-        sqlsession.setTypeAliasesPackage("cn.acyou.scorpio.entity");//扫描entity包 使用别名
+        sqlsession.setTypeAliasesPackage("cn.acyou.scorpio.system.entity");//扫描entity包 使用别名
         org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
         configuration.setUseGeneratedKeys(true);//使用jdbc的getGeneratedKeys获取数据库自增主键值
         configuration.setUseColumnLabel(true);//使用列别名替换列名 select user as User
@@ -60,13 +59,14 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         //添加插件
         sqlsession.setPlugins(new Interceptor[]{pageHelper});
 
-        sqlsession.setPlugins(new Interceptor[]{pageHelper, new PerformanceInterceptor()});
+        sqlsession.setPlugins(new Interceptor[]{pageHelper});
+        //sqlsession.setPlugins(new Interceptor[]{pageHelper, new PerformanceInterceptor()});
 
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
             // mapperLocations：它表示我们的Mapper文件存放的位置，当我们的Mapper文件跟对应的Mapper接口处于同一位置的时候可以不用指定该属性的值。
-            sqlsession.setMapperLocations(resolver.getResources("classpath*:mapper/*.xml"));
+            sqlsession.setMapperLocations(resolver.getResources("classpath*:mapper/**/*.xml"));
             return sqlsession;
         } catch (Exception e) {
             e.printStackTrace();

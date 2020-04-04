@@ -1,8 +1,8 @@
-package cn.acyou.scorpio.mapper;
+package cn.acyou.scorpio.system.mapper;
 
 
 import cn.acyou.framework.mapper.Mapper;
-import cn.acyou.scorpio.entity.Student;
+import cn.acyou.scorpio.system.entity.Student;
 
 
 /**
