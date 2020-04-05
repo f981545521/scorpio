@@ -7,11 +7,11 @@ import cn.acyou.scorpio.task.base.ITask;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.beans.Introspector;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +36,21 @@ public class TaskController {
         for (ITask task: iTaskList){
             TaskVo taskVo = new TaskVo();
             taskVo.setName(task.getClass().getName());
-            taskVo.setSimpleName(StringUtils.uncapitalize(task.getClass().getSimpleName()));
+            /*
+             * why use Introspector.decapitalize ?
+             * 1. 包扫描
+             * {@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner#doScan(String...)}
+             * 2. 扫描获取beanName
+             *  <pre>
+             *      String beanName = this.beanNameGenerator.generateBeanName(candidate, this.registry);
+             *  </pre>
+             *  3. 生成bean名称 {@link org.springframework.context.annotation.AnnotationBeanNameGenerator#generateBeanName(BeanDefinition, BeanDefinitionRegistry)}
+             *                 {@link org.springframework.context.annotation.AnnotationBeanNameGenerator#buildDefaultBeanName(BeanDefinition)} (BeanDefinition, BeanDefinitionRegistry)}
+             *                 最后由方法：{@link Introspector#decapitalize(java.lang.String)} 生成bean的名称
+             *     为什么这么做？
+             *     Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays as "URL".
+             */
+            taskVo.setSimpleName(Introspector.decapitalize(task.getClass().getSimpleName()));
             taskVoList.add(taskVo);
         }
         return Result.success(taskVoList);
