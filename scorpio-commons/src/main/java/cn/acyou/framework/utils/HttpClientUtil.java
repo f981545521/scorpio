@@ -21,7 +21,19 @@ import java.util.Map;
 
 public class HttpClientUtil {
 
-    public static String doGet(String url, Map<String, String> param) {
+    public static String doGet(String url) {
+        return doGet(url, null, null);
+    }
+
+    public static String doGetParams(String url, Map<String, String> paramMap) {
+        return doGet(url, paramMap, null);
+    }
+
+    public static String doGetHeader(String url, Map<String, String> headerMap) {
+        return doGet(url, null, headerMap);
+    }
+
+    public static String doGet(String url, Map<String, String> param, Map<String, String> headerMap) {
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
         String resultString = "";
@@ -37,6 +49,11 @@ public class HttpClientUtil {
             URI uri = builder.build();
             // 创建http GET请求
             HttpGet httpGet = new HttpGet(uri);
+            if (headerMap != null && headerMap.size() > 0) {
+                for (Map.Entry<String, String> header : headerMap.entrySet()) {
+                    httpGet.setHeader(header.getKey(), header.getValue());
+                }
+            }
             // 执行请求
             response = httpclient.execute(httpGet);
             // 判断返回状态是否为200
@@ -56,10 +73,6 @@ public class HttpClientUtil {
             }
         }
         return resultString;
-    }
-
-    public static String doGet(String url) {
-        return doGet(url, null);
     }
 
     public static String doPost(String url, Map<String, String> param) {
@@ -126,7 +139,7 @@ public class HttpClientUtil {
     }
 
     /**
-     * 模拟post请求, 参数为xml字符串
+     * post请求, 参数为xml字符串
      *
      * @param url       请求路径
      * @param xmlString xml字符串
@@ -158,4 +171,5 @@ public class HttpClientUtil {
         }
         return resultString;
     }
+
 }
