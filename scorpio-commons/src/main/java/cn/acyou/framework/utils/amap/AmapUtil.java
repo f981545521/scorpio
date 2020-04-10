@@ -6,6 +6,12 @@ import cn.acyou.framework.utils.amap.entity.AmapAddress;
 import com.alibaba.fastjson.JSON;
 
 /**
+ *
+ * 高德地图：
+ *      示例中心：https://lbs.amap.com/api/javascript-api/example/map-lifecycle/map-show
+ *
+ * 腾讯地图：
+ *      示例中心：https://lbs.qq.com/webApi/javascriptV2/jsDemo
  * @author youfang
  * @version [1.0.0, 2020/4/8]
  **/
