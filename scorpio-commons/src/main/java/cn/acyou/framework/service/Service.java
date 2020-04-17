@@ -10,15 +10,16 @@ import java.util.List;
  **/
 public interface Service<T> {
 
+    int insert(T record);
+
     int insertSelective(T record);
-
-    List<T> selectByIdList(Collection idList);
-
-    int deleteByIdList(Collection idList);
 
     int insertList(List<T> recordList);
 
-    int updateByPrimaryKeySelective(T record);
+    List<T> selectPrimaryKeyList(Collection idList);
 
+    int deleteByPrimaryKeyList(Collection idList);
+
+    int updateByPrimaryKeySelective(T record);
 
 }

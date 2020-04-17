@@ -1,6 +1,7 @@
 package cn.acyou.scorpio.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import java.util.Date;
  * @author youfang
  * @date 2018-04-15 下午 07:36
  **/
+@Builder
 @Data
 @Table(name = "student")
 public class Student implements Serializable {

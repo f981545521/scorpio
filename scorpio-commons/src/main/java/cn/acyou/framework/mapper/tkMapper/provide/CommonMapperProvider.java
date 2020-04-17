@@ -43,7 +43,7 @@ public class CommonMapperProvider extends MapperTemplate {
     /**
      * 根据主键字符串进行查询，类中只有存在一个带有@Id注解的字段
      */
-    public String selectByIdList(MappedStatement ms) {
+    public String selectPrimaryKeyList(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         //将返回值修改为实体类型
         setResultType(ms, entityClass);
@@ -67,7 +67,7 @@ public class CommonMapperProvider extends MapperTemplate {
     /**
      * 根据主键字符串进行删除，类中只有存在一个带有@Id注解的字段
      */
-    public String deleteByIdList(MappedStatement ms) {
+    public String deleteByPrimaryKeyList(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.deleteFromTable(entityClass, tableName(entityClass)));
