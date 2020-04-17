@@ -2,7 +2,6 @@ package cn.acyou.framework.mapper;
 
 import cn.acyou.framework.mapper.tkMapper.CommonMapper;
 import tk.mybatis.mapper.common.BaseMapper;
-import tk.mybatis.mapper.common.ConditionMapper;
 import tk.mybatis.mapper.common.ExampleMapper;
 import tk.mybatis.mapper.common.IdsMapper;
 import tk.mybatis.mapper.common.base.select.SelectCountMapper;
@@ -22,6 +21,5 @@ public interface Mapper<T>
         IdsMapper<T>,
         InsertListMapper<T>,
         ExampleMapper<T>,
-        ConditionMapper<T>,
         CommonMapper<T> {
 }

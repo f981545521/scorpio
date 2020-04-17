@@ -27,7 +27,7 @@ public interface CommonMapper<T> {
     @SelectProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     Integer getNextSortNumber();
     /**
-     * 根据主键字符串进行查询，类中只有存在一个带有@Id注解的字段
+     * 根据主键List进行查询，类中只有存在一个带有@Id注解的字段
      *
      * @param idList 如 List<Long>
      * @return 根据主键ID查询
@@ -49,6 +49,6 @@ public interface CommonMapper<T> {
      * @param recordList 修改记录
      */
     @UpdateProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
-    int updateListSelective(List<T> recordList);
+    int updateListSelective(Collection<T> recordList);
 
 }

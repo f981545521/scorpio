@@ -7,6 +7,7 @@ import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.system.mapper.StudentMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
@@ -31,5 +32,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         System.out.println(students);
         super.updateByPrimaryKeySelective(students.get(0));
         this.updateByPrimaryKeySelective(students.get(0));
+        Example build = Condition.builder(Student.class).build();
     }
 }
