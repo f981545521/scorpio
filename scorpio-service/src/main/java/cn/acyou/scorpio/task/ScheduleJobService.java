@@ -6,13 +6,13 @@ import cn.acyou.scorpio.task.entity.ScheduleJob;
 import cn.acyou.scorpio.task.mapper.ScheduleJobMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 /**
- * @author acyou
+ * @author yofuang
  * @version [1.0.0, 2020-4-4 下午 10:05]
  **/
 @Service
@@ -25,9 +25,9 @@ public class ScheduleJobService {
      */
     @PostConstruct
     public void init() {
-        Condition condition = new Condition(ScheduleJob.class);
+        Example condition = new Example(ScheduleJob.class);
         condition.createCriteria().andEqualTo("status", 0);
-        List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByCondition(condition);
+        List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByExample(condition);
         for (ScheduleJob scheduleJob : scheduleJobs) {
             ITask iTask = SpringHelper.getBean(scheduleJob.getBeanName());
             iTask.resumeJob(scheduleJob);

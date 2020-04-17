@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 /**
- * @author acyou
+ * @author youfang
  * @version [1.0.0, 2020-4-4 下午 09:32]
  **/
 @Configuration

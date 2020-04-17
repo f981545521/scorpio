@@ -5,7 +5,7 @@ import cn.acyou.scorpio.task.entity.ScheduleJob;
 /**
  * 定时任务接口，所有定时任务都要实现该接口
  *
- * @author acyou
+ * @author youfang
  * @version [1.0.0, 2020-4-4 下午 10:01]
  **/
 public interface ITask {

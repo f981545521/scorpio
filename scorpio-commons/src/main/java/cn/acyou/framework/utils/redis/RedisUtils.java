@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  * Redis 命令参考
  * http://doc.redisfans.com/
  *
- * @author acyou
+ * @author youfang
  * @version [1.0.0, 2020-3-21 下午 10:44]
  **/
 @Component

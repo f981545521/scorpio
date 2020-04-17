@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * CommonMapperProvider实现类，自己添加的公共方法Mapper
  *
- * @author liuzh
+ * @author youfang
  */
 public class CommonMapperProvider extends MapperTemplate {
 

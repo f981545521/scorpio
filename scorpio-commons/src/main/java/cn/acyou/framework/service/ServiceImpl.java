@@ -241,7 +241,7 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
      */
     @Override
     public List<T> selectByExample(Object example) {
-        return baseMapper.selectByExample(example)
+        return baseMapper.selectByExample(example);
     }
 
     /**

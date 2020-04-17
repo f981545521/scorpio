@@ -3,7 +3,7 @@ package cn.acyou.framework.utils.redis;
 import java.io.Serializable;
 
 /**
- * @author acyou
+ * @author youfang
  * @version [1.0.0, 2020-3-21 下午 10:46]
  **/
 public class ZSetItem implements Serializable {

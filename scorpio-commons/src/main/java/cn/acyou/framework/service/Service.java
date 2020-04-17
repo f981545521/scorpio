@@ -48,7 +48,7 @@ public interface Service<T> {
      * @param key 主键
      * @return 影响行数
      */
-    int deleteByPrimaryKey((Object key);
+    int deleteByPrimaryKey(Object key);
 
     /**
      * 根据Example条件删除数据
