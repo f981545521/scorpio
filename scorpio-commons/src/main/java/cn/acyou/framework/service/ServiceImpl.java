@@ -18,10 +18,10 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T>{
     private final static Logger log = LoggerFactory.getLogger(ServiceImpl.class);
 
     @Autowired
-    protected M mapper;
+    protected M baseMapper;
 
     @Override
     public int insertSelective(T record) {
-        return mapper.insertSelective(record);
+        return baseMapper.insertSelective(record);
     }
 }
