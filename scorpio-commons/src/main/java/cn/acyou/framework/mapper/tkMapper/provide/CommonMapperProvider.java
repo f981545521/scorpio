@@ -22,12 +22,9 @@ public class CommonMapperProvider extends MapperTemplate {
     }
 
     /**
-     * 查询当前最大的SortNum  + 1
-     * <p>
-     * 实体中必须有@Id注解
+     * 查询当前记录数 + 1
      *
-     * @param ms MappedStatement
-     * @return 下一个排序值
+     * 实体中必须有@Id注解
      */
     public String getNextSortNumber(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
@@ -43,13 +40,8 @@ public class CommonMapperProvider extends MapperTemplate {
         }
 
     }
-
-
     /**
      * 根据主键字符串进行查询，类中只有存在一个带有@Id注解的字段
-     *
-     * @param ms
-     * @return
      */
     public String selectByIdList(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
@@ -72,12 +64,8 @@ public class CommonMapperProvider extends MapperTemplate {
         }
         return sql.toString();
     }
-
     /**
      * 根据主键字符串进行删除，类中只有存在一个带有@Id注解的字段
-     *
-     * @param ms
-     * @return
      */
     public String deleteByIdList(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
@@ -91,6 +79,28 @@ public class CommonMapperProvider extends MapperTemplate {
             sql.append(" in ");
             sql.append("<foreach collection=\"list\" item=\"id\" open=\"(\" separator=\",\" close=\")\" >");
             sql.append("#{id}");
+            sql.append("</foreach>");
+        } else {
+            throw new MapperException("继承 deleteByIds 方法的实体类[" + entityClass.getCanonicalName() + "]中必须只有一个带有 @Id 注解的字段");
+        }
+        return sql.toString();
+    }
+    /**
+     * 根据主键批量更新
+     */
+    public String updateListSelective(MappedStatement ms) {
+        final Class<?> entityClass = getEntityClass(ms);
+        Set<EntityColumn> columnList = EntityHelper.getPKColumns(entityClass);
+        StringBuilder sql = new StringBuilder();
+        if (columnList.size() == 1) {
+            EntityColumn column = columnList.iterator().next();
+            sql.append("<if test=\"list==null or list.size()==0\">");
+            sql.append("    select 0 from dual");
+            sql.append("</if>");
+            sql.append("<foreach collection=\"list\" item=\"it\">");
+            sql.append("    update " + tableName(entityClass));
+            sql.append(SqlHelper.updateSetColumns(entityClass, "it", true, isNotEmpty()));
+            sql.append("    WHERE " + column.getColumn() + " = #{it." + column.getColumn() + "};");
             sql.append("</foreach>");
         } else {
             throw new MapperException("继承 deleteByIds 方法的实体类[" + entityClass.getCanonicalName() + "]中必须只有一个带有 @Id 注解的字段");

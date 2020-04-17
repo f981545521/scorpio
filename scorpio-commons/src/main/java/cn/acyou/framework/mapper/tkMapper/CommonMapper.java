@@ -3,6 +3,7 @@ package cn.acyou.framework.mapper.tkMapper;
 import cn.acyou.framework.mapper.tkMapper.provide.CommonMapperProvider;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.Collection;
 import java.util.List;
@@ -41,5 +42,13 @@ public interface CommonMapper<T> {
      */
     @DeleteProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     int deleteByIdList(Collection idList);
+
+    /**
+     * 批量更新
+     *
+     * @param recordList 修改记录
+     */
+    @UpdateProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int updateListSelective(List<T> recordList);
 
 }

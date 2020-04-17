@@ -22,25 +22,6 @@
         t.log_id, t.job_id, t.bean_name, t.params, t.status, t.error, t.times, t.create_time, t.remark
     </sql>
 
-    <update id="updateListSelective">
-        <if test="list==null or list.size()==0">
-            select 0 from dual
-        </if>
-        <foreach collection="list" item="it">
-            update t_task_schedule_job_log
-            <set>
-                <if test="it.jobId!=null">job_id = #{it.jobId},</if>
-                <if test="it.beanName!=null and it.beanName!=''">bean_name = #{it.beanName},</if>
-                <if test="it.params!=null and it.params!=''">params = #{it.params},</if>
-                <if test="it.status!=null">status = #{it.status},</if>
-                <if test="it.error!=null and it.error!=''">error = #{it.error},</if>
-                <if test="it.times!=null">times = #{it.times},</if>
-                <if test="it.createTime!=null">create_time = #{it.createTime},</if>
-                <if test="it.remark!=null and it.remark!=''">remark = #{it.remark},</if>
-            </set>
-            WHERE id = #{it.id};
-        </foreach>
-    </update>
 
 
 </mapper>

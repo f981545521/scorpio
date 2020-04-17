@@ -1,9 +1,11 @@
 package cn.acyou.scorpio.controller;
 
 import cn.acyou.framework.model.Result;
+import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
 import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.system.mapper.StudentMapper;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +36,14 @@ public class StudentController {
     @RequestMapping(value = "students", method = {RequestMethod.GET})
     @ApiOperation("增加一个学生")
     @ResponseBody
-    public Result<List<Student>> selectStudent() {
-        List<Student> students = studentMapper.selectAll();
-        log.info("查询学生");
-        return Result.success(students);
+    public Result<Void> selectStudent() {
+        List<Student> selectByIdList = studentMapper.selectByIdList(Lists.newArrayList(5,6,7));
+        for (Student student: selectByIdList){
+            student.setName(RandomUtil.randomUserName());
+        }
+        int c = studentMapper.updateListSelective(selectByIdList);
+        System.out.println(c);
+        return Result.success();
     }
 
 

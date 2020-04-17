@@ -22,6 +22,7 @@ public class MyBatisMapperScannerConfig {
         mapperScannerConfigurer.setBasePackage("cn.acyou.scorpio.*.mapper");
         Properties properties = new Properties();
         properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper");
+        properties.setProperty("notEmpty", "true");
         properties.setProperty("ORDER", "BEFORE");
         mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
