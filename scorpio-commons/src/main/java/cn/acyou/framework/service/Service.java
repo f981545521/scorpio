@@ -1,5 +1,8 @@
 package cn.acyou.framework.service;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 顶级 Service
  * @author youfang
@@ -8,5 +11,14 @@ package cn.acyou.framework.service;
 public interface Service<T> {
 
     int insertSelective(T record);
+
+    List<T> selectByIdList(Collection idList);
+
+    int deleteByIdList(Collection idList);
+
+    int insertList(List<T> recordList);
+
+    int updateByPrimaryKeySelective(T record);
+
 
 }

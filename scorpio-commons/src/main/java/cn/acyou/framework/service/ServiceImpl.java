@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * 顶级 Service 实现，未完成
  * @author youfang
@@ -24,4 +27,25 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T>{
     public int insertSelective(T record) {
         return baseMapper.insertSelective(record);
     }
+
+    @Override
+    public List<T> selectByIdList(Collection idList){
+        return baseMapper.selectByIdList(idList);
+    }
+
+    @Override
+    public int deleteByIdList(Collection idList){
+        return baseMapper.deleteByIdList(idList);
+    }
+
+    @Override
+    public int insertList(List<T> recordList){
+        return baseMapper.insertList(recordList);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(T record){
+        return baseMapper.updateByPrimaryKeySelective(record);
+    }
+
 }
