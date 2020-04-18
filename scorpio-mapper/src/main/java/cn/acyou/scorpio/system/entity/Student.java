@@ -1,8 +1,10 @@
 package cn.acyou.scorpio.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,8 @@ import java.util.Date;
  **/
 @Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "student")
 public class Student implements Serializable {
 
@@ -24,7 +28,7 @@ public class Student implements Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "JDBC")
+    @GeneratedValue(generator = "JDBC")//@KeySql(useGeneratedKeys = true)
     private Integer id;
 
     @Column(name = "name")

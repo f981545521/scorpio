@@ -12,7 +12,7 @@ import java.util.List;
  * @version [1.0.0, 2019年11月23日]
  * @since [Framework]
  */
-public class PageResultData<T> implements Serializable {
+public class PageData<T> implements Serializable {
     /**
      * 注释内容
      */
@@ -27,11 +27,20 @@ public class PageResultData<T> implements Serializable {
      * 每页显示条数
      */
     private Integer pageSize;
+    /**
+     * 总页数
+     */
+    private Integer totalPage;
 
     /**
      * 总记录数
      */
     private Long total;
+
+    /**
+     * 有下一页
+     */
+    private boolean hasNextPage = true;
 
     /**
      * 返回数据
@@ -43,58 +52,61 @@ public class PageResultData<T> implements Serializable {
      */
     private Object extData;
 
-    /**
-     * @return 返回 pageNum
-     */
+    public PageData() {
+
+    }
+
+    public PageData(Integer pageNum, Integer pageSize, Long total) {
+        this.pageNum = pageNum;
+        this.pageSize = pageSize;
+        this.total = total;
+        processNextPage();
+    }
+
+    public void processNextPage() {
+        if (this.pageNum != null && this.pageSize != null && this.total != null) {
+            int totalPage = (int) ((total + pageSize - 1) / pageSize);
+            this.totalPage = totalPage;
+            if (pageNum >= totalPage) {
+                this.hasNextPage = false;
+            }
+        }
+    }
+
+
     public Integer getPageNum() {
         return pageNum;
     }
 
-    /**
-     * @param pageNum 对pageNum进行赋值
-     */
+
     public void setPageNum(Integer pageNum) {
+        pageNum = pageNum != 0 ? pageNum : 1;
         this.pageNum = pageNum;
+        processNextPage();
     }
 
-    /**
-     * @return 返回 pageSize
-     */
     public Integer getPageSize() {
         return pageSize;
     }
 
-    /**
-     * @param pageSize 对pageSize进行赋值
-     */
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+        processNextPage();
     }
 
-    /**
-     * @return 返回 total
-     */
     public Long getTotal() {
         return total;
     }
 
-    /**
-     * @param total 对total进行赋值
-     */
     public void setTotal(Long total) {
         this.total = total;
+        processNextPage();
     }
 
-    /**
-     * @return 返回 list
-     */
     public List<T> getList() {
         return list;
     }
 
-    /**
-     * @param list 对list进行赋值
-     */
     public void setList(List<T> list) {
         this.list = list;
     }
@@ -107,42 +119,56 @@ public class PageResultData<T> implements Serializable {
         this.extData = extData;
     }
 
+    public boolean isHasNextPage() {
+        return hasNextPage;
+    }
+
+    public Integer getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
+    }
+
     /**
-     * 提供方法：使用pageHelper时 转 PageResultData
+     * 提供方法：使用pageHelper时 转 PageData
      * example:
      * <code>
      * PageHelper.startPage(req.getPageNum(), req.getPageSize());
      * List<MarketingProductVo> marketingProductList = marketingProductMapper.selectMarketingProduct(req);
-     * PageResultData<MarketingProductVo> pageResultData = PageResultData.convert(new PageInfo<>(marketingProductList));
+     * PageData<MarketingProductVo> PageData = PageData.convert(new PageInfo<>(marketingProductList));
      * </code>
      *
      * @param pageInfo pageHelper 分页对象
      * @param <T>      具体类型
-     * @return PageResultData
+     * @return PageData
      */
-    public static <T> PageResultData<T> convert(PageInfo<T> pageInfo) {
-        PageResultData<T> resultData = new PageResultData<>();
-        resultData.setPageNum(pageInfo.getPageNum());
+    public static <T> PageData<T> convert(PageInfo<T> pageInfo) {
+        PageData<T> resultData = new PageData<>();
+        //这里没有数据的时候pageNum是0
+        resultData.setPageNum(pageInfo.getPageNum() != 0 ? pageInfo.getPageNum() : 1);
         resultData.setPageSize(pageInfo.getPageSize());
         resultData.setTotal(pageInfo.getTotal());
         resultData.setList(pageInfo.getList());
+        resultData.setTotalPage(pageInfo.getPages());
         return resultData;
     }
 
     /**
-     * 提供方法：使用pageHelper时 转 PageResultData
+     * 提供方法：使用pageHelper时 转 PageData
      * example:
-     * <code>
+     * <pre>
      * PageHelper.startPage(req.getPageNum(), req.getPageSize());
      * List<MarketingProductVo> marketingProductList = marketingProductMapper.selectMarketingProduct(req);
-     * PageResultData<MarketingProductVo> pageResultData = PageResultData.convert(marketingProductList);
-     * </code>
+     * PageData<MarketingProductVo> PageData = PageData.convert(marketingProductList);
+     * </pre>
      *
      * @param dataList dataList 数据List
      * @param <T>      具体类型
-     * @return PageResultData
+     * @return PageData
      */
-    public static <T> PageResultData<T> convert(List<T> dataList) {
+    public static <T> PageData<T> convert(List<T> dataList) {
         PageInfo<T> pageInfo = new PageInfo<>(dataList);
         return convert(pageInfo);
     }
@@ -150,7 +176,6 @@ public class PageResultData<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "PageResultData [pageNum=" + pageNum + ", pageSize=" + pageSize + ", total=" + total + ", list=" + list
-                + "]";
+        return "分页数据 ： [pageNum = " + pageNum + ", pageSize = " + pageSize  + ", 共 " + totalPage + " 页，" + total + " 条记录]";
     }
 }

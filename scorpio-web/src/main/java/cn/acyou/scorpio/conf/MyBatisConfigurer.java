@@ -14,7 +14,6 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
-import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -45,20 +44,21 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         sqlsession.setConfiguration(configuration);
         sqlsession.setFailFast(true);
 
-        //配置分页插件，详情请查阅官方文档
+        //配置分页插件，详情请查阅官方文档 {@link https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md}
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
+        //PageSize是0时的处理：默认值为 false
+        //当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果
+        // （相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。
         properties.setProperty("pageSizeZero", "true");
-        //分页尺寸为0时查询所有纪录不再执行分页
-        properties.setProperty("reasonable", "true");
-        //页码<=0 查询第一页，页码>=总页数查询最后一页
+        //分页合理化参数：默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页，
+        // pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
+        properties.setProperty("reasonable", "false");
         //如果vo里有pageNum和pageSize 再加上配置文件里supportMethodsArguments= true，
         // 那么即使不使用PageHelper.startPage(pageNum,PageSize) 也会自动分页。
         properties.setProperty("supportMethodsArguments", "false");
         pageHelper.setProperties(properties);
         //添加插件
-        sqlsession.setPlugins(new Interceptor[]{pageHelper});
-
         sqlsession.setPlugins(new Interceptor[]{pageHelper});
         //sqlsession.setPlugins(new Interceptor[]{pageHelper, new PerformanceInterceptor()});
 
@@ -87,23 +87,6 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
     }
 
 
-    //@Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        MapperScannerConfigurer mapperScannerConfigurer = getMapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("cn.acyou.mapper");
-        return mapperScannerConfigurer;
-    }
 
 
-    private MapperScannerConfigurer getMapperScannerConfigurer() {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        //配置通用Mapper，详情请查阅官方文档
-        Properties properties = new Properties();
-        properties.setProperty("mappers", "tk.mybatis.mapper.common.Mapper");
-        //insert、update是否判断字符串类型!='' 即 test="str != null"表达式内是否追加 and str != ''
-        properties.setProperty("notEmpty", "true");
-        properties.setProperty("IDENTITY", "MYSQL");
-        mapperScannerConfigurer.setProperties(properties);
-        return mapperScannerConfigurer;
-    }
 }
