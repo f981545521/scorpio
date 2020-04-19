@@ -1,7 +1,7 @@
-package cn.acyou.scorpio.task.customize;
+package cn.acyou.scorpio.mapper.task.customize;
 
 import cn.acyou.framework.utils.DateUtil;
-import cn.acyou.scorpio.task.base.TaskParent;
+import cn.acyou.scorpio.mapper.task.base.TaskParent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

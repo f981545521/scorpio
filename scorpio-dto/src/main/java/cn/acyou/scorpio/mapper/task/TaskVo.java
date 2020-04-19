@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.task;
+package cn.acyou.scorpio.mapper.task;
 
 import lombok.Data;
 

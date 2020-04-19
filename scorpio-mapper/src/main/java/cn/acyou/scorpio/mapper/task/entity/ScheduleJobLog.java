@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.task.entity;
+package cn.acyou.scorpio.mapper.task.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -1,6 +1,6 @@
-package cn.acyou.scorpio.task.base;
+package cn.acyou.scorpio.mapper.task.base;
 
-import cn.acyou.scorpio.task.entity.ScheduleJob;
+import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
 
 /**
  * 定时任务接口，所有定时任务都要实现该接口

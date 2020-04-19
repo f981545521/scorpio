@@ -1,9 +1,9 @@
-package cn.acyou.scorpio.task.base;
+package cn.acyou.scorpio.mapper.task.base;
 
 import cn.acyou.framework.constant.Constant;
-import cn.acyou.scorpio.task.ScheduleJobLogService;
-import cn.acyou.scorpio.task.entity.ScheduleJob;
-import cn.acyou.scorpio.task.mapper.ScheduleJobMapper;
+import cn.acyou.scorpio.mapper.task.ScheduleJobLogService;
+import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
+import cn.acyou.scorpio.mapper.task.mapper.ScheduleJobMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;

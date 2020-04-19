@@ -21,7 +21,7 @@ public class MyBatisMapperScannerConfig {
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
         mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        mapperScannerConfigurer.setBasePackage("cn.acyou.scorpio.*.mapper");
+        mapperScannerConfigurer.setBasePackage("cn.acyou.scorpio.mapper.*.mapper");
         Properties properties = new Properties();
         //官方配置说明：{@link https://gitee.com/free/Mapper/wikis/Home?sort_id=14104}
         //在 4.0 以前这是一个非常重要的参数

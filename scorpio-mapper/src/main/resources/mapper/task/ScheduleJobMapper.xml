@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.acyou.scorpio.task.mapper.ScheduleJobMapper">
+<mapper namespace="cn.acyou.scorpio.mapper.task.mapper.ScheduleJobMapper">
 
-    <resultMap id="Base_Result_Map" type="cn.acyou.scorpio.task.entity.ScheduleJob">
+    <resultMap id="Base_Result_Map" type="cn.acyou.scorpio.mapper.task.entity.ScheduleJob">
         <result column="job_id" jdbcType="BIGINT" property="jobId"/>
         <result column="bean_name" jdbcType="VARCHAR" property="beanName"/>
         <result column="params" jdbcType="VARCHAR" property="params"/>

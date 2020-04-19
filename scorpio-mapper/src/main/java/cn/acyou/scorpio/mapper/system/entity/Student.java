@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.system.entity;
+package cn.acyou.scorpio.mapper.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
