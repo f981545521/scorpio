@@ -2,13 +2,16 @@ package cn.acyou.framework.service;
 
 import cn.acyou.framework.mapper.Mapper;
 import com.google.common.reflect.TypeToken;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.util.Sqls;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,6 +47,9 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
      *              .build();
      *         List<Student> students = baseMapper.selectByExample(example);
      * </pre>
+     * <p>
+     * 使用example的setOrderByClause方法需要是数据库的字段。   如：example.setOrderByClause("user_name asc");
+     * 使用builderExample的方法需要时propertyName。           如：builderExample().orderByDesc("userName")
      *
      * @return 参数构造器
      */
@@ -320,5 +326,29 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
         return baseMapper.selectOneByExample(example);
     }
 
-
+    /**
+     * 根据属性查询
+     *
+     * @param propertyName 实体属性
+     * @param value        v
+     * @param args         参数 必须是偶数，否则忽略
+     * @return 查询结果
+     */
+    @Override
+    public List<T> selectByProperties(String propertyName, Object value, Object... args) {
+        if (StringUtils.isEmpty(propertyName)) {
+            return new ArrayList<>();
+        }
+        Sqls sqls = Sqls.custom();
+        sqls.andEqualTo(propertyName, value);
+        if (args != null && args.length % 2 == 0) {
+            for (int i = 0; i < args.length; i = i + 2) {
+                sqls.andEqualTo(String.valueOf(args[i]), args[i + 1]);
+            }
+        }
+        Example example = builderExample()
+                .where(sqls)
+                .build();
+        return baseMapper.selectByExample(example);
+    }
 }

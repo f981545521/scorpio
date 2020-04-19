@@ -1,6 +1,7 @@
 package cn.acyou.scorpio.task;
 
 import cn.acyou.framework.constant.Constant;
+import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.scorpio.task.entity.ScheduleJob;
 import cn.acyou.scorpio.task.entity.ScheduleJobLog;
 import cn.acyou.scorpio.task.mapper.ScheduleJobLogMapper;
@@ -14,7 +15,7 @@ import java.util.Date;
  * @version [1.0.0, 2020-4-4 下午 10:59]
  **/
 @Service
-public class ScheduleJobLogService {
+public class ScheduleJobLogService extends ServiceImpl<ScheduleJobLogMapper, ScheduleJobLog> {
     @Autowired
     private ScheduleJobLogMapper scheduleJobLogMapper;
 

@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.task;
 
+import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.framework.utils.SpringHelper;
 import cn.acyou.scorpio.task.base.ITask;
 import cn.acyou.scorpio.task.entity.ScheduleJob;
@@ -16,7 +17,7 @@ import java.util.List;
  * @version [1.0.0, 2020-4-4 下午 10:05]
  **/
 @Service
-public class ScheduleJobService {
+public class ScheduleJobService extends ServiceImpl<ScheduleJobMapper, ScheduleJob> {
     @Autowired
     private ScheduleJobMapper scheduleJobMapper;
 

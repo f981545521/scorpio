@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -70,6 +71,14 @@ public class StudentController {
         PageData<Student> convert = PageData.convert(students);
         System.out.println(convert);
         return Result.success(convert);
+    }
+
+    @RequestMapping(value = "students2", method = {RequestMethod.GET})
+    @ApiOperation("测试分页")
+    public Result<List<Student>> selectStudent2() {
+        List<Student> students = studentService.selectByProperties("age", "38");
+        List<Integer> ar = new ArrayList<>();
+        return Result.success(students);
     }
 
 
