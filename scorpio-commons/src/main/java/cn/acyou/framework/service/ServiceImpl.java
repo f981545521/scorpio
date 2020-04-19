@@ -6,6 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
@@ -19,7 +21,7 @@ import java.util.List;
  * @author youfang
  * @version [1.0.0, 2020/4/17]
  **/
-//@Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+@Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
 
     private final static Logger log = LoggerFactory.getLogger(ServiceImpl.class);
