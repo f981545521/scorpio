@@ -1,7 +1,7 @@
 package cn.acyou.scorpio.schedules;
 
 import cn.acyou.framework.utils.DateUtil;
-import cn.acyou.scorpio.base.TaskParent;
+import cn.acyou.scorpio.schedules.base.TaskParent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,8 @@
 package cn.acyou.scorpio.controller.task;
 
 import cn.acyou.framework.model.Result;
-import cn.acyou.scorpio.base.ITask;
 import cn.acyou.scorpio.dto.task.TaskVo;
+import cn.acyou.scorpio.schedules.base.ITask;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
