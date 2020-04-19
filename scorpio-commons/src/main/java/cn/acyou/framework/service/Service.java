@@ -72,7 +72,7 @@ public interface Service<T> {
      * @param idList 主键集合。 如 List<Long>
      * @return 查询结果
      */
-    List<T> selectPrimaryKeyList(Collection<Object> idList);
+    List<T> selectByPrimaryKeyList(Collection<Object> idList);
 
     /**
      * 根据主键字符串进行删除，类中只有存在一个带有@Id注解的字段

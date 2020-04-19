@@ -224,8 +224,8 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
      * @return 查询结果
      */
     @Override
-    public List<T> selectPrimaryKeyList(Collection<Object> idList) {
-        return baseMapper.selectPrimaryKeyList(idList);
+    public List<T> selectByPrimaryKeyList(Collection<Object> idList) {
+        return baseMapper.selectByPrimaryKeyList(idList);
     }
 
     /**

@@ -33,7 +33,7 @@ public interface CommonMapper<T> {
      * @return 根据主键ID查询
      */
     @SelectProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
-    List<T> selectPrimaryKeyList(Collection idList);
+    List<T> selectByPrimaryKeyList(Collection idList);
     /**
      * 根据主键字符串进行删除，类中只有存在一个带有@Id注解的字段
      *
