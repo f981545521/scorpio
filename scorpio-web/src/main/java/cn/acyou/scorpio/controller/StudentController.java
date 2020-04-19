@@ -2,11 +2,10 @@ package cn.acyou.scorpio.controller;
 
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
-import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
-import cn.acyou.scorpio.demo.StudentService;
 import cn.acyou.scorpio.mapper.system.entity.Student;
 import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
+import cn.acyou.scorpio.service.demo.StudentService;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,12 +46,7 @@ public class StudentController {
     @RequestMapping(value = "addAStudent", method = {RequestMethod.GET})
     @ApiOperation("增加一个学生")
     public Result<Void> addAStudent(){
-        Student student = new Student();
-        student.setName(RandomUtil.randomUserName());
-        student.setAge(RandomUtil.randomAge());
-        student.setBirth(new Date());
-        studentService.insert(student);
-        System.out.println(student);
+        studentService.addAStudent();
         return Result.success();
     }
 

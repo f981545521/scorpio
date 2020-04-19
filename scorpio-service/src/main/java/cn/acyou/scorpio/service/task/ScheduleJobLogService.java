@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.mapper.task;
+package cn.acyou.scorpio.service.task;
 
 import cn.acyou.framework.constant.Constant;
 import cn.acyou.framework.service.ServiceImpl;

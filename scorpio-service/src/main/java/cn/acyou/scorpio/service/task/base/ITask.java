@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.mapper.task.base;
+package cn.acyou.scorpio.service.task.base;
 
 import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
 

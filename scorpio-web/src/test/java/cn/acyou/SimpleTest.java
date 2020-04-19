@@ -1,6 +1,6 @@
 package cn.acyou;
 
-import cn.acyou.scorpio.mapper.task.customize.TestTask;
+import cn.acyou.scorpio.service.task.customize.TestTask;
 import org.springframework.util.ClassUtils;
 
 import java.beans.Introspector;

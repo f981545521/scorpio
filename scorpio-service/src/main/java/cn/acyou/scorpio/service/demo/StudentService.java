@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.demo;
+package cn.acyou.scorpio.service.demo;
 
 import cn.acyou.framework.service.Service;
 import cn.acyou.scorpio.mapper.system.entity.Student;
@@ -10,5 +10,7 @@ import cn.acyou.scorpio.mapper.system.entity.Student;
 public interface StudentService extends Service<Student> {
 
     void studentTest();
+
+    void addAStudent();
 
 }
