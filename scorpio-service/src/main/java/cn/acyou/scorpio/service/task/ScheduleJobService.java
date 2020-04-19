@@ -2,9 +2,9 @@ package cn.acyou.scorpio.service.task;
 
 import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.framework.utils.SpringHelper;
+import cn.acyou.scorpio.base.ITask;
 import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
 import cn.acyou.scorpio.mapper.task.mapper.ScheduleJobMapper;
-import cn.acyou.scorpio.service.task.base.ITask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;

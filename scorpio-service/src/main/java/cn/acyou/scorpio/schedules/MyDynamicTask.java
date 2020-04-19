@@ -1,7 +1,7 @@
-package cn.acyou.scorpio.service.task.customize;
+package cn.acyou.scorpio.schedules;
 
 import cn.acyou.framework.utils.DateUtil;
-import cn.acyou.scorpio.service.task.base.TaskParent;
+import cn.acyou.scorpio.base.TaskParent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +11,10 @@ import org.springframework.stereotype.Component;
  **/
 @Slf4j
 @Component
-public class TestTask extends TaskParent {
+public class MyDynamicTask extends TaskParent {
 
     @Override
     public void run(String params) {
-        log.info("执行了testTask，时间为:" + DateUtil.getCurrentDateFormat());
+        log.info("执行了MyDynamicTask，时间为:" + DateUtil.getCurrentDateFormat());
     }
-
 }
