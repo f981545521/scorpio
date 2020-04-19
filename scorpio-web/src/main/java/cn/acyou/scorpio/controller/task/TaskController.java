@@ -38,6 +38,7 @@ public class TaskController {
             taskVo.setName(task.getClass().getName());
             /*
              * why use Introspector.decapitalize ?
+             *
              * 1. 包扫描
              * {@link org.springframework.context.annotation.ClassPathBeanDefinitionScanner#doScan(String...)}
              * 2. 扫描获取beanName
@@ -56,7 +57,7 @@ public class TaskController {
         return Result.success(taskVoList);
     }
     @GetMapping("/run")
-    @ApiOperation(value = "立即执行任务")
+    @ApiOperation(value = "立即执行任务", notes = "根据jobIds执行任务（显示在内部的详细信息）")
     public Result<String> run(Long jobIds) {
         scheduleJobService.run(jobIds);
         return Result.success();
