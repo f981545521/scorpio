@@ -20,7 +20,7 @@ import java.util.List;
  * @version [1.0.0, 2020-4-4 下午 09:30]
  **/
 @RestController
-@Api(value = "定时任务", tags = {"动态定时任务"})
+@Api(tags = "动态定时任务", description = "SpringBoot Schedule 实现定时任务")
 public class TaskController {
 
     @Autowired
