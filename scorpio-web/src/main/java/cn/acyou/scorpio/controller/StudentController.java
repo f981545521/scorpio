@@ -6,6 +6,7 @@ import cn.acyou.framework.utils.redis.RedisUtils;
 import cn.acyou.scorpio.mapper.system.entity.Student;
 import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
+import cn.acyou.scorpio.service.demo.StudentService2;
 import com.github.pagehelper.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +34,8 @@ public class StudentController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private StudentService2 studentService2;
 
     @Autowired
     private StudentMapper studentMapper;
@@ -47,6 +50,7 @@ public class StudentController {
     @ApiOperation("增加一个学生")
     public Result<Void> addAStudent(){
         studentService.addAStudent();
+        studentService2.addAStudent();
         return Result.success();
     }
 

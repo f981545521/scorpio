@@ -1,58 +1,17 @@
 package cn.acyou.scorpio.service.task;
 
-import cn.acyou.framework.service.ServiceImpl;
-import cn.acyou.framework.utils.SpringHelper;
+import cn.acyou.framework.service.Service;
 import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
-import cn.acyou.scorpio.mapper.task.mapper.ScheduleJobMapper;
-import cn.acyou.scorpio.schedules.base.ITask;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import tk.mybatis.mapper.entity.Example;
-
-import javax.annotation.PostConstruct;
-import java.util.List;
 
 /**
  * @author yofuang
  * @version [1.0.0, 2020-4-4 下午 10:05]
  **/
-@Service
-public class ScheduleJobService extends ServiceImpl<ScheduleJobMapper, ScheduleJob> {
-    @Autowired
-    private ScheduleJobMapper scheduleJobMapper;
+public interface ScheduleJobService extends Service<ScheduleJob> {
 
-    /**
-     * 项目启动时，初始化定时器
-     */
-    @PostConstruct
-    public void init() {
-        Example condition = new Example(ScheduleJob.class);
-        condition.createCriteria().andEqualTo("status", 0);
-        List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByExample(condition);
-        for (ScheduleJob scheduleJob : scheduleJobs) {
-            ITask iTask = SpringHelper.getBean(scheduleJob.getBeanName());
-            iTask.resumeJob(scheduleJob);
-        }
-    }
+    void run(Long jobId);
 
-    public void run(Long jobId) {
-        ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
-        String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
-        iTask.runJob(scheduleJob);
-    }
+    void pause(Long jobId);
 
-    public void pause(Long jobId) {
-        ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
-        String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
-        iTask.pauseJob(scheduleJob);
-    }
-
-    public void resume(Long jobId) {
-        ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
-        String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
-        iTask.resumeJob(scheduleJob);
-    }
+    void resume(Long jobId);
 }
