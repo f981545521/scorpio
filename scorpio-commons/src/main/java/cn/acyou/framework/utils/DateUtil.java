@@ -15,9 +15,31 @@ public final class DateUtil {
     public static final String SHORT_DATE_PATTERN = "yyyyMMdd";
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd";
     public static final String SPECIFIC_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DATE_DAY_MIN_TIME = " 00:00:00";
     public static final String DATE_DAY_MAX_TIME = " 23:59:59";
     public static final String DATE_SERIES_FORMAT_PATTERN = "yyyyMMddHHmmss";
     public final static char[] upper = "〇一二三四五六七八九十".toCharArray();
+    /** 月 */
+    public static final int JANUARY = 1;
+    public static final int FEBRUARY = 2;
+    public static final int MARCH = 3;
+    public static final int APRIL = 4;
+    public static final int MAY = 5;
+    public static final int JUNE = 6;
+    public static final int JULY = 7;
+    public static final int AUGUST = 8;
+    public static final int SEPTEMBER = 9;
+    public static final int OCTOBER = 10;
+    public static final int NOVEMBER = 11;
+    public static final int DECEMBER = 12;
+    /** 周 */
+    public static final int MONDAY = 1;
+    public static final int TUESDAY = 2;
+    public static final int WEDNESDAY = 3;
+    public static final int THURSDAY = 4;
+    public static final int FRIDAY = 5;
+    public static final int SATURDAY = 6;
+    public static final int SUNDAY = 7;
 
     private DateUtil() {
 
@@ -86,6 +108,14 @@ public final class DateUtil {
      */
     public static Date addMonth(Date date, int month) {
         return new DateTime(date).plusMonths(month).toDate();
+    }    /**
+     * 向日期增加年数
+     * @param date 日期
+     * @param year 年
+     * @return
+     */
+    public static Date addYear(Date date, int year) {
+        return new DateTime(date).plusYears(year).toDate();
     }
 
     /**
@@ -98,7 +128,15 @@ public final class DateUtil {
     public static Date minusMonth(Date date, int month) {
         return new DateTime(date).minusMonths(month).toDate();
     }
-
+    /**
+     * 向日期减少年数
+     * @param date 日期
+     * @param year 年
+     * @return
+     */
+    public static Date minusYear(Date date, int year) {
+        return new DateTime(date).minusYears(year).toDate();
+    }
     /**
      * 向日期增加小时
      *
@@ -262,8 +300,7 @@ public final class DateUtil {
     }
 
     /**
-     * 判断是否为闰年<br>
-     * generate by: zengqw at 2012-9-26
+     * 判断是否为闰年
      */
     public static boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
@@ -334,13 +371,37 @@ public final class DateUtil {
 
     /**
      * 获取指定日期的 yyyy-MM-dd 23:59:59 格式
-     *
      * @param date 日期
      * @return
      */
     public static String getDateFormatMaxTime(Date date) {
         String dateFormat = getDateFormat(date, DEFAULT_DATE_FORMAT_PATTERN);
         return dateFormat + DATE_DAY_MAX_TIME;
+    }
+    /**
+     * 获取指定日期的 yyyy-MM-dd 23:59:59 格式
+     * @param date 日期
+     * @return Date
+     */
+    public static Date getDateMaxTime(Date date) {
+        return new DateTime(date).withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toDate();
+    }
+    /**
+     * 获取指定日期的 yyyy-MM-dd 00:00:00 格式
+     * @param date 日期
+     * @return
+     */
+    public static String getDateFormatMinTime(Date date) {
+        String dateFormat = getDateFormat(date, DEFAULT_DATE_FORMAT_PATTERN);
+        return dateFormat + DATE_DAY_MIN_TIME;
+    }
+    /**
+     * 获取指定日期的 yyyy-MM-dd 00:00:00 格式
+     * @param date 日期
+     * @return Date
+     */
+    public static Date getDateMinTime(Date date) {
+        return new DateTime(date).withHourOfDay(0).withMinuteOfHour(0).withSecondOfMinute(0).toDate();
     }
 
 
@@ -438,7 +499,27 @@ public final class DateUtil {
         String monthEN = getMonthEN(dateTime.getMonthOfYear());
         return monthEN + " " + dateTime.getDayOfMonth() + "." + dateTime.getYear();
     }
-
+    /**
+     * 获取指定哪一周的哪一天
+     *
+     * @param whatWeek 哪个星期
+     *                 -1 上周
+     *                 0  本周
+     *                 1  下周
+     * @param whichDay  哪一天
+     *                 1 ~ 7 {@link #MONDAY} ~ {@link #SUNDAY}
+     *  <pre>
+     *      appointDayWithWeek(-1, 7)   上周日
+     *      appointDayWithWeek(0, 6)    本周六
+     *      appointDayWithWeek(2, 3)    下下周三
+     *  </pre>
+     *  注：时间还是当前时间。
+     * @return {@link Date}
+     */
+    public static Date appointDayWithWeek(int whatWeek, int whichDay){
+        DateTime dateTime = new DateTime().plusWeeks(whatWeek);
+        return dateTime.withDayOfWeek(whichDay).toDate();
+    }
 
     public static void main(String[] args) {
         //Date d1 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("2019-10-01").toDate();
