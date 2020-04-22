@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.mapper.system.entity;
 
+import cn.acyou.framework.mapper.tkMapper.annotation.SelectiveIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,6 +40,7 @@ public class Student implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Column(name = "birth")
+    @SelectiveIgnore
     private Date birth;
 
 }

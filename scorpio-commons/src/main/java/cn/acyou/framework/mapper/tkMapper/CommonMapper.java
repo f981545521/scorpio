@@ -51,4 +51,15 @@ public interface CommonMapper<T> {
     @UpdateProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     int updateListSelective(Collection<T> recordList);
 
+    /**
+     * 根据主键更新属性不为null的值 （根据注解忽略）
+     * cn.acyou.framework.mapper.tkMapper.annotation.SelectiveIgnore
+     *     在属性字段上加上注解，不会忽略null值
+     *     - @SelectiveIgnore
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int updateByPrimaryKeySelectiveCustom(T record);
+
 }

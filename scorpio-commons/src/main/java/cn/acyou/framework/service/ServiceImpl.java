@@ -132,6 +132,20 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
     }
 
     /**
+     * 根据主键更新属性不为null的值 （根据注解忽略）
+     * cn.acyou.framework.mapper.tkMapper.annotation.SelectiveIgnore
+     * 在属性字段上加上注解，不会忽略null值
+     * - @SelectiveIgnore
+     *
+     * @param record  记录
+     * @return 影响行数
+     */
+    @Override
+    public int updateByPrimaryKeySelectiveCustom(T record) {
+        return baseMapper.updateByPrimaryKeySelectiveCustom(record);
+    }
+
+    /**
      * 根据主键更新实体全部字段，null值会被更新
      *
      * @param record 记录

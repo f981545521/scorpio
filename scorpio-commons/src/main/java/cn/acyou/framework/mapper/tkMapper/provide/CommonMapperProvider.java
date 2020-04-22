@@ -1,5 +1,6 @@
 package cn.acyou.framework.mapper.tkMapper.provide;
 
+import cn.acyou.framework.mapper.tkMapper.util.TkSqlHelper;
 import org.apache.ibatis.mapping.MappedStatement;
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.entity.EntityColumn;
@@ -105,6 +106,20 @@ public class CommonMapperProvider extends MapperTemplate {
         } else {
             throw new MapperException("继承 deleteByIds 方法的实体类[" + entityClass.getCanonicalName() + "]中必须只有一个带有 @Id 注解的字段");
         }
+        return sql.toString();
+    }
+
+    /**
+     * 根据主键更新属性不为null的值 （根据注解忽略）
+     *
+     * @return
+     */
+    public String updateByPrimaryKeySelectiveCustom(MappedStatement ms) {
+        Class<?> entityClass = getEntityClass(ms);
+        StringBuilder sql = new StringBuilder();
+        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
+        sql.append(TkSqlHelper.updateCustomSetColumns(entityClass, null, true, isNotEmpty()));
+        sql.append(SqlHelper.wherePKColumns(entityClass, true));
         return sql.toString();
     }
 

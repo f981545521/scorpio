@@ -40,6 +40,17 @@ public class StudentController {
     @Autowired
     private StudentMapper studentMapper;
 
+    @RequestMapping(value = "testUpdateCustom", method = {RequestMethod.GET})
+    @ApiOperation("testUpdateCustom")
+    public Result<Void> testUpdateCustom(){
+        Student student = studentMapper.selectByPrimaryKey(1);
+        student.setAge(null);
+        student.setBirth(null);
+        studentMapper.updateByPrimaryKeySelectiveCustom(student);
+        return Result.success();
+    }
+
+
     @RequestMapping(value = "testExample", method = {RequestMethod.GET})
     @ApiOperation("testExample")
     public Result<Void> testExample(){
