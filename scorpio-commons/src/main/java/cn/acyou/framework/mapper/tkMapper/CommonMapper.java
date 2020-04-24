@@ -2,6 +2,7 @@ package cn.acyou.framework.mapper.tkMapper;
 
 import cn.acyou.framework.mapper.tkMapper.provide.CommonMapperProvider;
 import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
 
@@ -61,5 +62,12 @@ public interface CommonMapper<T> {
      */
     @UpdateProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     int updateByPrimaryKeySelectiveCustom(T record);
-
+    /**
+     * 保存一个实体，null的属性不会保存，会使用数据库默认值
+     * insert ignore into
+     * @param record
+     * @return
+     */
+    @InsertProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int insertIgnoreSelective(T record);
 }

@@ -66,4 +66,19 @@ public class TkSqlHelper extends SqlHelper {
         return sql.toString();
     }
 
+    /**
+     * insert ignore into tableName - 动态表名
+     *
+     * @param entityClass
+     * @param defaultTableName
+     * @return
+     */
+    public static String insertIgnoreIntoTable(Class<?> entityClass, String defaultTableName) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("INSERT IGNORE INTO ");
+        sql.append(getDynamicTableName(entityClass, defaultTableName));
+        sql.append(" ");
+        return sql.toString();
+    }
+
 }
