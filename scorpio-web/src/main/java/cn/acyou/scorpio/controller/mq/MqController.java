@@ -1,5 +1,7 @@
 package cn.acyou.scorpio.controller.mq;
 
+import cn.acyou.scorpio.mq.DelayMessageSender;
+import cn.acyou.scorpio.service.task.ScheduleJobService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,14 @@ import java.util.Date;
 @Api(value = "学生", description = "RabbitMQ测试", tags = "MQ测试")
 public class MqController {
     @Autowired
-    private DelayMessageSender sender;
+    private DelayMessageSender messageSender;
+    @Autowired
+    private ScheduleJobService scheduleJobService;
 
     @GetMapping("delayMsg")
     public void delayMsg(String msg, Integer delayTime) {
         log.info("当前时间：{},收到请求，msg:{},delayTime:{}", new Date(), msg, delayTime);
-        sender.sendDelayMsg(msg, delayTime);
+        messageSender.sendDelayMsg(msg, delayTime);
     }
 
 }
