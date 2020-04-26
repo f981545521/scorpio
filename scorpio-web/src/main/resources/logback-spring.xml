@@ -60,6 +60,7 @@
     </root>
     <!-- 配置框架的过滤级别 -->
     <logger name="springfox" level="INFO"/>
+    <logger name="io.lettuce.core.protocol" level="INFO"/>
     <logger name="com.zaxxer.hikari" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
     <logger name="com.apache.ibatis" level="TRACE"/>
