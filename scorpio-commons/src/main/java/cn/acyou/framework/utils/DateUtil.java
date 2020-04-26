@@ -3,7 +3,6 @@ package cn.acyou.framework.utils;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -211,20 +210,6 @@ public final class DateUtil {
         return random.toDate();
     }
 
-    /**
-     * 比较两个时间相差多少秒
-     */
-    public static long getDiffSeconds(Date startDate, Date endDate) {
-        return Math.abs((endDate.getTime() - startDate.getTime()) / 1000);
-    }
-
-    /**
-     * 比较两个时间相差多少分钟
-     */
-    public static long getDiffMinutes(Date startDate, Date endDate) {
-        long diffSeconds = getDiffSeconds(startDate, endDate);
-        return diffSeconds / 60;
-    }
 
     /**
      * 比较两个时间相差多少天
@@ -266,37 +251,17 @@ public final class DateUtil {
     }
 
     /**
-     * 获取两个时间相差月份
-     */
-    public static int getDiffMonth(Date start, Date end) {
-        Calendar startCalendar = Calendar.getInstance();
-        startCalendar.setTime(start);
-        Calendar endCalendar = Calendar.getInstance();
-        endCalendar.setTime(end);
-        return (endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR)) * 12
-                + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
-    }
-
-    /**
      * 返回传入时间月份的第一天
      */
     public static Date firstDayOfMonth(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int value = cal.getActualMinimum(Calendar.DAY_OF_MONTH);
-        cal.set(Calendar.DAY_OF_MONTH, value);
-        return cal.getTime();
+        return new DateTime(date).dayOfMonth().withMinimumValue().toDate();
     }
 
     /**
      * 返回传入时间月份的最后一天
      */
     public static Date lastDayOfMonth(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int value = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-        cal.set(Calendar.DAY_OF_MONTH, value);
-        return cal.getTime();
+        return new DateTime(date).dayOfMonth().withMaximumValue().toDate();
     }
 
     /**
@@ -307,44 +272,27 @@ public final class DateUtil {
     }
 
     /**
-     * 计算相对于dateToCompare的年龄，长用于计算指定生日在某年的年龄
+     * 计算相对于dateToCompare的年龄，用于计算指定生日在某年的年龄
      *
      * @param birthDay      生日
      * @param dateToCompare 需要对比的日期
      * @return 年龄
      */
     public static int age(Date birthDay, Date dateToCompare) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(dateToCompare);
-
-        if (cal.before(birthDay)) {
-            throw new IllegalArgumentException("Birthday is after date " + getDateFormat(birthDay) + "!");
-        }
-
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
-        cal.setTime(birthDay);
-        int age = year - cal.get(Calendar.YEAR);
-
-        int monthBirth = cal.get(Calendar.MONTH);
-        if (month == monthBirth) {
-            int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
-            if (dayOfMonth < dayOfMonthBirth) {
-                // 如果生日在当月，但是未达到生日当天的日期，年龄减一
-                age--;
-            }
-        } else if (month < monthBirth) {
-            // 如果当前月份未达到生日的月份，年龄计算减一
-            age--;
-        }
-
-        return age;
+        return getDiffYears(birthDay, dateToCompare);
+    }
+    /**
+     * 计算生日到现在的年龄
+     *
+     * @param birthDay      生日
+     * @return 年龄
+     */
+    public static int age(Date birthDay) {
+        return getDiffYears(birthDay, new Date());
     }
 
     public static Date randomDate() {
-        return randomRangeDate("1990-01-01", "2018-12-31");
+        return randomRangeDate("1990-01-01", getCurrentDateFormat(DEFAULT_DATE_FORMAT_PATTERN));
     }
 
 
@@ -521,19 +469,96 @@ public final class DateUtil {
         return dateTime.withDayOfWeek(whichDay).toDate();
     }
 
+    /**
+     * 获取两个日期相差的秒数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的秒数
+     */
+    public static int getDiffSeconds(Date startDate, Date endDate){
+        return Seconds.secondsBetween(new DateTime(startDate), new DateTime(endDate)).getSeconds();
+    }
+    /**
+     * 获取两个日期相差的分数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的秒数
+     */
+    public static int getDiffMinutes(Date startDate, Date endDate){
+        return Minutes.minutesBetween(new DateTime(startDate), new DateTime(endDate)).getMinutes();
+    }
+    /**
+     * 获取两个日期相差的天数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的天数
+     */
+    public static int getDiffHours(Date startDate, Date endDate){
+        return Hours.hoursBetween(new DateTime(startDate), new DateTime(endDate)).getHours();
+    }
+
+    /**
+     * 获取两个日期相差的天数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的天数
+     */
+    public static int getDiffDays(Date startDate, Date endDate){
+        return Days.daysBetween(new DateTime(startDate), new DateTime(endDate)).getDays();
+    }
+    /**
+     * 获取两个日期相差的年数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的年数
+     */
+    public static int getDiffYears(Date startDate, Date endDate){
+        return Years.yearsBetween(new DateTime(startDate), new DateTime(endDate)).getYears();
+    }
+    /**
+     * 获取两个日期相差的月数
+     *
+     * startDate<endDate 正数
+     * startDate>endDate 负数
+     *
+     * @param startDate 开始
+     * @param endDate 结束
+     * @return 两个日期相差的月数
+     */
+    public static int getDiffMonths(Date startDate, Date endDate){
+        return Months.monthsBetween(new DateTime(startDate), new DateTime(endDate)).getMonths();
+    }
+
     public static void main(String[] args) {
-        //Date d1 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("2019-10-01").toDate();
+        Date d1 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("1993-10-01").toDate();
         //Date d2 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("2019-09-12").toDate();
         //long diffDay = getDiffDay(d1, d2);
         //System.out.println(diffDay);
 
         DateTime dateTime = new DateTime();
-        System.out.println(dateTime.getMonthOfYear());
+        System.out.println(age(d1, new Date()));
 
-        String sss = DateUtil.getEnBirthDay(new Date());
-        System.out.println(sss);
-
-
+        System.out.println(getDiffYears(d1, new Date()));
     }
 
 
