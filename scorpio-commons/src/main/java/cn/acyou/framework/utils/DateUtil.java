@@ -295,6 +295,9 @@ public final class DateUtil {
         return randomRangeDate("1990-01-01", getCurrentDateFormat(DEFAULT_DATE_FORMAT_PATTERN));
     }
 
+    public static Date now() {
+        return new Date();
+    }
 
     public static final int DAYS_PER_WEEKEND = 2;
     public static final int WEEK_START = DateTimeConstants.MONDAY;
