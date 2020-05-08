@@ -3,6 +3,7 @@
 <!-- namespace:分类管理 -->
 <mapper namespace="cn.acyou.scorpio.mapper.system.mapper.StudentMapper">
 
+    <!-- 使用resultMap时，如果属性不对应会报错。使用resultType时，多一个少一个都不会报错 -->
     <resultMap id="BaseResultMap" type="cn.acyou.scorpio.mapper.system.entity.Student">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
@@ -12,5 +13,6 @@
     <sql id="Base_Column_List">
         id, name, age
     </sql>
+
 
 </mapper>
