@@ -26,6 +26,11 @@
             <artifactId>scorpio-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cn.acyou</groupId>
+            <artifactId>scorpio-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
