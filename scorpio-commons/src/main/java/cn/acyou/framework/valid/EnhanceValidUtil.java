@@ -60,15 +60,13 @@ public class EnhanceValidUtil {
         //未加注解的字段直接返回
         if (enhanceValid != null) {
             BaseValid[] baseValid = enhanceValid.value();
-            for (BaseValid validField : baseValid) {
-                validateBaseValid(field, object, validField);
-            }
+            validateBaseValid(field, object, baseValid);
         }
         //获取对象的成员的 基本校验注解信息
         BaseValid baseValid = field.getAnnotation(BaseValid.class);
         //未加注解的字段直接返回
         if (baseValid != null) {
-            validateBaseValid(field, object, baseValid);
+            validateBaseValid(field, object, new BaseValid[]{baseValid});
         }
 
     }
@@ -78,9 +76,9 @@ public class EnhanceValidUtil {
      *
      * @param field     字段
      * @param object    校验对象
-     * @param baseValid 验证注解
+     * @param baseValidArray 验证注解组
      */
-    private static void validateBaseValid(Field field, Object object, BaseValid baseValid) {
+    private static void validateBaseValid(Field field, Object object, BaseValid[] baseValidArray) {
         //当前值
         Object validValue = null;
         String description = "请求参数错误，请检查！";
@@ -92,177 +90,121 @@ public class EnhanceValidUtil {
         }
         //当前字段名称
         String currentFieldName = field.getName();
-        //自定义描述
-        if (StringUtils.isNotEmpty(baseValid.message())) {
-            description = baseValid.message();
-        }
 
-        /* *********** 注解解析工作开始 ***************** */
-        //非NULL
-        if (baseValid.notNull()) {
-            if (validValue == null || StringUtils.isEmpty(validValue.toString())) {
-                throw new ServiceException(description);
+        for (BaseValid baseValid: baseValidArray){
+            //自定义描述
+            if (StringUtils.isNotEmpty(baseValid.message())) {
+                description = baseValid.message();
             }
-        }
-
-        if (baseValid.notEmpty()) {
-            if (validValue == null || StringUtils.isEmpty(validValue.toString())) {
-                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "参数为NULL");
-                throw new ServiceException(description);
-            }
-            if (validValue instanceof Collection && ((Collection) validValue).isEmpty()) {
-                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "集合为空");
-                throw new ServiceException(description);
-            }
-            if (validValue instanceof Map && ((Map) validValue).isEmpty()) {
-                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "集合为空");
-                throw new ServiceException(description);
-            }
-        }
-
-        //非NULL 进一步校验
-        if (validValue != null) {
-
-            if (validValue.toString().length() > baseValid.maxLength() && baseValid.maxLength() != 0) {
-                logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "长度超过了", baseValid.maxLength());
-                throw new ServiceException(description);
-            }
-
-            if (validValue.toString().length() < baseValid.minLength() && baseValid.minLength() != 0) {
-                logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "长度小于了", baseValid.minLength());
-                throw new ServiceException(description);
-            }
-
-            if (NumberUtils.isNumber(validValue.toString()) && baseValid.min() != 0
-                    && Integer.parseInt(validValue.toString()) < baseValid.min()) {
-                logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "不能小于", baseValid.min());
-                throw new ServiceException(description);
-            }
-
-            if (NumberUtils.isNumber(validValue.toString()) && baseValid.max() != 0
-                    && Integer.parseInt(validValue.toString()) > baseValid.max()) {
-                logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "不能大于", baseValid.max());
-                throw new ServiceException(description);
-            }
-
-            if (baseValid.notInRange().length > 0) {
-                if (!ArrayUtils.contains(baseValid.notInRange(), validValue.toString())) {
-                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "取值不在范围内");
+            //优先非NULL非Empty
+            if (baseValid.notNull()) {
+                if (validValue == null || StringUtils.isEmpty(validValue.toString())) {
                     throw new ServiceException(description);
                 }
             }
-
-            if (baseValid.numberNotInRange().length > 0) {
-                if (!ArrayUtils.contains(baseValid.numberNotInRange(), Integer.parseInt(validValue.toString()))) {
-                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "取值不在范围内");
+            if (baseValid.notEmpty()) {
+                if (validValue == null || StringUtils.isEmpty(validValue.toString())) {
+                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "参数为NULL");
+                    throw new ServiceException(description);
+                }
+                if (validValue instanceof Collection && ((Collection) validValue).isEmpty()) {
+                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "集合为空");
+                    throw new ServiceException(description);
+                }
+                if (validValue instanceof Map && ((Map) validValue).isEmpty()) {
+                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "集合为空");
                     throw new ServiceException(description);
                 }
             }
-
-            if (baseValid.regexType() != RegexType.NONE) {
-                String result = null;
-                switch (baseValid.regexType()) {
-                    case NONE:
-                        break;
-                    case SPECIALCHAR:
-                        if (RegexUtils.hasSpecialChar(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能含有特殊字符");
-                            result = description;
-                        }
-                        break;
-                    case CHINESE:
-                        if (RegexUtils.isChinese2(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能含有中文字符");
-                            result = description;
-                        }
-                        break;
-                    case EMAIL:
-                        if (!RegexUtils.isEmail(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "邮箱地址格式不正确");
-                            result = description;
-                        }
-                        break;
-                    case IP:
-                        if (!RegexUtils.isIp(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "IP地址格式不正确");
-                            result = description;
-                        }
-                        break;
-                    case NUMBER:
-                        if (!RegexUtils.isNumber(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不是数字");
-                            result = description;
-                        }
-                        break;
-                    case PHONENUMBER:
-                        if (!RegexUtils.isPhoneNumber(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不是手机号码");
-                            result = description;
-                        }
-                        break;
-                    case DATE:
-                        if (!RegexUtils.isDateStr(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "日期格式出错");
-                            result = description;
-                        }
-                        break;
-                    case DATETIME:
-                        if (!RegexUtils.isDateTime(validValue.toString())) {
-                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "时间格式出错");
-                            result = description;
-                        }
-                        break;
-                    default:
-                        break;
+            //非NULL 进一步校验
+            if (validValue != null) {
+                if (validValue.toString().length() > baseValid.maxLength() && baseValid.maxLength() != 0) {
+                    logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "长度超过了", baseValid.maxLength());
+                    throw new ServiceException(description);
                 }
-                if (null != result) {
-                    throw new ServiceException(result);
-                }
-            }
 
-            if (baseValid.dateValid() != DateValidType.none) {
-                String result = null;
-                if (validValue instanceof Date) {
-                    Date validValueDate = (Date) validValue;
-                    switch (baseValid.dateValid()) {
-                        case none:
+                if (validValue.toString().length() < baseValid.minLength() && baseValid.minLength() != 0) {
+                    logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "长度小于了", baseValid.minLength());
+                    throw new ServiceException(description);
+                }
+
+                if (NumberUtils.isNumber(validValue.toString()) && baseValid.min() != 0
+                        && Integer.parseInt(validValue.toString()) < baseValid.min()) {
+                    logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "不能小于", baseValid.min());
+                    throw new ServiceException(description);
+                }
+
+                if (NumberUtils.isNumber(validValue.toString()) && baseValid.max() != 0
+                        && Integer.parseInt(validValue.toString()) > baseValid.max()) {
+                    logger.warn("[数据校验]|{}|{}|{}|{}", "valid failed", currentFieldName, "不能大于", baseValid.max());
+                    throw new ServiceException(description);
+                }
+
+                if (baseValid.notInRange().length > 0) {
+                    if (!ArrayUtils.contains(baseValid.notInRange(), validValue.toString())) {
+                        logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "取值不在范围内");
+                        throw new ServiceException(description);
+                    }
+                }
+
+                if (baseValid.numberNotInRange().length > 0) {
+                    if (!ArrayUtils.contains(baseValid.numberNotInRange(), Integer.parseInt(validValue.toString()))) {
+                        logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "取值不在范围内");
+                        throw new ServiceException(description);
+                    }
+                }
+
+                if (baseValid.regexType() != RegexType.NONE) {
+                    String result = null;
+                    switch (baseValid.regexType()) {
+                        case NONE:
                             break;
-                        case if_afterNow:
-                            if (validValueDate.after(new Date())) {
-                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能大于当前时间！");
+                        case SPECIALCHAR:
+                            if (RegexUtils.hasSpecialChar(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能含有特殊字符");
                                 result = description;
                             }
                             break;
-                        case if_beforeNow:
-                            if (validValueDate.before(new Date())) {
-                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能小于当前时间！");
+                        case CHINESE:
+                            if (RegexUtils.isChinese2(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能含有中文字符");
                                 result = description;
                             }
                             break;
-                        case if_afterSpecifyDate:
-                            String afterDateFieldName = baseValid.specifyDateFieldName();
-                            if (afterDateFieldName.trim().length() > 0) {
-                                Object fieldValue = ReflectUtils.getFieldValue(object, afterDateFieldName);
-                                if (fieldValue instanceof Date) {
-                                    Date filedDate = (Date) fieldValue;
-                                    if (validValueDate.before(filedDate)) {
-                                        logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能大于" + afterDateFieldName + "！");
-                                        result = description;
-                                    }
-                                }
+                        case EMAIL:
+                            if (!RegexUtils.isEmail(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "邮箱地址格式不正确");
+                                result = description;
                             }
                             break;
-                        case if_beforeSpecifyDate:
-                            String beforeDateFieldName = baseValid.specifyDateFieldName();
-                            if (beforeDateFieldName.trim().length() > 0) {
-                                Object fieldValue = ReflectUtils.getFieldValue(object, beforeDateFieldName);
-                                if (fieldValue instanceof Date) {
-                                    Date filedDate = (Date) fieldValue;
-                                    if (validValueDate.before(filedDate)) {
-                                        logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能小于" + beforeDateFieldName + "！");
-                                        result = description;
-                                    }
-                                }
+                        case IP:
+                            if (!RegexUtils.isIp(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "IP地址格式不正确");
+                                result = description;
+                            }
+                            break;
+                        case NUMBER:
+                            if (!RegexUtils.isNumber(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不是数字");
+                                result = description;
+                            }
+                            break;
+                        case PHONENUMBER:
+                            if (!RegexUtils.isPhoneNumber(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不是手机号码");
+                                result = description;
+                            }
+                            break;
+                        case DATE:
+                            if (!RegexUtils.isDateStr(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "日期格式出错");
+                                result = description;
+                            }
+                            break;
+                        case DATETIME:
+                            if (!RegexUtils.isDateTime(validValue.toString())) {
+                                logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "时间格式出错");
+                                result = description;
                             }
                             break;
                         default:
@@ -271,34 +213,87 @@ public class EnhanceValidUtil {
                     if (null != result) {
                         throw new ServiceException(result);
                     }
-
                 }
-            }
 
-            if (StringUtils.isNotEmpty(baseValid.regexExpression())) {
-                if (validValue.toString().matches(baseValid.regexExpression())) {
-                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "格式不正确");
-                    throw new ServiceException(description);
-                }
-            }
+                if (baseValid.dateValid() != DateValidType.none) {
+                    String result = null;
+                    if (validValue instanceof Date) {
+                        Date validValueDate = (Date) validValue;
+                        switch (baseValid.dateValid()) {
+                            case none:
+                                break;
+                            case if_afterNow:
+                                if (validValueDate.after(new Date())) {
+                                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能大于当前时间！");
+                                    result = description;
+                                }
+                                break;
+                            case if_beforeNow:
+                                if (validValueDate.before(new Date())) {
+                                    logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能小于当前时间！");
+                                    result = description;
+                                }
+                                break;
+                            case if_afterSpecifyDate:
+                                String afterDateFieldName = baseValid.specifyDateFieldName();
+                                if (afterDateFieldName.trim().length() > 0) {
+                                    Object fieldValue = ReflectUtils.getFieldValue(object, afterDateFieldName);
+                                    if (fieldValue instanceof Date) {
+                                        Date filedDate = (Date) fieldValue;
+                                        if (validValueDate.before(filedDate)) {
+                                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能大于" + afterDateFieldName + "！");
+                                            result = description;
+                                        }
+                                    }
+                                }
+                                break;
+                            case if_beforeSpecifyDate:
+                                String beforeDateFieldName = baseValid.specifyDateFieldName();
+                                if (beforeDateFieldName.trim().length() > 0) {
+                                    Object fieldValue = ReflectUtils.getFieldValue(object, beforeDateFieldName);
+                                    if (fieldValue instanceof Date) {
+                                        Date filedDate = (Date) fieldValue;
+                                        if (validValueDate.before(filedDate)) {
+                                            logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "不能小于" + beforeDateFieldName + "！");
+                                            result = description;
+                                        }
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        if (null != result) {
+                            throw new ServiceException(result);
+                        }
 
-            //实体类型 继续校验
-            if (baseValid.entityValid()) {
-                valid(validValue);
-            }
-
-            //实体集合实体 继续校验
-            if (baseValid.entityCollectionValid()) {
-                if (validValue instanceof Collection) {
-                    Collection valueList = (Collection) validValue;
-                    for (Object o : valueList) {
-                        valid(o);
                     }
                 }
+
+                if (StringUtils.isNotEmpty(baseValid.regexExpression())) {
+                    if (validValue.toString().matches(baseValid.regexExpression())) {
+                        logger.warn("[数据校验]|{}|{}|{}", "valid failed", currentFieldName, "格式不正确");
+                        throw new ServiceException(description);
+                    }
+                }
+
+                //实体类型 继续校验
+                if (baseValid.entityValid()) {
+                    valid(validValue);
+                }
+
+                //实体集合实体 继续校验
+                if (baseValid.entityCollectionValid()) {
+                    if (validValue instanceof Collection) {
+                        Collection valueList = (Collection) validValue;
+                        for (Object o : valueList) {
+                            valid(o);
+                        }
+                    }
+                }
+
             }
         }
-        /* ***********注解解析工作结束***************** */
     }
-
 
 }
