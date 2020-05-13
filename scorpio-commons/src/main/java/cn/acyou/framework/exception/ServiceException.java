@@ -1,6 +1,7 @@
 package cn.acyou.framework.exception;
 
 
+import cn.acyou.framework.constant.ErrorEnum;
 import cn.acyou.framework.model.Result;
 
 /**
@@ -51,6 +52,11 @@ public class ServiceException extends RuntimeException {
     public ServiceException(Result<Object> result) {
         super(result.getMessage());
         this.result = result;
+    }
+
+    public ServiceException(ErrorEnum errorEnum){
+        super(errorEnum.message());
+        this.result = Result.error(errorEnum.code(), errorEnum.message());
     }
 
     /**

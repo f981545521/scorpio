@@ -10,12 +10,14 @@ import java.util.List;
 public class BeanCopyUtil {
 
     public static <T, E> E copy(T t, Class<E> clz) {
-        try {
-            E e = clz.newInstance();
-            BeanUtils.copyProperties(t, e);
-            return e;
-        } catch (Exception e1) {
-            e1.printStackTrace();
+        if (t != null){
+            try {
+                E e = clz.newInstance();
+                BeanUtils.copyProperties(t, e);
+                return e;
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         }
         return null;
     }

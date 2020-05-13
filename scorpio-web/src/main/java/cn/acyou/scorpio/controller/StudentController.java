@@ -1,8 +1,10 @@
 package cn.acyou.scorpio.controller;
 
+import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.redis.RedisUtils;
+import cn.acyou.scorpio.dto.task.TaskErrorEnum;
 import cn.acyou.scorpio.mapper.system.entity.Student;
 import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
@@ -74,6 +76,10 @@ public class StudentController {
         //}
         //int c = studentMapper.updateListSelective(selectByIdList);
         //System.out.println(c);
+
+        if (pageNum == 1){
+            throw new ServiceException(TaskErrorEnum.E_200017);
+        }
         PageData<Student> convert = PageData.convert(students);
         System.out.println(convert);
         return Result.success(convert);
