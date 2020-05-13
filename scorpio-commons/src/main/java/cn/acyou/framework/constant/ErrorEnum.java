@@ -6,7 +6,6 @@ package cn.acyou.framework.constant;
  **/
 public interface ErrorEnum<C extends Enum> {
 
-
     /**
      * 返回枚举项的 code
      */

@@ -28,15 +28,20 @@ public class GlobalExceptionHandler {
     public Result<Object> handleException(HttpServletRequest request, Exception e) {
         Result<Object> resultInfo = Result.error();
         Throwable t = Throwables.getRootCause(e);
-        log.error("统一异常处理 => 请求路径：" + request.getRequestURI() + "，异常信息：" + e.getMessage());
+        log.error("统一异常处理 => 请求路径：" + request.getRequestURI() + " | 异常信息：" + e.getMessage());
         if (t instanceof ServiceException) {
-            resultInfo.setCode(400);
-            resultInfo.setMessage(t.getMessage());
-            resultInfo.setData(e.getMessage());
+            Result<Object> result = ((ServiceException) t).getResult();
+            if (result != null){
+                resultInfo = result;
+            }else {
+                resultInfo.setCode(400);
+                resultInfo.setMessage(t.getMessage());
+            }
+            //resultInfo.setData(e.getMessage());
         } else {
             e.printStackTrace();
             try {
-                //未知异常打印堆栈信息到data中。
+                //未知异常打印堆栈信息到data中，方便定位错误原因。
                 ByteArrayOutputStream buf = new ByteArrayOutputStream();
                 e.printStackTrace(new PrintWriter(buf, true));
                 buf.close();
