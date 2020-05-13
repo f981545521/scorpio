@@ -1,6 +1,7 @@
 package cn.acyou.scorpio.controller.flowable;
 
 import cn.acyou.framework.model.Result;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.flowable.bpmn.model.BpmnModel;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 报销demoController
@@ -63,11 +65,15 @@ public class ExpenseController {
     @GetMapping(value = "/list")
     @ResponseBody
     public Result list(String userId) {
+        List<Map<String, String>> resultList = Lists.newArrayList();
         List<Task> tasks = taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().list();
         for (Task task : tasks) {
-            System.out.println(task.toString());
+            Map<String, String> taskMap = new HashMap<>();
+            taskMap.put("taskId", task.getId());
+            taskMap.put("taskName", task.getName());
+            resultList.add(taskMap);
         }
-        return Result.success(tasks.toArray());
+        return Result.success(resultList);
     }
 
     /**
