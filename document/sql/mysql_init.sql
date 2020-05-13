@@ -26,6 +26,7 @@ CREATE TABLE `t_task_schedule_job`(
     `status`          int(1)        DEFAULT NULL COMMENT '任务状态  0：正常  1：暂停',
     `remark`          varchar(255)  DEFAULT NULL COMMENT '备注',
     `create_time`     datetime      DEFAULT NULL COMMENT '创建时间',
+    `last_execute_time`     datetime      DEFAULT NULL COMMENT '上次执行成功时间',
     PRIMARY KEY (`job_id`)
 ) ENGINE = `InnoDB` DEFAULT CHARACTER SET utf8mb4 COMMENT ='定时任务';
 INSERT INTO `t_task_schedule_job`(`job_id`, `bean_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES (1, 'myDynamicTask', NULL, '0/5 * * * * *', 0, NULL, '2020-04-04 21:56:48');

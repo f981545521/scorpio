@@ -57,6 +57,12 @@ public class ScheduleJob implements Serializable {
     @Column(name = "create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
+    /**
+     * 上次执行成功时间
+     */
+    @Column(name = "last_execute_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date lastExecuteTime;
 
     public void setJobId(Long jobId) {
         this.jobId = jobId;
@@ -114,4 +120,11 @@ public class ScheduleJob implements Serializable {
         return createTime;
     }
 
+    public Date getLastExecuteTime() {
+        return lastExecuteTime;
+    }
+
+    public void setLastExecuteTime(Date lastExecuteTime) {
+        this.lastExecuteTime = lastExecuteTime;
+    }
 }
