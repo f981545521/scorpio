@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.mapper.system.entity;
 
+import cn.acyou.framework.mapper.tkMapper.annotation.LogicDelete;
 import cn.acyou.framework.mapper.tkMapper.annotation.SelectiveIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -36,6 +37,7 @@ public class Student implements Serializable {
     private String name;
 
     @Column(name = "age")
+    @LogicDelete(deletedVal = 3)
     private Integer age;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

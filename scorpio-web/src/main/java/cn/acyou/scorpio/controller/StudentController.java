@@ -8,6 +8,7 @@ import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
 import cn.acyou.scorpio.service.demo.StudentService2;
 import com.github.pagehelper.PageHelper;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -43,10 +44,7 @@ public class StudentController {
     @RequestMapping(value = "testUpdateCustom", method = {RequestMethod.GET})
     @ApiOperation("testUpdateCustom")
     public Result<Void> testUpdateCustom(){
-        Student student = studentMapper.selectByPrimaryKey(1);
-        student.setAge(null);
-        student.setBirth(null);
-        studentMapper.updateByPrimaryKeySelectiveCustom(student);
+        studentMapper.deleteLogicByPrimaryKeyList(Lists.newArrayList(1,2,3));
         return Result.success();
     }
 

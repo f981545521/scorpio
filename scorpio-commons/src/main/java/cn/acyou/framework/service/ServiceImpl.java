@@ -205,6 +205,28 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
     }
 
     /**
+     * 根据主键字段进行逻辑删除，方法参数必须包含完整的主键属性
+     *
+     * @param key 主键
+     * @return 影响行数
+     */
+    @Override
+    public int deleteLogicByPrimaryKey(Object key) {
+        return baseMapper.deleteLogicByPrimaryKey(key);
+    }
+
+    /**
+     * 根据主键列表进行逻辑删除，类中只有存在一个带有@Id注解的字段
+     *
+     * @param idList 主键集合 如 List<Long>
+     * @return 影响行数 影响行数
+     */
+    @Override
+    public int deleteLogicByPrimaryKeyList(Collection<Object> idList) {
+        return baseMapper.deleteLogicByPrimaryKeyList(idList);
+    }
+
+    /**
      * 根据Example条件删除数据
      *
      * @param example 条件

@@ -1,5 +1,6 @@
 package cn.acyou.framework.mapper.tkMapper;
 
+import cn.acyou.framework.mapper.tkMapper.annotation.LogicDelete;
 import cn.acyou.framework.mapper.tkMapper.provide.CommonMapperProvider;
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -70,4 +71,21 @@ public interface CommonMapper<T> {
      */
     @InsertProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     int insertIgnoreSelective(T record);
+    /**
+     * 根据主键字段进行逻辑删除，方法参数必须包含完整的主键属性，类中只有存在一个带有{@link LogicDelete}注解的字段
+     *
+     * @param key 如 Long
+     * @return 影响行数
+     */
+    @DeleteProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int deleteLogicByPrimaryKey(Object key);
+
+    /**
+     * 根据主键字段进行批量逻辑删除，方法参数必须包含完整的主键属性，类中只有存在一个带有{@link LogicDelete}注解的字段
+     *
+     * @param idList 如 List<Long>
+     * @return 影响行数
+     */
+    @DeleteProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int deleteLogicByPrimaryKeyList(Collection idList);
 }
