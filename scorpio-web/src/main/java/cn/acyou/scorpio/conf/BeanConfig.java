@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.conf;
 
+import cn.acyou.framework.commons.SnowFlakeWorker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -13,5 +14,10 @@ public class BeanConfig {
     @Bean
     public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
         return new ThreadPoolTaskScheduler();
+    }
+
+    @Bean
+    public SnowFlakeWorker snowFlakeWorker() {
+        return new SnowFlakeWorker();
     }
 }
