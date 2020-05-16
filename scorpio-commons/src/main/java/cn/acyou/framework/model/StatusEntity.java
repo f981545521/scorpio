@@ -17,6 +17,10 @@ public class StatusEntity implements Serializable {
      * 名称
      */
     public String name;
+    /**
+     * 备注
+     */
+    public String remark;
 
     public StatusEntity() {
     }
@@ -24,6 +28,12 @@ public class StatusEntity implements Serializable {
     public StatusEntity(Integer code, String name) {
         this.code = code;
         this.name = name;
+    }
+
+    public StatusEntity(Integer code, String name, String remark) {
+        this.code = code;
+        this.name = name;
+        this.remark = remark;
     }
 
     public Integer getCode() {
@@ -42,12 +52,20 @@ public class StatusEntity implements Serializable {
         this.name = name;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     @Override
     public String toString() {
         return "StatusEntity{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

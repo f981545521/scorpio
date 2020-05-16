@@ -1,6 +1,9 @@
 package cn.acyou.scorpio.dto.task;
 
 import cn.acyou.framework.model.StatusEntity;
+import cn.acyou.framework.utils.AppStatusUtil;
+
+import java.util.List;
 
 /**
  * @author youfang
@@ -15,5 +18,13 @@ public class TaskAppStatus {
         public static final StatusEntity DSH = new StatusEntity(1, "待审核");
         public static final StatusEntity SHBTG = new StatusEntity(2, "审核不通过");
         public static final StatusEntity SHTG = new StatusEntity(3, "审核通过");
+
+        public static List<StatusEntity> listAllStatus() {
+            return AppStatusUtil.listAllStatus(ProductStatus.class);
+        }
+
+        public static String getStatusName(Integer code) {
+            return AppStatusUtil.getStatusName(ProductStatus.class, code);
+        }
     }
 }
