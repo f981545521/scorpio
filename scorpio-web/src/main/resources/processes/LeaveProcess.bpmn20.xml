@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="http://www.flowable.org/processdef">
+
+    <process id="LeaveProcess" name="LeaveProcess" isExecutable="true">
+        <documentation>请假申请</documentation>
+
+        <startEvent id="start" name="开始"></startEvent>
+
+        <sequenceFlow id="flow1" sourceRef="start" targetRef="fillTask"/>
+
+        <userTask id="fillTask" name="请假申请" flowable:assignee="${taskUser}"/>
+
+        <exclusiveGateway id="judgeTask"></exclusiveGateway>
+        <sequenceFlow id="flow2" sourceRef="fillTask" targetRef="judgeTask"/>
+
+
+        <sequenceFlow id="judgeMore" name="大于3天" sourceRef="judgeTask" targetRef="bossTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day > 3}]]></conditionExpression>
+        </sequenceFlow>
+        <userTask id="bossTask" name="老板审批"  flowable:assignee="${user2}"/>
+
+        <sequenceFlow id="bossNotPassFlow" name="驳回" sourceRef="bossTask" targetRef="fillTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+        </sequenceFlow>
+
+        <sequenceFlow id="bossPassFlow" name="通过" sourceRef="bossTask" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
+        </sequenceFlow>
+
+
+        <sequenceFlow id="judgeLess" name="小于等于3天" sourceRef="judgeTask" targetRef="directorTak">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day <= 3}]]></conditionExpression>
+        </sequenceFlow>
+
+        <userTask id="directorTak" name="经理审批" flowable:assignee="${user1}"/>
+
+        <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTak" targetRef="fillTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
+        </sequenceFlow>
+
+        <sequenceFlow id="directorPassFlow" name="通过" sourceRef="directorTak" targetRef="end">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
+        </sequenceFlow>
+
+        <endEvent id="end" name="结束"></endEvent>
+
+    </process>
+    <bpmndi:BPMNDiagram id="BPMNDiagram_Expense">
+        <bpmndi:BPMNPlane bpmnElement="LeaveProcess" id="BPMNPlane_Expense">
+            <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
+                <omgdc:Bounds height="30.0" width="30.0" x="85.0" y="85.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="fillTask" id="BPMNShape_fillTask">
+                <omgdc:Bounds height="80.0" width="100.0" x="205.0" y="60.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="judgeTask" id="BPMNShape_judgeTask">
+                <omgdc:Bounds height="40.0" width="40.0" x="385.0" y="80.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="directorTak" id="BPMNShape_directorTak">
+                <omgdc:Bounds height="80.0" width="100.0" x="535.0" y="60.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="bossTask" id="BPMNShape_bossTask">
+                <omgdc:Bounds height="80.0" width="100.0" x="355.0" y="205.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">
+                <omgdc:Bounds height="28.0" width="28.0" x="571.0" y="231.0"/>
+            </bpmndi:BPMNShape>
+            <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
+                <omgdi:waypoint x="115.0" y="100.0"/>
+                <omgdi:waypoint x="205.0" y="100.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
+                <omgdi:waypoint x="305.0" y="100.16611295681062"/>
+                <omgdi:waypoint x="385.4333333333333" y="100.43333333333334"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="judgeLess" id="BPMNEdge_judgeLess">
+                <omgdi:waypoint x="424.5530726256983" y="100.44692737430168"/>
+                <omgdi:waypoint x="535.0" y="100.1392757660167"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="directorNotPassFlow" id="BPMNEdge_directorNotPassFlow">
+                <omgdi:waypoint x="585.0" y="110.0"></omgdi:waypoint>
+                <omgdi:waypoint x="585.0" y="37.0"></omgdi:waypoint>
+                <omgdi:waypoint x="255.0" y="37.0"></omgdi:waypoint>
+                <omgdi:waypoint x="255.0" y="110.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="bossPassFlow" id="BPMNEdge_bossPassFlow">
+                <omgdi:waypoint x="455.0" y="245.0"/>
+                <omgdi:waypoint x="571.0" y="245.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="judgeMore" id="BPMNEdge_judgeMore">
+                <omgdi:waypoint x="405.4340277777778" y="119.56597222222223"/>
+                <omgdi:waypoint x="405.1384083044983" y="205.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="directorPassFlow" id="BPMNEdge_directorPassFlow">
+                <omgdi:waypoint x="585.0" y="140.0"/>
+                <omgdi:waypoint x="585.0" y="231.0"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="bossNotPassFlow" id="BPMNEdge_bossNotPassFlow">
+                <omgdi:waypoint x="355.0" y="245.0"></omgdi:waypoint>
+                <omgdi:waypoint x="255.0" y="245.0"></omgdi:waypoint>
+                <omgdi:waypoint x="255.0" y="140.0"></omgdi:waypoint>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+
+</definitions>

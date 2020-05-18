@@ -19,9 +19,11 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
 
     @Override
     public void configure(SpringProcessEngineConfiguration engineConfiguration) {
+        //解决flowable图片中的中文乱码
         engineConfiguration.setActivityFontName("宋体");
         engineConfiguration.setLabelFontName("宋体");
         engineConfiguration.setAnnotationFontName("宋体");
+        //自定义ID生成器
         engineConfiguration.setIdGenerator(() -> snowFlakeWorker.nextIdStr());
     }
 }
