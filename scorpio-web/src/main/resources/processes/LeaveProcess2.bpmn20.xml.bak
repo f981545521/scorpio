@@ -7,18 +7,18 @@
   <process id="LeaveProcess2" name="LeaveProcess2" isExecutable="true">
     <documentation>请假申请</documentation>
     <startEvent id="start" name="开始"></startEvent>
-    <userTask id="fillTaskApplyInfo" name="请假申请" flowable:assignee="${userId}">
+    <userTask id="fillTask" name="请假申请" flowable:assignee="${userId}">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="judgeTask"></exclusiveGateway>
-    <userTask id="bossTask" name="老板审批" flowable:candidateStarterUsers="${bossUserId}" flowable:candidateGroups="boss">
+    <userTask id="bossTask" name="老板审批" flowable:assignee="${user2}" flowable:candidateGroups="boss">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
-    <userTask id="directorTask" name="经理审批" flowable:candidateGroups="manager,departmanager">
+    <userTask id="directorTak" name="经理审批" flowable:candidateGroups="manager,departmanager">
       <extensionElements>
         <flowable:taskListener event="create"
                                class="cn.acyou.scorpio.controller.flowable.handler.ManagerTaskHandler">
@@ -28,11 +28,11 @@
       </extensionElements>
     </userTask>
     <endEvent id="end" name="结束"></endEvent>
-    <sequenceFlow id="flow1" sourceRef="start" targetRef="fillTaskApplyInfo"></sequenceFlow>
-    <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTask" targetRef="fillTaskApplyInfo">
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="fillTask"></sequenceFlow>
+    <sequenceFlow id="directorNotPassFlow" name="驳回" sourceRef="directorTak" targetRef="fillTask">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="flow2" sourceRef="fillTaskApplyInfo" targetRef="directorTask"></sequenceFlow>
+    <sequenceFlow id="flow2" sourceRef="fillTask" targetRef="directorTak"></sequenceFlow>
     <sequenceFlow id="judgeMore" name="大于3天" sourceRef="judgeTask" targetRef="bossTask">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day > 3}]]></conditionExpression>
     </sequenceFlow>
@@ -42,10 +42,10 @@
     <sequenceFlow id="judgeLess" name="小于等于3天" sourceRef="judgeTask" targetRef="end">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${day <= 3}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="bossNotPassFlow" name="驳回" sourceRef="bossTask" targetRef="fillTaskApplyInfo">
+    <sequenceFlow id="bossNotPassFlow" name="驳回" sourceRef="bossTask" targetRef="fillTask">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='驳回'}]]></conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="directorPassFlow" name="通过" sourceRef="directorTask" targetRef="judgeTask">
+    <sequenceFlow id="directorPassFlow" name="通过" sourceRef="directorTak" targetRef="judgeTask">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${outcome=='通过'}]]></conditionExpression>
     </sequenceFlow>
   </process>
@@ -56,7 +56,7 @@
       <bpmndi:BPMNShape bpmnElement="start" id="BPMNShape_start">
         <omgdc:Bounds height="30.0" width="30.0" x="85.0" y="85.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="fillTaskApplyInfo" id="BPMNShape_fillTaskApplyInfo">
+      <bpmndi:BPMNShape bpmnElement="fillTask" id="BPMNShape_fillTask">
         <omgdc:Bounds height="80.0" width="100.0" x="205.0" y="60.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="judgeTask" id="BPMNShape_judgeTask">
@@ -65,7 +65,7 @@
       <bpmndi:BPMNShape bpmnElement="bossTask" id="BPMNShape_bossTask">
         <omgdc:Bounds height="79.99999999999997" width="100.0" x="735.0000000000002" y="210.00000000000003"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="directorTask" id="BPMNShape_directorTask">
+      <bpmndi:BPMNShape bpmnElement="directorTak" id="BPMNShape_directorTak">
         <omgdc:Bounds height="80.0" width="99.99999999999994" x="465.00000000000006" y="60.00000000000001"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="end" id="BPMNShape_end">

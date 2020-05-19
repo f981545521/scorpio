@@ -4,9 +4,10 @@ import org.flowable.engine.delegate.TaskListener;
 import org.flowable.task.service.delegate.DelegateTask;
 
 /**
- * 
- * @author puhaiyang
- * @date 2018/12/19
+ * 经理的任务处理程序
+ *
+ * @author youfang
+ * @date 2020/05/19
  */
 public class ManagerTaskHandler implements TaskListener {
 

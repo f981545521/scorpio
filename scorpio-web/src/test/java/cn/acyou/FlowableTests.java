@@ -1,12 +1,17 @@
 package cn.acyou;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.*;
+import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
 import org.junit.Test;
@@ -15,10 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.*;
 
 /**
  * @author youfang
@@ -26,7 +31,7 @@ import java.util.Map;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ScorpioBaseTests {
+public class FlowableTests {
     private static final String process_Name = "LeaveProcess2";
     @Autowired
     private RuntimeService runtimeService;
@@ -35,34 +40,174 @@ public class ScorpioBaseTests {
     @Autowired
     private RepositoryService repositoryService;
     @Autowired
+    private ManagementService managementService;
+    @Autowired
     private HistoryService historyService;
     @Autowired
     private ProcessEngine processEngine;
 
     //发起流程
     @Test
-    public void test1(){
-        System.out.println("ok");
+    public void startProcessInstance(){
         //1. 启动流程时设置变量
         HashMap<String, Object> map = new HashMap<>();
-        map.put("userId", "10211");
-        map.put("user1", "mg2");
-        map.put("user2", "boss");
+        map.put("processName", "我要请假");
+        map.put("userId", "10212");
+        map.put("userName", "小王");
+        map.put("day", "2");
         //设置流程发起人
-        Authentication.setAuthenticatedUserId("10211");
-        ProcessInstance pi = runtimeService.startProcessInstanceByKey(process_Name, "BUSINESS_10211", map);
+        Authentication.setAuthenticatedUserId("10212");
+        ProcessInstance pi = runtimeService.startProcessInstanceByKey(process_Name, "BUSINESS_10212", map);
         Authentication.setAuthenticatedUserId(null);
 
         System.out.println("getProcessInstanceId：" + pi.getId());
         System.out.println("getProcessDefinitionId：" + pi.getProcessDefinitionId());
         System.out.println("getProcessDefinitionKey：" + pi.getProcessDefinitionKey());
-        System.out.println("getProcessDefinitionName：" + pi.getProcessDefinitionName());
-        //getProcessInstanceId：460063852374016000
-        //getProcessDefinitionId：LeaveProcess2:1:460062180079845377
+        //getProcessInstanceId：460114657118535680
+        //getProcessDefinitionId：LeaveProcess2:1:460114653624680449
         //getProcessDefinitionKey：LeaveProcess2
-        //getProcessDefinitionName：LeaveProcess2
         System.out.println("流程启动成功");
     }
+
+    public void startProcessInstance2(){
+        //1. 启动流程时设置变量
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("userId", "10213");
+        map.put("processName", "我要请假");
+        //设置流程发起人
+        Authentication.setAuthenticatedUserId("10213");
+        ProcessInstance pi = runtimeService.createProcessInstanceBuilder()
+                .processDefinitionKey(process_Name)
+                .businessKey("BUSINESS_10213")
+                .variables(map)
+                .name("10213请假流程")
+                .start();
+        Authentication.setAuthenticatedUserId(null);
+
+        System.out.println("getProcessInstanceId：" + pi.getId());
+        System.out.println("getProcessDefinitionId：" + pi.getProcessDefinitionId());
+        System.out.println("getProcessDefinitionKey：" + pi.getProcessDefinitionKey());
+        //getProcessInstanceId：460078069869199360
+        //getProcessDefinitionId：LeaveProcess2:2:460072536642699265
+        //getProcessDefinitionKey：LeaveProcess2
+        System.out.println("流程启动成功");
+    }
+
+    @Test
+    public void test23(){
+        //查询ProcessInstance
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                .includeProcessVariables()
+                .processInstanceBusinessKey("BUSINESS_10212")
+                .singleResult();
+        System.out.println(processInstance.getName());
+        System.out.println(processInstance);
+
+    }
+    @Test
+    public void commitTask(){
+        //用户提交审批
+        taskService.complete("460114657357611008");
+        System.out.println("提交完成");
+    }
+
+    @Test
+    public void completeTask(){
+        //经理审批
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("outcome", "通过");
+        taskService.complete("460114946588426240", variables);
+        System.out.println("提交完成");
+    }
+    @Test
+    public void getMyStartProcint(){
+        List<HistoricProcessInstance> list = historyService.createHistoricProcessInstanceQuery()
+                .finished()// 已完成的 unfinish 未完成的，或者不加表示全部
+                .startedBy("10212")
+                .orderByProcessInstanceStartTime().asc()
+                .list();
+        System.out.println(list);
+
+        //查询指定用户参与的流程信息 （流程历史  用户参与 ）
+        List<HistoricProcessInstance> userJoinProcess = historyService.createHistoricProcessInstanceQuery()
+                .involvedUser("10212")
+                .orderByProcessInstanceStartTime().desc()
+                .list();
+        //判断流程是否完成
+        boolean finished = isFinished("460114657118535680");
+
+        //查询流程
+        List<HistoricProcessInstance> historicDetail = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceId("460114657118535680")
+                .startedBy("10212")
+                .finished()
+                .list();
+
+        System.out.println(historicDetail);
+
+        List<HistoricActivityInstance> historicActivityInstances = historyService.createHistoricActivityInstanceQuery().processInstanceId("460114657118535680").list();
+        System.out.println(historicActivityInstances);
+
+        Set<String> activityTypes = Sets.newHashSet("startEvent", "userTask", "sequenceFlow", "endEvent");
+        List<HistoricActivityInstance> historicActivityInstances2 = historyService.createHistoricActivityInstanceQuery()
+                .processInstanceId("460114657118535680")
+                .activityTypes(activityTypes)
+                .list();
+        System.out.println(historicActivityInstances2);
+    }
+
+    @Test
+    public void drawProcessImage() throws Exception{
+        /**
+         * 获得当前活动的节点
+         */
+        String processDefinitionId = "";
+        String processId = "460114657118535680";
+        if (this.isFinished(processId)) {// 如果流程已经结束，则得到结束节点
+            HistoricProcessInstance pi = historyService.createHistoricProcessInstanceQuery().processInstanceId(processId).singleResult();
+
+            processDefinitionId=pi.getProcessDefinitionId();
+        } else {// 如果流程没有结束，则取当前活动节点
+            // 根据流程实例ID获得当前处于活动状态的ActivityId合集
+            ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(processId).singleResult();
+            processDefinitionId=pi.getProcessDefinitionId();
+        }
+        List<String> highLightedActivitis = new ArrayList<String>();
+
+        /**
+         * 获得活动的节点
+         */
+        List<HistoricActivityInstance> highLightedActivitList =  historyService.createHistoricActivityInstanceQuery().processInstanceId(processId).orderByHistoricActivityInstanceStartTime().asc().list();
+
+        for(HistoricActivityInstance tempActivity : highLightedActivitList){
+            String activityId = tempActivity.getActivityId();
+            highLightedActivitis.add(activityId);
+        }
+
+        List<String> flows = new ArrayList<>();
+        //获取流程图
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+        ProcessEngineConfiguration engconf = processEngine.getProcessEngineConfiguration();
+
+        ProcessDiagramGenerator diagramGenerator = engconf.getProcessDiagramGenerator();
+        InputStream in = diagramGenerator.generateDiagram(bpmnModel, "bmp", highLightedActivitis, flows, engconf.getActivityFontName(),
+                engconf.getLabelFontName(), engconf.getAnnotationFontName(), engconf.getClassLoader(), 1.0, true);
+        OutputStream out = new FileOutputStream("D:\\temp\\flowable_images\\123.bmp");
+        IOUtils.copy(in, out);
+        System.out.println("结束");
+
+    }
+
+    /**
+     * 判断流程是否完成
+     * @param processInstanceId processInstanceId
+     * @return 是否完成
+     */
+    public boolean isFinished(String processInstanceId) {
+        return historyService.createHistoricProcessInstanceQuery().finished()
+                .processInstanceId(processInstanceId).count() > 0;
+    }
+
     //我的任务
     @Test
     public void myTask(){
@@ -115,7 +260,6 @@ public class ScorpioBaseTests {
         System.out.println("提交完成");
         //3. 通过TaskService内的Set方法设置变量
         //taskService.setVariable("459726315684118528", "name", "小三");
-
     }
     @Test
     public void getVariables(){
