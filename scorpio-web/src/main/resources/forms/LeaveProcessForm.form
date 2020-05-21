@@ -8,27 +8,6 @@
             "type": "text",
             "required": true,
             "placeholder": "empty"
-            },
-            {
-            "id": "day",
-            "name": "请假天数",
-            "type": "long",
-            "required": true,
-            "placeholder": "empty"
-            },
-            {
-            "id": "endTime",
-            "name": "结束时间",
-            "type": "date",
-            "required": true,
-            "placeholder": "empty"
-            },
-            {
-            "id": "leaveReason",
-            "name": "请假原因",
-            "type": "text",
-            "required": true,
-            "placeholder": "empty"
             }
     ]
 }

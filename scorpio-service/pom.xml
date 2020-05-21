@@ -41,11 +41,11 @@
             <version>6.4.1</version>
         </dependency>
         <!-- Form Engine Support -->
-<!--        <dependency>
+        <dependency>
             <groupId>org.flowable</groupId>
             <artifactId>flowable-form-spring-configurator</artifactId>
             <version>6.4.1</version>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 

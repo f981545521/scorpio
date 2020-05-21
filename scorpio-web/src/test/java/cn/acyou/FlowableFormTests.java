@@ -10,8 +10,11 @@ import org.flowable.engine.form.StartFormData;
 import org.flowable.engine.history.HistoricActivityInstance;
 import org.flowable.engine.history.HistoricProcessInstance;
 import org.flowable.engine.history.HistoricProcessInstanceQuery;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.form.api.FormInfo;
+import org.flowable.form.api.FormRepositoryService;
 import org.flowable.image.ProcessDiagramGenerator;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
@@ -46,6 +49,8 @@ public class FlowableFormTests {
     private HistoryService historyService;
     @Autowired
     private ProcessEngine processEngine;
+    @Autowired
+    private FormRepositoryService formRepositoryService;
 
 
     //发起流程
@@ -89,7 +94,7 @@ public class FlowableFormTests {
 
         String processInstanceName = "LeaveProcessForm";
 
-        ProcessInstance pi = runtimeService.startProcessInstanceWithForm("LeaveProcessForm:1:460428767483936768", outcome, formProperties, processInstanceName);
+        ProcessInstance pi = runtimeService.startProcessInstanceWithForm("LeaveProcessForm:2:460798439651819520", outcome, formProperties, processInstanceName);
 
         Authentication.setAuthenticatedUserId(null);
 
@@ -97,33 +102,43 @@ public class FlowableFormTests {
         System.out.println("getProcessDefinitionId：" + pi.getProcessDefinitionId());
         System.out.println("getProcessDefinitionKey：" + pi.getProcessDefinitionKey());
         System.out.println("流程启动成功");
-        //getProcessInstanceId：460429863442989056
-        //getProcessDefinitionId：LeaveProcessForm:1:460428767483936768
+        //getProcessInstanceId：460799580913549312
+        //getProcessDefinitionId：LeaveProcessForm:2:460798439651819520
         //getProcessDefinitionKey：LeaveProcessForm
     }
 
 
+    /**
+     * 流程中的表单有两种：流程开始表单和流程中表单
+     */
     @Test
     public void testGetFormInfo(){
-
-        StartFormData startFormData = processEngine.getFormService()
-                .getStartFormData("LeaveProcessForm:1:460428767483936768");
+        //FormInfo startFormModel = runtimeService.getStartFormModel("LeaveProcessForm:1:460808572431777792", "460799580913549312");
+        //System.out.println(startFormModel);
+        String startFormKey = processEngine.getFormService().getStartFormKey("LeaveProcessForm:1:460809949841211392");
+        //startFormKey是外部的表单KEY
+        System.out.println(startFormKey);
+        StartFormData startFormData = processEngine.getFormService().getStartFormData("LeaveProcessForm:1:460809949841211392");
         System.out.println(startFormData);
+        //FormProperties是在XML中直接定义的
+        System.out.println(startFormData.getFormProperties());
+
+        //获取Task 的Form
+        FormInfo taskFormModel = taskService.getTaskFormModel("460799581261676544");
 
         //FormInfo info = runtimeService.getStartFormModel("LeaveProcessForm:1:460421156705419264",
         //        "460427011685367808");
-        //SimpleFormModel sfm = (SimpleFormModel) info.getFormModel();
-        //List<FormField> fields = sfm.getFields();
-        //for (FormField ff : fields) {
-        //    System.out.println();
-        //    System.out.println("id: " + ff.getId());
-        //    System.out.println("name: " + ff.getName());
-        //    System.out.println("type: " + ff.getType());
-        //    System.out.println("placeholder: " + ff.getPlaceholder());
-        //    System.out.println("value: " + ff.getValue());
-        //    System.out.println();
-        //}
         //org.flowable.common.engine.api.FlowableIllegalArgumentException: Form engine is not initialized
+    }
+
+    @Test
+    public void testGetFormInfo2(){
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
+                .processDefinitionId("LeaveProcessForm:2:460798439651819520")
+                .latestVersion().singleResult();
+        StartFormData form = processEngine.getFormService().getStartFormData(processDefinition.getId());
+        FormInfo info = formRepositoryService.getFormModelByKey(form.getFormKey());
+        System.out.println(info);
     }
 
     public void startProcessInstance2(){

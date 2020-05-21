@@ -6,19 +6,25 @@
              targetNamespace="http://www.flowable.org/processdef">
   <process id="LeaveProcessForm" name="LeaveProcessForm" isExecutable="true">
     <documentation>请假申请</documentation>
-    <startEvent id="start" name="开始" flowable:formKey="LeaveProcessFormKey"></startEvent>
+    <startEvent id="start" name="开始" flowable:formKey="LeaveProcessFormKey">
+      <extensionElements>
+        <flowable:formProperty id="room" />
+        <flowable:formProperty id="duration" type="long"/>
+        <flowable:formProperty id="speaker" variable="SpeakerName" writable="false" />
+      </extensionElements>
+    </startEvent>
     <userTask id="fillTaskApplyInfo" name="请假申请" flowable:formKey="LeaveProcessFormKey">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="judgeTask"></exclusiveGateway>
-    <userTask id="bossTask" name="老板审批" flowable:candidateStarterUsers="${bossUserId}" flowable:candidateGroups="boss">
+    <userTask id="bossTask" name="老板审批" flowable:formKey="LeaveProcessFormKey" flowable:candidateStarterUsers="${bossUserId}" flowable:candidateGroups="boss">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
     </userTask>
-    <userTask id="directorTask" name="经理审批" flowable:candidateGroups="manager,departmanager">
+    <userTask id="directorTask" name="经理审批" flowable:formKey="LeaveProcessFormKey" flowable:candidateGroups="manager,departmanager">
       <extensionElements>
         <flowable:taskListener event="create"
                                class="cn.acyou.scorpio.controller.flowable.handler.ManagerTaskHandler">
