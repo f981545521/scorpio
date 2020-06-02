@@ -68,7 +68,7 @@ public class StudentController {
     @RequestMapping(value = "students", method = {RequestMethod.GET})
     @ApiOperation("测试分页")
     public Result<PageData<Student>> selectStudent(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(pageNum, Integer.MAX_VALUE);
         List<Student> students = studentMapper.selectAll();
         //List<Student> selectByIdList = studentMapper.selectPrimaryKeyList(Lists.newArrayList(5,6,7));
         //for (Student student: selectByIdList){
@@ -77,7 +77,7 @@ public class StudentController {
         //int c = studentMapper.updateListSelective(selectByIdList);
         //System.out.println(c);
 
-        if (pageNum == 1){
+        if (pageNum == 10){
             throw new ServiceException(TaskErrorEnum.E_200017);
         }
         PageData<Student> convert = PageData.convert(students);

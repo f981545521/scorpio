@@ -65,11 +65,17 @@ public class PageData<T> implements Serializable {
 
     public void processNextPage() {
         if (this.pageNum != null && this.pageSize != null && this.total != null) {
-            int totalPage = (int) ((total + pageSize - 1) / pageSize);
-            this.totalPage = totalPage;
-            if (pageNum >= totalPage) {
+            int totalPage;
+            if (pageSize == 0){
+                totalPage = this.total.intValue();
                 this.hasNextPage = false;
+            }else {
+                totalPage = (int) ((total + pageSize - 1) / pageSize);
+                if (pageNum >= totalPage) {
+                    this.hasNextPage = false;
+                }
             }
+            this.totalPage = totalPage;
         }
     }
 
