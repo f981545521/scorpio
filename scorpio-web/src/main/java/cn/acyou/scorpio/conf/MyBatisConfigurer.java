@@ -1,6 +1,6 @@
 package cn.acyou.scorpio.conf;
 
-import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -45,7 +45,7 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         sqlsession.setFailFast(true);
 
         //配置分页插件，详情请查阅官方文档 {@link https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md}
-        PageHelper pageHelper = new PageHelper();
+        PageInterceptor pageInterceptor = new PageInterceptor();
         Properties properties = new Properties();
         //PageSize是0时的处理：默认值为 false
         //当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果
@@ -57,9 +57,9 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         //如果vo里有pageNum和pageSize 再加上配置文件里supportMethodsArguments= true，
         // 那么即使不使用PageHelper.startPage(pageNum,PageSize) 也会自动分页。
         properties.setProperty("supportMethodsArguments", "false");
-        pageHelper.setProperties(properties);
+        pageInterceptor.setProperties(properties);
         //添加插件
-        sqlsession.setPlugins(new Interceptor[]{pageHelper});
+        sqlsession.setPlugins(new Interceptor[]{pageInterceptor});
         //sqlsession.setPlugins(new Interceptor[]{pageHelper, new PerformanceInterceptor()});
 
         //添加XML目录
