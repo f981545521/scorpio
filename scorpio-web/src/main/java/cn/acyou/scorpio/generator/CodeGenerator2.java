@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.generator;
+﻿package cn.acyou.scorpio.generator;
 
 import com.google.common.base.CaseFormat;
 
@@ -18,7 +18,7 @@ import java.util.Random;
  * @author youfang
  * @version [1.0.0, 2018-06-11 下午 02:52]
  **/
-public class CodeGenerator {
+public class CodeGenerator2 {
 
     private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String USER = "root";
@@ -31,11 +31,11 @@ public class CodeGenerator {
     /**
      * 1. 表名
      */
-    private static final String TABLE_NAME = "t_task_schedule_job_log";
+    private static final String TABLE_NAME = "t_depot";
     /**
      * 2. 类名文件名(下划线也会自动转换)
      */
-    private static final String CLASS_NAME = convertCamelCase("schedule_job_log");
+    private static final String CLASS_NAME = convertCamelCase("depot");
     private static final String AUTHOR = "youfang";
 
     /**
@@ -43,12 +43,19 @@ public class CodeGenerator {
      */
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     private static final String ENTITY_FILE_PATH = PROJECT_PATH +
-            "\\scorpio-mapper\\src\\main\\java\\cn\\acyou\\scorpio\\task\\entity";
+            "\\spdapi-mapper\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\system\\entity";
     private static final String MAPPER_INTERFACE_PATH = PROJECT_PATH +
-            "\\scorpio-mapper\\src\\main\\java\\cn\\acyou\\scorpio\\task\\mapper";
+            "\\spdapi-mapper\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\system\\mapper";
     private static final String MAPPER_XML_PATH = PROJECT_PATH +
-            "\\scorpio-mapper\\src\\main\\resources\\mapper\\task";
+            "\\spdapi-mapper\\src\\main\\resources\\mapper\\system";
 
+    private static final String SERVICE_INTERFACE_PATH = PROJECT_PATH +
+            "\\spdapi-service\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\service\\system";
+    private static final String SERVICE_INTERFACE_IMPL_PATH = PROJECT_PATH +
+            "\\spdapi-service\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\service\\system\\impl";
+
+    private static final String CONTROLLER_PATH = PROJECT_PATH +
+            "\\spdapi-web\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\controller\\system";
     /**
      * 4. 运行Main方法
      */
@@ -63,6 +70,16 @@ public class CodeGenerator {
             ENTITY_FILE_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
     private static final String MAPPER_PACKAGE = MAPPER_INTERFACE_PATH.substring(
             MAPPER_INTERFACE_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
+
+
+    private static final String SERVICE_PACKAGE_LOCATION = SERVICE_INTERFACE_PATH.substring(
+            SERVICE_INTERFACE_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
+    private static final String SERVICE_IMPL_PACKAGE_LOCATION = SERVICE_INTERFACE_IMPL_PATH.substring(
+            SERVICE_INTERFACE_IMPL_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
+    private static final String CONTROLLER_PACKAGE_LOCATION = CONTROLLER_PATH.substring(
+            CONTROLLER_PATH.indexOf("\\src\\main\\java\\") + 15).replace("\\", ".");
+
+    private static final String serivceInterfaceName = CLASS_NAME + "Service";
 
     private static Connection connection = null;
     private static StringBuilder ALL_FILED = new StringBuilder();
@@ -116,12 +133,15 @@ public class CodeGenerator {
                     List<String> mapperContentList = new ArrayList<>();
                     List<String> mapperXmlContentList = new ArrayList<>();
                     List<String> entityContentList = new ArrayList<>();
+
+                    List<String> serviceInterfaceContentList = new ArrayList<>();
+                    List<String> serviceInterfaceImplContentList = new ArrayList<>();
+                    List<String> controllerContentList = new ArrayList<>();
+
                     mapperContentList.add("package " + MAPPER_PACKAGE + ";\r\n");
                     mapperContentList.add("\r\n");
-                    mapperContentList.add("import cn.acyou.framework.mapper.Mapper;\r\n");
+                    mapperContentList.add("import cn.com.zhengya.framework.mapper.Mapper;\r\n");
                     mapperContentList.add("import " + ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME + ";\r\n");
-                    mapperContentList.add("\r\n");
-                    mapperContentList.add("import java.util.List;\r\n");
                     mapperContentList.add("\r\n");
                     mapperContentList.add("/**\r\n");
                     mapperContentList.add(" * " + TABLE_NAME + " Mapper\r\n");
@@ -129,12 +149,6 @@ public class CodeGenerator {
                     mapperContentList.add(" * @author " + AUTHOR + "\r\n");
                     mapperContentList.add(" */ \r\n");
                     mapperContentList.add("public interface " + CLASS_NAME + "Mapper" + " extends Mapper<" + CLASS_NAME + "> {\r\n");
-                    mapperContentList.add("\r\n");
-                    mapperContentList.add("    /**\r\n");
-                    mapperContentList.add("     * 批量更新\r\n");
-                    mapperContentList.add("     * @param list 修改记录\r\n");
-                    mapperContentList.add("     */\r\n");
-                    mapperContentList.add("    int updateListSelective(List<" + CLASS_NAME + "> list);\r\n");
                     mapperContentList.add("\r\n");
                     mapperContentList.add("\r\n");
                     mapperContentList.add("}\r\n");
@@ -212,12 +226,81 @@ public class CodeGenerator {
                     mapperXmlContentList.add("\r\n");
                     mapperXmlContentList.add("\r\n");
                     mapperXmlContentList.add("</mapper>");
+
+                    //service/serviceImpl and controller
+                    serviceInterfaceContentList.add("package " + SERVICE_PACKAGE_LOCATION + ";\r\n");
+                    serviceInterfaceContentList.add("\r\n");
+                    serviceInterfaceContentList.add("import cn.com.zhengya.framework.service.Service;\r\n");
+                    serviceInterfaceContentList.add("import "+ ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME +";\r\n");
+                    serviceInterfaceContentList.add("\r\n");
+                    serviceInterfaceContentList.add("/**\r\n");
+                    serviceInterfaceContentList.add(" * " + TABLE_NAME + " SERVICE\r\n");
+                    serviceInterfaceContentList.add(" * " + getDate() + " " + tableRemark + " 服务\r\n");
+                    serviceInterfaceContentList.add(" * @author " + AUTHOR + "\r\n");
+                    serviceInterfaceContentList.add(" */ \r\n");
+                    serviceInterfaceContentList.add("public interface " + CLASS_NAME + "Service" + " extends Service<" + CLASS_NAME + "> {\r\n");
+                    serviceInterfaceContentList.add("\r\n");
+                    serviceInterfaceContentList.add("\r\n");
+                    serviceInterfaceContentList.add("}\r\n");
+
+                    serviceInterfaceImplContentList.add("package " + SERVICE_IMPL_PACKAGE_LOCATION + ";\r\n");
+                    serviceInterfaceImplContentList.add("\r\n");
+                    serviceInterfaceImplContentList.add("import lombok.extern.slf4j.Slf4j;\r\n");
+                    serviceInterfaceImplContentList.add("import org.springframework.stereotype.Service;\r\n");
+                    serviceInterfaceImplContentList.add("import cn.com.zhengya.framework.service.ServiceImpl;\r\n");
+                    serviceInterfaceImplContentList.add("import "+ ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME +";\r\n");
+                    serviceInterfaceImplContentList.add("import "+ MAPPER_PACKAGE + "." + CLASS_NAME +"Mapper;\r\n");
+                    serviceInterfaceImplContentList.add("import "+ SERVICE_PACKAGE_LOCATION + "." + CLASS_NAME +"Service;\r\n");
+                    serviceInterfaceImplContentList.add("\r\n");
+                    serviceInterfaceImplContentList.add("/**\r\n");
+                    serviceInterfaceImplContentList.add(" * " + TABLE_NAME + " SERVICE\r\n");
+                    serviceInterfaceImplContentList.add(" * " + getDate() + " " + tableRemark + " 服务\r\n");
+                    serviceInterfaceImplContentList.add(" * @author " + AUTHOR + "\r\n");
+                    serviceInterfaceImplContentList.add(" */ \r\n");
+                    serviceInterfaceImplContentList.add("@Slf4j\r\n");
+                    serviceInterfaceImplContentList.add("@Service\r\n");
+                    serviceInterfaceImplContentList.add("public class " + CLASS_NAME + "ServiceImpl" + " extends ServiceImpl<" + CLASS_NAME + "Mapper, " + CLASS_NAME + "> implements "+CLASS_NAME+"Service {\r\n");
+                    serviceInterfaceImplContentList.add("\r\n");
+                    serviceInterfaceImplContentList.add("\r\n");
+                    serviceInterfaceImplContentList.add("}\r\n");
+
+                    controllerContentList.add("package " + CONTROLLER_PACKAGE_LOCATION + ";\r\n");
+                    controllerContentList.add("\r\n");
+                    controllerContentList.add("import io.swagger.annotations.Api;\r\n");
+                    controllerContentList.add("import lombok.extern.slf4j.Slf4j;\r\n");
+                    controllerContentList.add("import org.springframework.beans.factory.annotation.Autowired;\r\n");
+                    controllerContentList.add("import org.springframework.web.bind.annotation.RequestMapping;\r\n");
+                    controllerContentList.add("import org.springframework.web.bind.annotation.RestController;\r\n");
+                    controllerContentList.add("import "+ SERVICE_PACKAGE_LOCATION + "." + CLASS_NAME +"Service;\r\n");
+                    controllerContentList.add("\r\n");
+                    controllerContentList.add("/**\r\n");
+                    controllerContentList.add(" * " + TABLE_NAME + " SERVICE\r\n");
+                    controllerContentList.add(" * " + getDate() + " " + tableRemark + " 接口\r\n");
+                    controllerContentList.add(" * @author " + AUTHOR + "\r\n");
+                    controllerContentList.add(" */ \r\n");
+                    controllerContentList.add("@Slf4j\r\n");
+                    controllerContentList.add("@RestController\r\n");
+                    controllerContentList.add("@RequestMapping(\"/"+convertcamelCase(className)+"\")\r\n");
+                    controllerContentList.add("@Api(value = \""+tableRemark+"\", description = \""+tableRemark+"\", tags = \""+tableRemark+"接口\")\r\n");
+                    controllerContentList.add("public class " + CLASS_NAME +"Controller {\r\n");
+                    controllerContentList.add("    @Autowired\r\n");
+                    controllerContentList.add("    private "+serivceInterfaceName+" "+convertcamelCase(serivceInterfaceName)+";\r\n");
+                    controllerContentList.add("\r\n");
+                    controllerContentList.add("}\r\n");
+
                     //Mapper.java文件
                     writeMapperInterfaceFile(mapperContentList);
                     //Mapper.xml文件
                     writeMapperXmlFile(mapperXmlContentList);
                     //Entity.java 文件
                     writeEntityFile(entityContentList);
+                    //Service.java文件
+                    writeServiceInterfaceFile(serviceInterfaceContentList);
+                    //ServiceImpl.java文件
+                    writeServiceInterfaceImplFile(serviceInterfaceImplContentList);
+                    //Controller.java文件
+                    writeControllerFile(controllerContentList);
+
                     System.out.println("=====   生成成功！   =====");
                 }
             }
@@ -269,6 +352,40 @@ public class CodeGenerator {
         }
         mapperPw.flush();
         mapperPw.close();
+    }
+    private static void writeServiceInterfaceFile(List<String> serviceInterfaceContentList) throws Exception {
+        new File(SERVICE_INTERFACE_PATH).mkdirs();
+        File directory = new File(SERVICE_INTERFACE_PATH + "\\" + CLASS_NAME + "Service" + ".java");
+        FileWriter fw = new FileWriter(directory);
+        PrintWriter pw = new PrintWriter(fw);
+        for (String serviceInterfaceContent : serviceInterfaceContentList) {
+            pw.write(serviceInterfaceContent);
+        }
+        pw.flush();
+        pw.close();
+    }
+    private static void writeServiceInterfaceImplFile(List<String> serviceInterfaceImplContentList) throws Exception {
+        new File(SERVICE_INTERFACE_IMPL_PATH).mkdirs();
+        File directory = new File(SERVICE_INTERFACE_IMPL_PATH + "\\" + CLASS_NAME + "ServiceImpl" + ".java");
+        FileWriter fw = new FileWriter(directory);
+        PrintWriter pw = new PrintWriter(fw);
+        for (String content : serviceInterfaceImplContentList) {
+            pw.write(content);
+        }
+        pw.flush();
+        pw.close();
+    }
+
+    private static void writeControllerFile(List<String> controllerContentList) throws Exception {
+        new File(CONTROLLER_PATH).mkdirs();
+        File directory = new File(CONTROLLER_PATH + "\\" + CLASS_NAME + "Controller" + ".java");
+        FileWriter fw = new FileWriter(directory);
+        PrintWriter pw = new PrintWriter(fw);
+        for (String content : controllerContentList) {
+            pw.write(content);
+        }
+        pw.flush();
+        pw.close();
     }
 
     /**
@@ -470,4 +587,5 @@ public class CodeGenerator {
         }
     }
 }
+
 
