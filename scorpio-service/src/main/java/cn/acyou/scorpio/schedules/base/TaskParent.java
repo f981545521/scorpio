@@ -96,7 +96,9 @@ public abstract class TaskParent implements ITask {
      */
     @Override
     public void resumeJob(ScheduleJob job) {
-        pauseJob(job);
+        if (future != null) {
+            future.cancel(true);
+        }
         scheduleJob = job;
         future = threadPoolTaskScheduler.schedule(doTask(), new CronTrigger(job.getCronExpression()));
         log.info("resume job start : " + job.getBeanName());
