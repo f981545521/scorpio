@@ -13,4 +13,6 @@ public interface StudentService extends Service<Student> {
 
     void addAStudent();
 
+    void flushCache(Integer id);
+
 }

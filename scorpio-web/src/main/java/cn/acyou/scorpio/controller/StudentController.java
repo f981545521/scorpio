@@ -92,6 +92,18 @@ public class StudentController {
         List<Integer> ar = new ArrayList<>();
         return Result.success(students);
     }
+    @RequestMapping(value = "cacheGetStudent", method = {RequestMethod.GET})
+    @ApiOperation("测试增加缓存")
+    public Result<?> cacheGetStudent(Integer id) {
+        Student student = studentService.selectByPrimaryKey(id);
+        return Result.success(student);
+    }
+    @RequestMapping(value = "flushCacheStudent", method = {RequestMethod.GET})
+    @ApiOperation("测试刷新缓存")
+    public Result<?> flushCacheStudent(Integer id) {
+        studentService.flushCache(id);
+        return Result.success();
+    }
 
 
 }

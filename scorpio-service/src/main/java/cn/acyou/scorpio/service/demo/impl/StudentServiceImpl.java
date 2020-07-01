@@ -7,6 +7,8 @@ import cn.acyou.scorpio.mapper.system.entity.Student;
 import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
@@ -45,5 +47,18 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         student.setBirth(new Date());
         baseMapper.insert(student);
         int i = 1/0;
+    }
+
+    @Override
+    @Cacheable(value="sys:student#as", key="#id")
+    public Student selectByPrimaryKey(Object id) {
+        System.out.println("缓存测试：根据主键查找：" + id);
+        return super.selectByPrimaryKey(id);
+    }
+
+    @Override
+    @CacheEvict(value="sys:student", key="#id")
+    public void flushCache(Integer id) {
+        System.out.println("缓存测试：根据主键删除缓存：" + id);
     }
 }
