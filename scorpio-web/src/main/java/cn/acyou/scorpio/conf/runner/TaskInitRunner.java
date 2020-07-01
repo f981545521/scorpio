@@ -34,8 +34,12 @@ public class TaskInitRunner implements ApplicationRunner {
         condition.createCriteria().andEqualTo("status", 0);
         List<ScheduleJob> scheduleJobs = scheduleJobService.selectByExample(condition);
         for (ScheduleJob scheduleJob : scheduleJobs) {
-            TaskParent iTask = SpringHelper.getBean(scheduleJob.getBeanName());
-            iTask.resumeJob(scheduleJob);
+            if (SpringHelper.containsBean(scheduleJob.getBeanName())){
+                TaskParent iTask = SpringHelper.getBean(scheduleJob.getBeanName());
+                iTask.resumeJob(scheduleJob);
+            }else {
+                log.error("定时器 {} 不存在，请检查", scheduleJob.getBeanName());
+            }
         }
     }
 }
