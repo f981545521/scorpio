@@ -8,6 +8,7 @@ import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Condition;
@@ -50,7 +51,8 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    @Cacheable(value="sys:student#as", key="#id")
+    //@Cacheable(value="sys:student#100", key="#id")
+    @CachePut(value="sys:student#2000", key="#id")
     public Student selectByPrimaryKey(Object id) {
         System.out.println("缓存测试：根据主键查找：" + id);
         return super.selectByPrimaryKey(id);

@@ -70,10 +70,10 @@ public class CustomizeRedisCache extends RedisCache {
             }
             //插入时添加时间
             redisCacheWriter.put(finalName, serializeCacheKey(createCacheKey(key)), serializeCacheValue(cacheValue), Duration.ofSeconds(ttl));
-
+        }else {
+            //原来逻辑处理
+            super.put(key, value);
         }
-        //原来逻辑处理
-        super.put(key, value);
     }
 
 
