@@ -1,4 +1,4 @@
-﻿package cn.acyou.scorpio.generator;
+package cn.acyou.scorpio.generator;
 
 import com.google.common.base.CaseFormat;
 
