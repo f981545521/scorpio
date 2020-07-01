@@ -22,20 +22,6 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
     @Autowired
     private ScheduleJobMapper scheduleJobMapper;
 
-    /**
-     * 项目启动时，初始化定时器
-     */
-    @PostConstruct
-    public void init() {
-        Example condition = new Example(ScheduleJob.class);
-        condition.createCriteria().andEqualTo("status", 0);
-        List<ScheduleJob> scheduleJobs = scheduleJobMapper.selectByExample(condition);
-        for (ScheduleJob scheduleJob : scheduleJobs) {
-            ITask iTask = SpringHelper.getBean(scheduleJob.getBeanName());
-            iTask.resumeJob(scheduleJob);
-        }
-    }
-
     @Override
     public void run(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
