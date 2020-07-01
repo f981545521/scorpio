@@ -51,8 +51,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     }
 
     @Override
-    //@Cacheable(value="sys:student#100", key="#id")
-    @CachePut(value="sys:student#2000", key="#id")
+    @Cacheable(value="sys:student#100", key="#id")
     public Student selectByPrimaryKey(Object id) {
         System.out.println("缓存测试：根据主键查找：" + id);
         return super.selectByPrimaryKey(id);
