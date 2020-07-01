@@ -152,7 +152,7 @@ public class ServiceImpl<M extends Mapper<T>, T> implements Service<T> {
      * @return 影响行数
      */
     @Override
-    public int updateListSelective(T record) {
+    public int updateByPrimaryKey(T record) {
         return baseMapper.updateByPrimaryKey(record);
     }
 

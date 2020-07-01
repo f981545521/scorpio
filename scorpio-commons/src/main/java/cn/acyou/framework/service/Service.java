@@ -138,7 +138,7 @@ public interface Service<T> {
      * @param record 记录
      * @return 影响行数
      */
-    int updateListSelective(T record);
+    int updateByPrimaryKey(T record);
 
     /**
      * 根据主键更新属性不为null的值

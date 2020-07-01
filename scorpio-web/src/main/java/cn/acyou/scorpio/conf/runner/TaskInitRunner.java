@@ -16,6 +16,7 @@ import java.util.List;
 /**
  * 使用`@PostConstruct`注解实现的时候，发现未完全注入问题，List中第一个元素需要注入的属性都为null！！
  * 使用ApplicationRunner来解决此问题
+ *
  * @author youfang
  * @version [1.0.0, 2020/7/1]
  **/
@@ -26,7 +27,7 @@ public class TaskInitRunner implements ApplicationRunner {
     private ScheduleJobService scheduleJobService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         Example condition = new Example(ScheduleJob.class);
         condition.createCriteria().andEqualTo("status", 0);
         List<ScheduleJob> scheduleJobs = scheduleJobService.selectByExample(condition);
