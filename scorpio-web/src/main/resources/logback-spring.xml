@@ -57,7 +57,7 @@
         </filter>
     </appender>
 
-    <!-- 匹配不上的，会走根日志，符合条件的转发到对应的appender -->
+    <!-- 匹配不上的，会走根日志，符合条件的转发到对应的appender，在appender中也可以指定级别 -->
     <root level="debug">
         <appender-ref ref="console"/>
         <appender-ref ref="file_error"/>
