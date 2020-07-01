@@ -4,7 +4,7 @@ import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.framework.utils.SpringHelper;
 import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
 import cn.acyou.scorpio.mapper.task.mapper.ScheduleJobMapper;
-import cn.acyou.scorpio.schedules.base.ITask;
+import cn.acyou.scorpio.schedules.base.TaskParent;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,21 +26,21 @@ public class ScheduleJobServiceImpl extends ServiceImpl<ScheduleJobMapper, Sched
     public void run(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
+        TaskParent iTask = SpringHelper.getBean(beanName);
         iTask.runJob(scheduleJob);
     }
     @Override
     public void pause(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
+        TaskParent iTask = SpringHelper.getBean(beanName);
         iTask.pauseJob(scheduleJob);
     }
     @Override
     public void resume(Long jobId) {
         ScheduleJob scheduleJob = scheduleJobMapper.selectByPrimaryKey(jobId);
         String beanName = scheduleJob.getBeanName();
-        ITask iTask = SpringHelper.getBean(beanName);
+        TaskParent iTask = SpringHelper.getBean(beanName);
         iTask.resumeJob(scheduleJob);
     }
 }

@@ -2,7 +2,7 @@ package cn.acyou.scorpio.conf.runner;
 
 import cn.acyou.framework.utils.SpringHelper;
 import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
-import cn.acyou.scorpio.schedules.base.ITask;
+import cn.acyou.scorpio.schedules.base.TaskParent;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,8 @@ import java.util.List;
 public class TaskInitRunner implements ApplicationRunner {
     @Autowired
     private ScheduleJobService scheduleJobService;
+    @Autowired
+    private List<TaskParent> taskParentList;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -32,7 +34,7 @@ public class TaskInitRunner implements ApplicationRunner {
         condition.createCriteria().andEqualTo("status", 0);
         List<ScheduleJob> scheduleJobs = scheduleJobService.selectByExample(condition);
         for (ScheduleJob scheduleJob : scheduleJobs) {
-            ITask iTask = SpringHelper.getBean(scheduleJob.getBeanName());
+            TaskParent iTask = SpringHelper.getBean(scheduleJob.getBeanName());
             iTask.resumeJob(scheduleJob);
         }
     }

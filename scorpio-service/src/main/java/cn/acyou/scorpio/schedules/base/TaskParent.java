@@ -23,7 +23,7 @@ import java.util.concurrent.ScheduledFuture;
  * @version [1.0.0, 2020-4-4 下午 11:26]
  **/
 @Slf4j
-public abstract class TaskParent implements ITask {
+public abstract class TaskParent {
 
     @Autowired
     private ScheduleJobLogService scheduleJobLogService;
@@ -67,7 +67,6 @@ public abstract class TaskParent implements ITask {
      *
      * @param job 任务
      */
-    @Override
     public void runJob(ScheduleJob job) {
         scheduleJob = job;
         recordLogStart(false);
@@ -79,7 +78,6 @@ public abstract class TaskParent implements ITask {
      *
      * @param job 任务
      */
-    @Override
     public void pauseJob(ScheduleJob job) {
         if (future != null) {
             future.cancel(true);
@@ -94,7 +92,6 @@ public abstract class TaskParent implements ITask {
      *
      * @param job 任务
      */
-    @Override
     public void resumeJob(ScheduleJob job) {
         if (future != null) {
             future.cancel(true);

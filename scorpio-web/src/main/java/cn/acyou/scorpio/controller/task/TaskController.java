@@ -2,7 +2,7 @@ package cn.acyou.scorpio.controller.task;
 
 import cn.acyou.framework.model.Result;
 import cn.acyou.scorpio.dto.task.TaskVo;
-import cn.acyou.scorpio.schedules.base.ITask;
+import cn.acyou.scorpio.schedules.base.TaskParent;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
@@ -24,7 +24,7 @@ import java.util.List;
 public class TaskController {
 
     @Autowired
-    private List<ITask> iTaskList = Lists.newArrayList();
+    private List<TaskParent> iTaskList = Lists.newArrayList();
 
     @Autowired
     private ScheduleJobService scheduleJobService;
@@ -33,7 +33,7 @@ public class TaskController {
     @ApiOperation(value = "获取所有定时器")
     public Result<List<TaskVo>> tasks() {
         List<TaskVo> taskVoList = new ArrayList<>();
-        for (ITask task: iTaskList){
+        for (TaskParent task: iTaskList){
             TaskVo taskVo = new TaskVo();
             taskVo.setName(task.getClass().getName());
             /*
