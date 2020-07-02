@@ -2,6 +2,7 @@ package cn.acyou.framework.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.*;
 
 /**
  * @author youfang
@@ -31,7 +32,30 @@ public class MathUtil {
         return divide.multiply(hundred).intValue();
     }
 
+    /**
+     * 计算平均数
+     * @param sourceNumbers 数据源
+     * @return 平均数
+     */
+    public static Double averageDouble(Collection<Object> sourceNumbers){
+        OptionalDouble average = Arrays.stream(sourceNumbers.toArray()).mapToDouble(o -> Double.parseDouble(o.toString())).average();
+        if (average.isPresent()){
+            return average.getAsDouble();
+        }else {
+            throw new IllegalArgumentException("calculation average faild !");
+        }
+    }
+    /**
+     * 计算平均数
+     * @param sourceNumbers 数据源
+     * @return 平均数
+     */
+    public static Double averageDouble(Object[] sourceNumbers){
+        return averageDouble(Arrays.asList(sourceNumbers));
+    }
+
     public static void main(String[] args) {
-        System.out.println(calculationPercent(3, 5));
+        Object[] numbers = new Object[]{2,3,4,5,6};
+        System.out.println(averageDouble(numbers).intValue());
     }
 }
