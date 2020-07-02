@@ -10,10 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -24,7 +21,7 @@ import java.util.List;
  */
 @Configuration
 @Slf4j
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 根据类型注入一个List，只要Spring中有这个类型的都加到这个集合中
@@ -37,7 +34,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         for (HandlerInterceptor handlerInterceptor : interceptorList) {
             registry.addInterceptor(handlerInterceptor);
         }
-        super.addInterceptors(registry);
     }
 
     @Override
