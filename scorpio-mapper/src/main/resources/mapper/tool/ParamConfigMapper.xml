@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.acyou.scorpio.tool.mapper.ParamConfigMapper">
+
+    <resultMap id="Base_Result_Map" type="cn.acyou.scorpio.tool.entity.ParamConfig">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="value" jdbcType="VARCHAR" property="value"/>
+        <result column="ext_value" jdbcType="VARCHAR" property="extValue"/>
+        <result column="is_system" jdbcType="INTEGER" property="isSystem"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="is_delete" jdbcType="INTEGER" property="isDelete"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime"/>
+        <result column="last_update_user" jdbcType="BIGINT" property="lastUpdateUser"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, name, code, value, ext_value, is_system, status, remark, sort, is_delete, create_time, create_user, last_update_time, last_update_user
+    </sql>
+
+    <sql id="Alisa_Column_List">
+        t.id, t.name, t.code, t.value, t.ext_value, t.is_system, t.status, t.remark, t.sort, t.is_delete, t.create_time, t.create_user, t.last_update_time, t.last_update_user
+    </sql>
+
+    <sql id="IF_Test_SET">
+           <set>
+                <if test="it.name!=null and it.name!=''">name = #{it.name},</if>
+                <if test="it.code!=null and it.code!=''">code = #{it.code},</if>
+                <if test="it.value!=null and it.value!=''">value = #{it.value},</if>
+                <if test="it.extValue!=null and it.extValue!=''">ext_value = #{it.extValue},</if>
+                <if test="it.isSystem!=null">is_system = #{it.isSystem},</if>
+                <if test="it.status!=null">status = #{it.status},</if>
+                <if test="it.remark!=null and it.remark!=''">remark = #{it.remark},</if>
+                <if test="it.sort!=null">sort = #{it.sort},</if>
+                <if test="it.isDelete!=null">is_delete = #{it.isDelete},</if>
+                <if test="it.createTime!=null">create_time = #{it.createTime},</if>
+                <if test="it.createUser!=null">create_user = #{it.createUser},</if>
+                <if test="it.lastUpdateTime!=null">last_update_time = #{it.lastUpdateTime},</if>
+                <if test="it.lastUpdateUser!=null">last_update_user = #{it.lastUpdateUser},</if>
+           </set>
+        </foreach>
+    </sql>
+
+
+</mapper>

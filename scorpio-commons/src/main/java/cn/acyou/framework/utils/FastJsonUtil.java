@@ -46,4 +46,11 @@ public class FastJsonUtil {
         });
     }
 
+    public static <T> T jsonStrToBean(String jsonStr, Class<T> tClass) {
+        return JSON.parseObject(jsonStr, tClass);
+    }
+
+    public static String toJsonString(Object bean) {
+        return JSON.toJSONString(bean);
+    }
 }
