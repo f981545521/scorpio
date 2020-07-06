@@ -4,6 +4,7 @@ import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.redis.RedisUtils;
+import cn.acyou.scorpio.dto.demo.StudentSo;
 import cn.acyou.scorpio.dto.demo.StudentVo;
 import cn.acyou.scorpio.dto.task.TaskErrorEnum;
 import cn.acyou.scorpio.mapper.system.entity.Student;
@@ -114,6 +115,14 @@ public class StudentController {
     public Result<?> flushCacheStudent(Integer id) {
         studentService.flushCache(id);
         return Result.success();
+    }
+    @RequestMapping(value = "searchStudent", method = {RequestMethod.GET})
+    @ApiOperation("测试SO")
+    public Result<?> searchStudent(StudentSo studentSo) {
+        PageData<Student> name = PageData.startPage(studentSo)
+                .selectMapper(studentService.selectByProperties("age", studentSo.getAge()));
+
+        return Result.success(name);
     }
 
 

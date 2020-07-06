@@ -232,6 +232,10 @@ public class PageData<T> implements Serializable {
         PageHelper.startPage(pageNum, pageSize, true, null, pageSizeZero);
         return new PageData<>(pageNum, pageSize);
     }
+    public static <T> PageData<T> startPage(PageSo pageSo){
+        PageHelper.startPage(pageSo.getPageNum(), pageSo.getPageSize(), pageSo.getSorts());
+        return new PageData<>(pageSo.getPageNum(), pageSo.getPageSize());
+    }
     /**
      * 分页查询
      * @param queryList 查询结果
