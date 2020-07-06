@@ -1,6 +1,6 @@
 package cn.acyou.scorpio.conf;
 
-import com.github.pagehelper.PageInterceptor;
+import cn.acyou.framework.mybatis.plugin.MyPageInterceptor;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -45,18 +45,18 @@ public class MyBatisConfigurer implements TransactionManagementConfigurer {
         sqlsession.setFailFast(true);
 
         //配置分页插件，详情请查阅官方文档 {@link https://github.com/pagehelper/Mybatis-PageHelper/blob/master/wikis/zh/HowToUse.md}
-        PageInterceptor pageInterceptor = new PageInterceptor();
+        MyPageInterceptor pageInterceptor = new MyPageInterceptor();
         Properties properties = new Properties();
         //PageSize是0时的处理：默认值为 false
         //当该参数设置为 true 时，如果 pageSize=0 或者 RowBounds.limit = 0 就会查询出全部的结果
-        // （相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。
-        properties.setProperty("pageSizeZero", "true");
+        // （相当于没有执行分页查询，但是返回结果仍然是 Page 类型）。会导致传0后数量巨大
+        //properties.setProperty("pageSizeZero", "false");
         //分页合理化参数：默认值为false。当该参数设置为 true 时，pageNum<=0 时会查询第一页，
         // pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
-        properties.setProperty("reasonable", "false");
+        //properties.setProperty("reasonable", "false");
         //如果vo里有pageNum和pageSize 再加上配置文件里supportMethodsArguments= true，
         // 那么即使不使用PageHelper.startPage(pageNum,PageSize) 也会自动分页。
-        properties.setProperty("supportMethodsArguments", "false");
+        //properties.setProperty("supportMethodsArguments", "false");
         pageInterceptor.setProperties(properties);
         //添加插件
         sqlsession.setPlugins(new Interceptor[]{pageInterceptor});

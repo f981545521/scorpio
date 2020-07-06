@@ -4,6 +4,7 @@ import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.redis.RedisUtils;
+import cn.acyou.scorpio.dto.demo.StudentVo;
 import cn.acyou.scorpio.dto.task.TaskErrorEnum;
 import cn.acyou.scorpio.mapper.system.entity.Student;
 import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
@@ -83,6 +84,16 @@ public class StudentController {
         PageData<Student> convert = PageData.convert(students);
         System.out.println(convert);
         return Result.success(convert);
+    }
+
+    @RequestMapping(value = "studentsPage", method = {RequestMethod.GET})
+    @ApiOperation("测试分页")
+    public Result<PageData<StudentVo>> studentsPage(Integer pageNum, Integer pageSize) {
+
+        //PageData<Student> convert2 =  PageData.startPage(pageNum, pageSize).selectMapper(studentService.selectAll());
+        PageData<StudentVo> convertType =  PageData.startPage(pageNum, pageSize).selectMapper(studentService.selectAll(), StudentVo.class);
+
+        return Result.success(convertType);
     }
 
     @RequestMapping(value = "students2", method = {RequestMethod.GET})
