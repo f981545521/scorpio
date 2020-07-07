@@ -31,11 +31,11 @@ public class CodeGenerator2 {
     /**
      * 1. 表名
      */
-    private static final String TABLE_NAME = "t_depot";
+    private static final String TABLE_NAME = "t_tool_param_config";
     /**
      * 2. 类名文件名(下划线也会自动转换)
      */
-    private static final String CLASS_NAME = convertCamelCase("depot");
+    private static final String CLASS_NAME = convertCamelCase("param_config");
     private static final String AUTHOR = "youfang";
 
     /**
@@ -43,19 +43,19 @@ public class CodeGenerator2 {
      */
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     private static final String ENTITY_FILE_PATH = PROJECT_PATH +
-            "\\spdapi-mapper\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\system\\entity";
+            "\\scorpio-mapper\\src\\main\\java\\cn\\acyou\\scorpio\\tool\\entity";
     private static final String MAPPER_INTERFACE_PATH = PROJECT_PATH +
-            "\\spdapi-mapper\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\system\\mapper";
+            "\\scorpio-mapper\\src\\main\\java\\cn\\acyou\\scorpio\\tool\\mapper";
     private static final String MAPPER_XML_PATH = PROJECT_PATH +
-            "\\spdapi-mapper\\src\\main\\resources\\mapper\\system";
+            "\\scorpio-mapper\\src\\main\\resources\\mapper\\tool";
 
     private static final String SERVICE_INTERFACE_PATH = PROJECT_PATH +
-            "\\spdapi-service\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\service\\system";
+            "\\scorpio-service\\src\\main\\java\\cn\\acyou\\scorpio\\service\\tool";
     private static final String SERVICE_INTERFACE_IMPL_PATH = PROJECT_PATH +
-            "\\spdapi-service\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\service\\system\\impl";
+            "\\scorpio-service\\src\\main\\java\\cn\\acyou\\scorpio\\service\\tool\\impl";
 
     private static final String CONTROLLER_PATH = PROJECT_PATH +
-            "\\spdapi-web\\src\\main\\java\\cn\\com\\zhengya\\spdapi\\controller\\system";
+            "\\scorpio-web\\src\\main\\java\\cn\\acyou\\scorpio\\controller\\tool";
     /**
      * 4. 运行Main方法
      */
@@ -140,7 +140,7 @@ public class CodeGenerator2 {
 
                     mapperContentList.add("package " + MAPPER_PACKAGE + ";\r\n");
                     mapperContentList.add("\r\n");
-                    mapperContentList.add("import cn.com.zhengya.framework.mapper.Mapper;\r\n");
+                    mapperContentList.add("import cn.acyou.framework.mapper.Mapper;\r\n");
                     mapperContentList.add("import " + ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME + ";\r\n");
                     mapperContentList.add("\r\n");
                     mapperContentList.add("/**\r\n");
@@ -230,7 +230,7 @@ public class CodeGenerator2 {
                     //service/serviceImpl and controller
                     serviceInterfaceContentList.add("package " + SERVICE_PACKAGE_LOCATION + ";\r\n");
                     serviceInterfaceContentList.add("\r\n");
-                    serviceInterfaceContentList.add("import cn.com.zhengya.framework.service.Service;\r\n");
+                    serviceInterfaceContentList.add("import cn.acyou.framework.service.Service;\r\n");
                     serviceInterfaceContentList.add("import "+ ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME +";\r\n");
                     serviceInterfaceContentList.add("\r\n");
                     serviceInterfaceContentList.add("/**\r\n");
@@ -247,7 +247,7 @@ public class CodeGenerator2 {
                     serviceInterfaceImplContentList.add("\r\n");
                     serviceInterfaceImplContentList.add("import lombok.extern.slf4j.Slf4j;\r\n");
                     serviceInterfaceImplContentList.add("import org.springframework.stereotype.Service;\r\n");
-                    serviceInterfaceImplContentList.add("import cn.com.zhengya.framework.service.ServiceImpl;\r\n");
+                    serviceInterfaceImplContentList.add("import cn.acyou.framework.service.ServiceImpl;\r\n");
                     serviceInterfaceImplContentList.add("import "+ ENTITY_PACKAGE_LOCATION + "." + CLASS_NAME +";\r\n");
                     serviceInterfaceImplContentList.add("import "+ MAPPER_PACKAGE + "." + CLASS_NAME +"Mapper;\r\n");
                     serviceInterfaceImplContentList.add("import "+ SERVICE_PACKAGE_LOCATION + "." + CLASS_NAME +"Service;\r\n");
