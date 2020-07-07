@@ -5,6 +5,8 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
+
+import cn.acyou.framework.model.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
@@ -14,7 +16,7 @@ import java.util.Date;
  * @author youfang
  */ 
 @Table(name = "t_tool_param_config")
-public class ParamConfig implements Serializable{
+public class ParamConfig extends BaseEntity {
 
     private static final long serialVersionUID = -2608376861382520568L;
 	/**
@@ -69,28 +71,6 @@ public class ParamConfig implements Serializable{
 	 */
     @Column(name = "is_delete")
     private Integer	isDelete;
-	/**
-	 * 创建时间，默认当前创建时间
-	 */
-    @Column(name = "create_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date	createTime;
-	/**
-	 * 创建人
-	 */
-    @Column(name = "create_user")
-    private Long	createUser;
-	/**
-	 * 最后修改时间
-	 */
-    @Column(name = "last_update_time")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date	lastUpdateTime;
-	/**
-	 * 最后修改人
-	 */
-    @Column(name = "last_update_user")
-    private Long	lastUpdateUser;
 
     public void setId(Long id){
         this.id = id;
@@ -162,32 +142,6 @@ public class ParamConfig implements Serializable{
         return isDelete;
     }
 
-    public void setCreateTime(Date createTime){
-        this.createTime = createTime;
-    }
-    public Date getCreateTime(){
-        return createTime;
-    }
 
-    public void setCreateUser(Long createUser){
-        this.createUser = createUser;
-    }
-    public Long getCreateUser(){
-        return createUser;
-    }
-
-    public void setLastUpdateTime(Date lastUpdateTime){
-        this.lastUpdateTime = lastUpdateTime;
-    }
-    public Date getLastUpdateTime(){
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateUser(Long lastUpdateUser){
-        this.lastUpdateUser = lastUpdateUser;
-    }
-    public Long getLastUpdateUser(){
-        return lastUpdateUser;
-    }
 
 }

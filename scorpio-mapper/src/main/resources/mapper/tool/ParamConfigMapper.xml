@@ -43,7 +43,6 @@
                 <if test="it.lastUpdateTime!=null">last_update_time = #{it.lastUpdateTime},</if>
                 <if test="it.lastUpdateUser!=null">last_update_user = #{it.lastUpdateUser},</if>
            </set>
-        </foreach>
     </sql>
 
 

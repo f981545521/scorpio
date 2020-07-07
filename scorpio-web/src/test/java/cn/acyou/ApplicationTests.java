@@ -1,6 +1,6 @@
 package cn.acyou;
 
-import cn.acyou.scorpio.mapper.system.entity.Student;
+import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.service.demo.StudentService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

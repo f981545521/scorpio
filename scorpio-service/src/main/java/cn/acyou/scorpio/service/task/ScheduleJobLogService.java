@@ -1,8 +1,8 @@
 package cn.acyou.scorpio.service.task;
 
 import cn.acyou.framework.service.Service;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJobLog;
+import cn.acyou.scorpio.tool.entity.ScheduleJob;
+import cn.acyou.scorpio.tool.entity.ScheduleJobLog;
 
 /**
  * @author youfang

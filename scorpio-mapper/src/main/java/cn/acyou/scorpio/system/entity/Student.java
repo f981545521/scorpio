@@ -1,4 +1,4 @@
-package cn.acyou.scorpio.mapper.system.entity;
+package cn.acyou.scorpio.system.entity;
 
 import cn.acyou.framework.mapper.tkMapper.annotation.LogicDelete;
 import cn.acyou.framework.mapper.tkMapper.annotation.SelectiveIgnore;
