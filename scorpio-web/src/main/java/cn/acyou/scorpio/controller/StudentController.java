@@ -3,7 +3,9 @@ package cn.acyou.scorpio.controller;
 import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
+import cn.acyou.framework.utils.TreeUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
+import cn.acyou.scorpio.dto.demo.MenuVo;
 import cn.acyou.scorpio.dto.demo.StudentSo;
 import cn.acyou.scorpio.dto.demo.StudentVo;
 import cn.acyou.scorpio.dto.task.TaskErrorEnum;
@@ -123,6 +125,23 @@ public class StudentController {
                 .selectMapper(studentService.selectByProperties("age", studentSo.getAge()));
 
         return Result.success(name);
+    }
+
+    @RequestMapping(value = "testTreeUtil", method = {RequestMethod.GET})
+    @ApiOperation("测试=TreeUtil")
+    public Result<?> testTreeUtil() {
+        List<MenuVo> menuVoList = new ArrayList<>();
+        menuVoList.add(new MenuVo(1L, 0L, "顶级目录1"));
+        menuVoList.add(new MenuVo(2L, 0L, "顶级目录2"));
+        menuVoList.add(new MenuVo(3L, 1L, "目录3"));
+        menuVoList.add(new MenuVo(4L, 1L, "目录4"));
+        menuVoList.add(new MenuVo(5L, 1L, "目录5"));
+        menuVoList.add(new MenuVo(6L, 2L, "目录6"));
+        menuVoList.add(new MenuVo(7L, 2L, "目录7"));
+        menuVoList.add(new MenuVo(8L, 4L, "目录8"));
+
+        List<MenuVo> menuVoList1 = TreeUtil.generateTrees(menuVoList);
+        return Result.success(menuVoList1);
     }
 
 
