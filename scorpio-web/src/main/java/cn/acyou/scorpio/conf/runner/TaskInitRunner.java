@@ -1,7 +1,7 @@
 package cn.acyou.scorpio.conf.runner;
 
 import cn.acyou.framework.utils.SpringHelper;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
+import cn.acyou.scorpio.tool.entity.ScheduleJob;
 import cn.acyou.scorpio.schedules.base.TaskParent;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import lombok.extern.slf4j.Slf4j;

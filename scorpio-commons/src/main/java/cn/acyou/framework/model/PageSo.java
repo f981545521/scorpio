@@ -38,4 +38,5 @@ public class PageSo implements Serializable {
     public void setSorts(String sorts) {
         this.sorts = sorts;
     }
+
 }

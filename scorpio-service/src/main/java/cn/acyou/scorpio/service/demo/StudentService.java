@@ -1,7 +1,7 @@
 package cn.acyou.scorpio.service.demo;
 
 import cn.acyou.framework.service.Service;
-import cn.acyou.scorpio.mapper.system.entity.Student;
+import cn.acyou.scorpio.system.entity.Student;
 
 /**
  * @author youfang

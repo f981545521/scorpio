@@ -1,7 +1,7 @@
-package cn.acyou.scorpio.mapper.task.mapper;
+package cn.acyou.scorpio.tool.mapper;
 
 import cn.acyou.framework.mapper.Mapper;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJobLog;
+import cn.acyou.scorpio.tool.entity.ScheduleJobLog;
 
 /**
  * t_task_schedule_job_log Mapper

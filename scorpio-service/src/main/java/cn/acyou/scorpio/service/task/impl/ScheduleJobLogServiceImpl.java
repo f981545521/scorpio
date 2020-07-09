@@ -2,9 +2,9 @@ package cn.acyou.scorpio.service.task.impl;
 
 import cn.acyou.framework.constant.Constant;
 import cn.acyou.framework.service.ServiceImpl;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJob;
-import cn.acyou.scorpio.mapper.task.entity.ScheduleJobLog;
-import cn.acyou.scorpio.mapper.task.mapper.ScheduleJobLogMapper;
+import cn.acyou.scorpio.tool.entity.ScheduleJob;
+import cn.acyou.scorpio.tool.entity.ScheduleJobLog;
+import cn.acyou.scorpio.tool.mapper.ScheduleJobLogMapper;
 import cn.acyou.scorpio.service.task.ScheduleJobLogService;
 import cn.acyou.scorpio.service.task.ScheduleJobService;
 import org.springframework.beans.factory.annotation.Autowired;

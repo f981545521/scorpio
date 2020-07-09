@@ -1,8 +1,8 @@
 package cn.acyou.scorpio.service.demo;
 
 import cn.acyou.framework.utils.RandomUtil;
-import cn.acyou.scorpio.mapper.system.entity.Student;
-import cn.acyou.scorpio.mapper.system.mapper.StudentMapper;
+import cn.acyou.scorpio.system.entity.Student;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
