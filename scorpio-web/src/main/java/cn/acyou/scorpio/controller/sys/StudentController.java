@@ -21,6 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -149,6 +150,7 @@ public class StudentController {
     @RequestMapping(value = "checkNotNullAnnotation", method = {RequestMethod.GET})
     @ApiOperation("检查NotNull注解的有效性")
     public Result<Void> checkNotNullAnnotation(@ParamValid @BaseValid(notNull = true) String name){
+        Assert.notNull(name, "name不呢为空！");
         System.out.println("检查NotNull注解的有效性" + name);
         return Result.success();
     }

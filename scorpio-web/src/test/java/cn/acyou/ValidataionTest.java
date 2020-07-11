@@ -1,6 +1,7 @@
 package cn.acyou;
 
-import javax.validation.constraints.NotNull;
+
+import cn.acyou.framework.utils.Assert;
 
 /**
  * @author youfang
@@ -13,26 +14,10 @@ public class ValidataionTest {
         System.out.println("正常结束了：" + string);
     }
 
-    public static String getString(@NotNull Stu stu){
-        System.out.println("进入了");
-        return stu.getName();
-    }
-
-
-}
-
-class Stu{
-    @NotNull
-    private String name;
-
-    public Stu() {
-    }
-
-    public String getName() {
+    public static String getString(String name){
+        Assert.notNull(name, "name不呢为空！");
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 }
