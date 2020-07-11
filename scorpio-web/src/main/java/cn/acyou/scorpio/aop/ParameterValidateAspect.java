@@ -2,6 +2,7 @@ package cn.acyou.scorpio.aop;
 
 import cn.acyou.framework.valid.EnhanceValidUtil;
 import cn.acyou.framework.valid.annotation.ParamValid;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,6 +19,7 @@ import java.lang.annotation.Annotation;
  * 2、interceptor，spring框架的拦截器。
  * 3、aspect，可以自定义要切入的类甚至再细的方法，粒度最小。加个注解用效果更佳。
  */
+@Slf4j
 @Aspect
 @Component
 public class ParameterValidateAspect {
@@ -29,13 +31,14 @@ public class ParameterValidateAspect {
      * <p>
      * 所有Controller 的请求
      */
-    @Pointcut("execution(* cn.acyou.scorpio.controller.*.*(..))")
+    @Pointcut("execution(* cn.acyou.scorpio.controller.*..*(..))")
     public void parameterValid() {
 
     }
 
     @Before("parameterValid()")
     public void before(JoinPoint jp) {
+        log.info("执行参数校验.....");
         MethodSignature methodSignature = (MethodSignature) jp.getSignature();
         Annotation[][] parameterAnnotations = methodSignature.getMethod().getParameterAnnotations();
         Object[] args = jp.getArgs();
@@ -48,6 +51,7 @@ public class ParameterValidateAspect {
                 }
             }
         }
+        log.info("执行参数完成!");
     }
 
 

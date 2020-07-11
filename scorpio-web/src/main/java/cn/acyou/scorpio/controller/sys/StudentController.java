@@ -1,18 +1,20 @@
-package cn.acyou.scorpio.controller;
+package cn.acyou.scorpio.controller.sys;
 
 import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.TreeUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
+import cn.acyou.framework.valid.annotation.BaseValid;
+import cn.acyou.framework.valid.annotation.ParamValid;
 import cn.acyou.scorpio.dto.demo.MenuVo;
 import cn.acyou.scorpio.dto.demo.StudentSo;
 import cn.acyou.scorpio.dto.demo.StudentVo;
 import cn.acyou.scorpio.dto.task.TaskErrorEnum;
-import cn.acyou.scorpio.system.entity.Student;
-import cn.acyou.scorpio.system.mapper.StudentMapper;
 import cn.acyou.scorpio.service.demo.StudentService;
 import cn.acyou.scorpio.service.demo.StudentService2;
+import cn.acyou.scorpio.system.entity.Student;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
 import com.github.pagehelper.PageHelper;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
@@ -143,6 +145,14 @@ public class StudentController {
         List<MenuVo> menuVoList1 = TreeUtil.generateTrees(menuVoList);
         return Result.success(menuVoList1);
     }
+
+    @RequestMapping(value = "checkNotNullAnnotation", method = {RequestMethod.GET})
+    @ApiOperation("检查NotNull注解的有效性")
+    public Result<Void> checkNotNullAnnotation(@ParamValid @BaseValid(notNull = true) String name){
+        System.out.println("检查NotNull注解的有效性" + name);
+        return Result.success();
+    }
+
 
 
 }
