@@ -20,12 +20,13 @@ public class SpringMvcInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+        log.info("———————————————————————————— SpringMvcInterceptor start ————————————————————————————");
         return super.preHandle(request, response, handler);
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        log.info("———————————————————————————— SpringMvcInterceptor end ————————————————————————————");
         super.afterCompletion(request, response, handler, ex);
     }
 }

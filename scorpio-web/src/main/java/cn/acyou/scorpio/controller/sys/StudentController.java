@@ -25,6 +25,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.RequestHandler;
+import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,9 @@ import java.util.List;
 @RequestMapping("/student")
 @Api(value = "学生", description = "学生的增删改查", tags = "学生接口")
 public class StudentController {
+
+    @Autowired
+    private WebMvcRequestHandlerProvider mvcRequestHandlerProvider;
 
     @Autowired
     private RedisUtils redisUtils;
@@ -152,6 +157,13 @@ public class StudentController {
     public Result<Void> checkNotNullAnnotation(@ParamValid @BaseValid(notNull = true) String name){
         Assert.notNull(name, "name不呢为空！");
         System.out.println("检查NotNull注解的有效性" + name);
+        return Result.success();
+    }
+
+    @RequestMapping(value = "swaggerResult", method = {RequestMethod.GET})
+    @ApiOperation("Swagger扫描结果")
+    public Result<Void> swaggerResult(){
+        List<RequestHandler> requestHandlers = mvcRequestHandlerProvider.requestHandlers();
         return Result.success();
     }
 

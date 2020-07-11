@@ -10,9 +10,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +36,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         for (HandlerInterceptor handlerInterceptor : interceptorList) {
-            registry.addInterceptor(handlerInterceptor);
+            if (handlerInterceptor instanceof SpringMvcInterceptor){
+                List<String> excludePaths = new ArrayList<>();
+                excludePaths.add("/static/*");
+                /* Swagger */
+                excludePaths.add("/swagger-ui.html");
+                excludePaths.add("/swagger-resources/*");
+                excludePaths.add("/v2/*");
+                registry.addInterceptor(handlerInterceptor).excludePathPatterns(excludePaths);
+            }else {
+                registry.addInterceptor(handlerInterceptor);
+            }
         }
     }
 
@@ -42,6 +56,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        //静态资源文件映射，然后就可以直接访问
+        registry.addResourceHandler("/static/**")
+                .addResourceLocations("classpath:/static/");
 
     }
 
