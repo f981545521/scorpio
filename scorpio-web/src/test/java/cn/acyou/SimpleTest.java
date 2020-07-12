@@ -1,11 +1,9 @@
 package cn.acyou;
 
-import cn.acyou.framework.model.BaseEntity;
-import cn.acyou.scorpio.schedules.TestTask;
+import cn.acyou.framework.utils.Assert;
 import cn.acyou.scorpio.tool.entity.ParamConfig;
-import org.springframework.util.ClassUtils;
+import org.junit.Test;
 
-import java.beans.Introspector;
 import java.util.Date;
 
 /**
@@ -27,5 +25,17 @@ public class SimpleTest {
         System.out.println(paramConfig.getCreateUser());
         System.out.println(paramConfig.getCreateTime());
 
+    }
+
+    @Test
+    public void test1(){
+        System.out.println("come on");
+        outName(null);
+    }
+
+    private static String outName(String name){
+        Assert.notNull(name, "name 不能为空！");
+        System.out.println(name);
+        return name;
     }
 }
