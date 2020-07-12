@@ -34,7 +34,8 @@ public class SimpleTest {
     }
 
     private static String outName(String name){
-        Assert.notNull(name, "name 不能为空！");
+        //assert name != null;//java.lang.AssertionError
+        Assert.notNull(name, "name 不能为空！");//cn.acyou.framework.exception.AssertException: name 不能为空！
         System.out.println(name);
         return name;
     }
