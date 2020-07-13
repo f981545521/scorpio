@@ -3,6 +3,7 @@ package cn.acyou.scorpio.controller.sys;
 import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
+import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.TreeUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
 import cn.acyou.framework.valid.annotation.BaseValid;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,6 +167,20 @@ public class StudentController {
     @ApiOperation("Swagger扫描结果")
     public Result<Void> swaggerResult(){
         List<RequestHandler> requestHandlers = mvcRequestHandlerProvider.requestHandlers();
+        return Result.success();
+    }
+    @RequestMapping(value = "cookieTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("cookie测试")
+    public Result<Void> cookieTest(HttpServletResponse response){
+        Cookie cookie = new Cookie("scorpio-test", RandomUtil.createRandomStr(10));
+        cookie.setHttpOnly(true);
+        //过期时间：1年
+        cookie.setMaxAge(365 * 24 * 60 * 60);
+        cookie.setPath("/");
+
+
+        response.addCookie(cookie);
+        System.out.println("ok");
         return Result.success();
     }
 

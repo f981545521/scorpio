@@ -79,14 +79,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
 
     /**
-     * 使用CORS解决解决跨域问题
+     * 使用CORS解决解决跨域问题（必须）
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("*")
                 .allowCredentials(true)
-                .allowedMethods("GET", "POST", "DELETE", "PUT");
+                .allowedMethods("OPTIONS", "GET", "POST", "DELETE", "PUT");
     }
 
     @Override
