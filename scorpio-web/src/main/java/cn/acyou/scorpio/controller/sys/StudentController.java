@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -181,6 +182,27 @@ public class StudentController {
 
         response.addCookie(cookie);
         System.out.println("ok");
+        return Result.success();
+    }
+
+    @RequestMapping(value = "cookieTest2", method = {RequestMethod.POST})
+    @ApiOperation("cookie测试")
+    public Result<Void> cookieTest2(){
+        return Result.success();
+    }
+    @RequestMapping(value = "voParamTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("复杂参数测试")
+    public Result<Void> voParamTest(@RequestBody StudentVo studentVo){
+        System.out.println(studentVo);
+        return Result.success();
+    }
+    @RequestMapping(value = "singleParamTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("单个参数测试")
+    public Result<Void> singleParamTest(@RequestBody String name){
+        System.out.println(name);
+        if ("caocao".equals(name)){
+            throw new ServiceException("name 不能是 caocao");
+        }
         return Result.success();
     }
 

@@ -4,6 +4,7 @@ import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.Result;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,6 +23,15 @@ import java.io.PrintWriter;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseBody
+    public Result<Object> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, Exception e){
+        Result<Object> resultInfo = Result.error();
+        //org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
+        resultInfo.setMessage(e.getMessage());
+        return resultInfo;
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseBody

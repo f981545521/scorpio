@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -80,13 +82,31 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 使用CORS解决解决跨域问题（必须）
+     * 使用此方法配置之后再使用自定义拦截器时跨域相关配置就会失效。
+     * 导致ControllerAdvice中的HttpRequestMethodNotSupportedException不能被拦截处理。
      */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowCredentials(true)
-                .allowedMethods("OPTIONS", "GET", "POST", "DELETE", "PUT");
+    //@Override
+    //public void addCorsMappings(CorsRegistry registry) {
+    //    registry.addMapping("/**")
+    //            .allowedOrigins("*")
+    //            .allowCredentials(true)
+    //            //注意：此处不能加"OPTIONS"，会导致页面发起options请求
+    //            .allowedMethods("GET", "POST", "DELETE", "PUT");
+    //}
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        List<String> list = new ArrayList<>();
+        list.add("*");
+        corsConfiguration.setAllowedOrigins(list);
+        corsConfiguration.addAllowedHeader("*");// 允许任何的head头部
+        corsConfiguration.addAllowedOrigin("*");// 允许任何域名使用
+        corsConfiguration.addAllowedMethod("*");// 允许任何的请求方法
+        corsConfiguration.setAllowCredentials(true);// 允许发送Cookie
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return new CorsFilter(source);
     }
 
     @Override
