@@ -62,6 +62,15 @@
         <appender-ref ref="console"/>
         <appender-ref ref="file_error"/>
     </root>
+
+    <!-- 分环境日志等级：开发、测试 -->
+<!--    <springProfile name="dev,test">
+        <root>
+            <level value="DEBUG"/>
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>-->
+
     <!-- 配置框架的过滤级别 -->
     <logger name="springfox" level="INFO"/>
     <logger name="io.lettuce.core.protocol" level="INFO"/>

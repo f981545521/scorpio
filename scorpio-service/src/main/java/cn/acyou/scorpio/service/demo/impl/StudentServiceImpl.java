@@ -61,4 +61,20 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public void flushCache(Integer id) {
         System.out.println("缓存测试：根据主键删除缓存：" + id);
     }
+
+    @Override
+    public void testSelectAndUpdateAndSelect() {
+        Integer userId = 7;
+        Student dbStudent = baseMapper.selectByPrimaryKey(userId);
+        Student updateStudent = new Student();
+        updateStudent.setId(userId);
+        updateStudent.setName(RandomUtil.randomUserName());
+        baseMapper.updateByPrimaryKeySelective(updateStudent);
+
+        Student student = baseMapper.selectByPrimaryKey(userId);
+        System.out.println("最新的数据");
+        System.out.println(student);
+
+
+    }
 }

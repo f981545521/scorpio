@@ -1,10 +1,15 @@
 package cn.acyou;
 
-import cn.acyou.framework.utils.Assert;
 import cn.acyou.scorpio.tool.entity.ParamConfig;
 import org.junit.Test;
+import org.junit.Test;
+import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
+import javax.validation.constraints.NotNull;
+import java.beans.Introspector;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author youfang
@@ -16,19 +21,32 @@ public class SimpleTest {
         //String shortClassName = ClassUtils.getShortName(TestTask.class);
         //System.out.println(Introspector.decapitalize(shortClassName));
 
-        ParamConfig paramConfig = new ParamConfig();
-        paramConfig.setCreateUser(123L);
-        paramConfig.setCreateTime(new Date());
-        paramConfig.setName("好的");
-        System.out.println(paramConfig);
+        //ParamConfig paramConfig = new ParamConfig();
+        //paramConfig.setCreateUser(123L);
+        //paramConfig.setCreateTime(new Date());
+        //paramConfig.setName("好的");
+        //System.out.println(paramConfig);
+        //System.out.println(paramConfig.getCreateUser());
+        //System.out.println(paramConfig.getCreateTime());
 
-        System.out.println(paramConfig.getCreateUser());
-        System.out.println(paramConfig.getCreateTime());
-
+        testNotNullAnnotation(null);
     }
 
     @Test
     public void test1(){
+        System.out.println(UUID.randomUUID());
+        System.out.println(UUID.randomUUID().toString());
+        System.out.println(UUID.randomUUID().toString().replace("-", ""));
+        System.out.println(UUID.randomUUID().toString().replace("-", "").length());
+        System.out.println("8b37fc19c27011ea8c580242ac110002".length());
+    }
+
+    public static void testNotNullAnnotation(@NotNull Long userId){
+        System.out.println(userId);
+    }
+
+    @Test
+    public void test3(){
         System.out.println("come on");
         outName(null);
     }

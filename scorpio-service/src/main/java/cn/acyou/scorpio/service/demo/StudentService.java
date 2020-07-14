@@ -15,4 +15,6 @@ public interface StudentService extends Service<Student> {
 
     void flushCache(Integer id);
 
+    void testSelectAndUpdateAndSelect();
+
 }
