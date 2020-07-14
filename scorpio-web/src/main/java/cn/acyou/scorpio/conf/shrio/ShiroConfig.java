@@ -1,6 +1,7 @@
 package cn.acyou.scorpio.conf.shrio;
 
-import org.apache.shiro.cache.MemoryConstrainedCacheManager;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -31,7 +33,13 @@ public class ShiroConfig {
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
 
         //主要这行代码必须放在所有权限设置的最后，不然会导致所有 url 都被拦截 剩余的都需要认证
-        filterChainDefinitionMap.put("/**", "anon");
+
+
+        Map<String, Filter> filter = new LinkedHashMap<>(1);
+        filter.put("jwt", new ShiroAuthFilter());
+        shiroFilterFactoryBean.setFilters(filter);
+
+        filterChainDefinitionMap.put("/**", "jwt");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
 
@@ -41,8 +49,17 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager defaultSecurityManager = new DefaultWebSecurityManager();
         defaultSecurityManager.setRealm(customRealm());
-        MemoryConstrainedCacheManager cacheManager = new MemoryConstrainedCacheManager();
-        defaultSecurityManager.setCacheManager(cacheManager);
+
+        /*
+         * 关闭shiro自带的session，详情见文档
+         */
+        DefaultSubjectDAO subjectDAO = new DefaultSubjectDAO();
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        subjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        defaultSecurityManager.setSubjectDAO(subjectDAO);
+        //停用rememberMe: Set-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 13-Jul-2020 16:07:18 GMT
+        defaultSecurityManager.setRememberMeManager(null);
         return defaultSecurityManager;
     }
 

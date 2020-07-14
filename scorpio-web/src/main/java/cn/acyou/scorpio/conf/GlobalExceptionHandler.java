@@ -4,7 +4,6 @@ import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.Result;
 import com.google.common.base.Throwables;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,10 +33,7 @@ public class GlobalExceptionHandler {
             resultInfo.setCode(400);
             resultInfo.setMessage(t.getMessage());
             resultInfo.setData(e.getMessage());
-        } else if (t instanceof AuthorizationException) {
-            resultInfo.setCode(402);
-            resultInfo.setMessage("您没有权限！");
-        } else {
+        }  else {
             e.printStackTrace();
             try {
                 //未知异常打印堆栈信息到data中。
