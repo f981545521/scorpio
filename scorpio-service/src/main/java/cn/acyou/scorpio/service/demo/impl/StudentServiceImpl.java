@@ -1,15 +1,21 @@
 package cn.acyou.scorpio.service.demo.impl;
 
+import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.framework.utils.DateUtil;
 import cn.acyou.framework.utils.RandomUtil;
+import cn.acyou.scorpio.service.demo.StudentService;
 import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.system.mapper.StudentMapper;
-import cn.acyou.scorpio.service.demo.StudentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
@@ -24,6 +30,9 @@ import java.util.List;
 @Slf4j
 @Service
 public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
 
     @Override
     public void studentTest() {
@@ -74,7 +83,24 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         Student student = baseMapper.selectByPrimaryKey(userId);
         System.out.println("最新的数据");
         System.out.println(student);
+    }
 
+    @Override
+    public void addInsertAndThrowException() {
+        // 已经有了事务，即使下面的方法 NOT_SUPPORTED 事务也不会回滚
+        // transactionNotSupportAdd();
+        taskExecutor.execute(this::transactionNotSupportAdd);
 
+        throw new ServiceException("用户不存在！");
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, isolation = Isolation.DEFAULT)
+    public void transactionNotSupportAdd(){
+        Student addStudent = new Student();
+        addStudent.setName(RandomUtil.randomUserName());
+        addStudent.setAge(RandomUtil.randomAge());
+        addStudent.setBirth(new Date());
+        this.insertSelective(addStudent);
+        System.out.println(addStudent);
     }
 }

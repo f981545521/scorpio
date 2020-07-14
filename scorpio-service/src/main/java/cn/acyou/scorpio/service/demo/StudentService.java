@@ -17,4 +17,5 @@ public interface StudentService extends Service<Student> {
 
     void testSelectAndUpdateAndSelect();
 
+    void addInsertAndThrowException();
 }

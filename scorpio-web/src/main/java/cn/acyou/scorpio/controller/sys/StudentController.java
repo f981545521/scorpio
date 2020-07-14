@@ -206,6 +206,12 @@ public class StudentController {
         return Result.success();
     }
 
+    @RequestMapping(value = "insertAndThrowException", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("插入并抛出异常会回滚吗")
+    public Result<Void> insertAndThrowException(){
+        studentService.addInsertAndThrowException();
+        return Result.success();
+    }
 
 
 }
