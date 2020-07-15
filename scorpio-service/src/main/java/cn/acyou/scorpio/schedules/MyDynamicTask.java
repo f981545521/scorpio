@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * @version [1.0.0, 2020-4-4 下午 09:20]
  **/
 @Slf4j
-@Component
+@Component(value = "dynamicTask")
 public class MyDynamicTask extends TaskParent {
 
     @Override

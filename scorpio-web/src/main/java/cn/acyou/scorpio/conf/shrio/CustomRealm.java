@@ -11,6 +11,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,9 +24,13 @@ import java.util.Set;
 public class CustomRealm extends AuthorizingRealm {
 
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) SecurityUtils.getSubject().getPrincipal();
-        log.info("———— shiro [ 权限认证：roles、permissions] ———— username:" + username);
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JWTToken;
+    }
+
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection token) {
+        log.info("———— shiro [ 权限认证：roles、permissions] ———— token:" + token);
         SimpleAuthorizationInfo authInfo = new SimpleAuthorizationInfo();
         // 设置用户拥有的角色集合，比如“admin,auditor,developer”
         Set<String> userRoles = new HashSet<>();
@@ -39,24 +44,13 @@ public class CustomRealm extends AuthorizingRealm {
         return authInfo;
     }
 
-    /**
-     * 这里可以注入userService,为了方便演示，我就写死了帐号了密码
-     * private UserService userService;
-     * <p>
-     * 获取即将需要认证的信息
-     */
+
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        log.info("———————————— shiro [身份认证] ————————————");
+        String token = (String) authenticationToken.getCredentials();
+        log.info("———————————— shiro [身份认证] ————————————" + token);
+        //token已经过期
         String userName = (String) authenticationToken.getPrincipal();
-        String userPwd = new String((char[]) authenticationToken.getCredentials());
-        //根据用户名从数据库获取密码
-        String password = "123";
-        if (userName == null) {
-            throw new ServiceException("用户名不正确");
-        } else if (!userPwd.equals(password)) {
-            throw new ServiceException("密码不正确");
-        }
-        return new SimpleAuthenticationInfo(userName, password, getName());
+        return new SimpleAuthenticationInfo(token, token, getName());
     }
 }

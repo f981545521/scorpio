@@ -41,8 +41,9 @@ public class ShiroController {
         // 在认证提交前准备 token（令牌）
         UsernamePasswordToken token = new UsernamePasswordToken("admin", "123");
         // 执行认证登陆
+        subject.login(token);
         try {
-            subject.login(token);
+            //
         } catch (UnknownAccountException uae) {
             return Result.error("未知账户");
         } catch (IncorrectCredentialsException ice) {

@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.beans.Introspector;
@@ -21,6 +22,7 @@ import java.util.List;
  **/
 @RestController
 @Api(tags = "动态定时任务", description = "SpringBoot Schedule 实现定时任务")
+@RequestMapping(value = "task")
 public class TaskController {
 
     @Autowired
