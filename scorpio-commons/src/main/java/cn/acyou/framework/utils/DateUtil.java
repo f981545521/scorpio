@@ -18,7 +18,9 @@ public final class DateUtil {
     public static final String DATE_DAY_MAX_TIME = " 23:59:59";
     public static final String DATE_SERIES_FORMAT_PATTERN = "yyyyMMddHHmmss";
     public final static char[] upper = "〇一二三四五六七八九十".toCharArray();
-    /** 月 */
+    /**
+     * 月
+     */
     public static final int JANUARY = 1;
     public static final int FEBRUARY = 2;
     public static final int MARCH = 3;
@@ -31,7 +33,9 @@ public final class DateUtil {
     public static final int OCTOBER = 10;
     public static final int NOVEMBER = 11;
     public static final int DECEMBER = 12;
-    /** 周 */
+    /**
+     * 周
+     */
     public static final int MONDAY = 1;
     public static final int TUESDAY = 2;
     public static final int WEDNESDAY = 3;
@@ -81,7 +85,7 @@ public final class DateUtil {
      *
      * @param date 日期
      * @param day  天数
-     * @return
+     * @return date
      */
     public static Date addDay(Date date, int day) {
         return new DateTime(date).plusDays(day).toDate();
@@ -92,7 +96,7 @@ public final class DateUtil {
      *
      * @param date 日期
      * @param day  天数
-     * @return
+     * @return date
      */
     public static Date minusDay(Date date, int day) {
         return new DateTime(date).minusDays(day).toDate();
@@ -103,12 +107,15 @@ public final class DateUtil {
      *
      * @param date  日期
      * @param month 月
-     * @return
+     * @return date
      */
     public static Date addMonth(Date date, int month) {
         return new DateTime(date).plusMonths(month).toDate();
-    }    /**
+    }
+
+    /**
      * 向日期增加年数
+     *
      * @param date 日期
      * @param year 年
      * @return
@@ -127,8 +134,10 @@ public final class DateUtil {
     public static Date minusMonth(Date date, int month) {
         return new DateTime(date).minusMonths(month).toDate();
     }
+
     /**
      * 向日期减少年数
+     *
      * @param date 日期
      * @param year 年
      * @return
@@ -136,6 +145,7 @@ public final class DateUtil {
     public static Date minusYear(Date date, int year) {
         return new DateTime(date).minusYears(year).toDate();
     }
+
     /**
      * 向日期增加小时
      *
@@ -281,10 +291,11 @@ public final class DateUtil {
     public static int age(Date birthDay, Date dateToCompare) {
         return getDiffYears(birthDay, dateToCompare);
     }
+
     /**
      * 计算生日到现在的年龄
      *
-     * @param birthDay      生日
+     * @param birthDay 生日
      * @return 年龄
      */
     public static int age(Date birthDay) {
@@ -322,6 +333,7 @@ public final class DateUtil {
 
     /**
      * 获取指定日期的 yyyy-MM-dd 23:59:59 格式
+     *
      * @param date 日期
      * @return
      */
@@ -329,16 +341,20 @@ public final class DateUtil {
         String dateFormat = getDateFormat(date, DEFAULT_DATE_FORMAT_PATTERN);
         return dateFormat + DATE_DAY_MAX_TIME;
     }
+
     /**
      * 获取指定日期的 yyyy-MM-dd 23:59:59 格式
+     *
      * @param date 日期
      * @return Date
      */
     public static Date getDateMaxTime(Date date) {
         return new DateTime(date).withHourOfDay(23).withMinuteOfHour(59).withSecondOfMinute(59).toDate();
     }
+
     /**
      * 获取指定日期的 yyyy-MM-dd 00:00:00 格式
+     *
      * @param date 日期
      * @return
      */
@@ -346,8 +362,10 @@ public final class DateUtil {
         String dateFormat = getDateFormat(date, DEFAULT_DATE_FORMAT_PATTERN);
         return dateFormat + DATE_DAY_MIN_TIME;
     }
+
     /**
      * 获取指定日期的 yyyy-MM-dd 00:00:00 格式
+     *
      * @param date 日期
      * @return Date
      */
@@ -386,10 +404,14 @@ public final class DateUtil {
      * @return
      */
     public static String getUpperDate(String date) {
-        if (date == null) return "";
+        if (date == null) {
+            return "";
+        }
         //非数字的都去掉
         date = date.replaceAll("\\D", "");
-        if (date.length() != 8) return "";
+        if (date.length() != 8) {
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < 4; i++) {//年
             sb.append(upper[Integer.parseInt(date.substring(i, i + 1))]);
@@ -411,9 +433,12 @@ public final class DateUtil {
         } else {
             sb.append(upper[day / 10]).append("十");
             int tmp = day % 10;
-            if (tmp != 0) sb.append(upper[tmp]);
+            if (tmp != 0) {
+                sb.append(upper[tmp]);
+            }
         }
-        sb.append("日");//拼接日
+        //拼接日
+        sb.append("日");
         return sb.toString();
     }
 
@@ -450,6 +475,7 @@ public final class DateUtil {
         String monthEN = getMonthEN(dateTime.getMonthOfYear());
         return monthEN + " " + dateTime.getDayOfMonth() + "." + dateTime.getYear();
     }
+
     /**
      * 获取指定哪一周的哪一天
      *
@@ -457,99 +483,113 @@ public final class DateUtil {
      *                 -1 上周
      *                 0  本周
      *                 1  下周
-     * @param whichDay  哪一天
+     * @param whichDay 哪一天
      *                 1 ~ 7 {@link #MONDAY} ~ {@link #SUNDAY}
-     *  <pre>
-     *      appointDayWithWeek(-1, 7)   上周日
-     *      appointDayWithWeek(0, 6)    本周六
-     *      appointDayWithWeek(2, 3)    下下周三
-     *  </pre>
-     *  注：时间还是当前时间。
+     * <pre>
+     *     appointDayWithWeek(-1, 7)   上周日
+     *     appointDayWithWeek(0, 6)    本周六
+     *     appointDayWithWeek(2, 3)    下下周三
+     * </pre>
+     *                 注：时间还是当前时间。
      * @return {@link Date}
      */
-    public static Date appointDayWithWeek(int whatWeek, int whichDay){
+    public static Date appointDayWithWeek(int whatWeek, int whichDay) {
         DateTime dateTime = new DateTime().plusWeeks(whatWeek);
         return dateTime.withDayOfWeek(whichDay).toDate();
     }
 
     /**
      * 获取两个日期相差的秒数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的秒数
      */
-    public static int getDiffSeconds(Date startDate, Date endDate){
+    public static int getDiffSeconds(Date startDate, Date endDate) {
         return Seconds.secondsBetween(new DateTime(startDate), new DateTime(endDate)).getSeconds();
     }
+
     /**
      * 获取两个日期相差的分数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的秒数
      */
-    public static int getDiffMinutes(Date startDate, Date endDate){
+    public static int getDiffMinutes(Date startDate, Date endDate) {
         return Minutes.minutesBetween(new DateTime(startDate), new DateTime(endDate)).getMinutes();
     }
+
     /**
      * 获取两个日期相差的天数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的天数
      */
-    public static int getDiffHours(Date startDate, Date endDate){
+    public static int getDiffHours(Date startDate, Date endDate) {
         return Hours.hoursBetween(new DateTime(startDate), new DateTime(endDate)).getHours();
     }
 
     /**
      * 获取两个日期相差的天数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的天数
      */
-    public static int getDiffDays(Date startDate, Date endDate){
+    public static int getDiffDays(Date startDate, Date endDate) {
         return Days.daysBetween(new DateTime(startDate), new DateTime(endDate)).getDays();
     }
+
     /**
      * 获取两个日期相差的年数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的年数
      */
-    public static int getDiffYears(Date startDate, Date endDate){
+    public static int getDiffYears(Date startDate, Date endDate) {
         return Years.yearsBetween(new DateTime(startDate), new DateTime(endDate)).getYears();
     }
+
     /**
      * 获取两个日期相差的月数
-     *
+     * <p>
      * startDate<endDate 正数
      * startDate>endDate 负数
      *
      * @param startDate 开始
-     * @param endDate 结束
+     * @param endDate   结束
      * @return 两个日期相差的月数
      */
-    public static int getDiffMonths(Date startDate, Date endDate){
+    public static int getDiffMonths(Date startDate, Date endDate) {
         return Months.monthsBetween(new DateTime(startDate), new DateTime(endDate)).getMonths();
+    }
+
+    /**
+     * 根据毫秒数创建日期
+     *
+     * @param milliseconds 毫秒
+     * @return {@link Date}
+     */
+    public static Date newDate(long milliseconds) {
+        return new DateTime(milliseconds).toDate();
     }
 
     public static void main(String[] args) {
