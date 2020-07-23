@@ -1,14 +1,16 @@
+-- 数据库初始化脚本（全量）
+CREATE DATABASE IF NOT EXISTS scorpio DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_bin;
+
+USE scorpio;
+
 CREATE TABLE `student`(
     `id`    int(10) NOT NULL AUTO_INCREMENT,
     `name`  varchar(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
     `age`   int(3) NOT NULL DEFAULT '0',
     `birth` datetime not null default now(),
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT ='学生';
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_bin COMMENT ='学生';
 
--- ----------------------------
--- Records of student
--- ----------------------------
 INSERT INTO `student` VALUES ('1', '刘备', '34', now());
 INSERT INTO `student` VALUES ('2', '曹操', '45', now());
 INSERT INTO `student` VALUES ('3', '孙权', '43', now());
@@ -29,7 +31,7 @@ CREATE TABLE `t_task_schedule_job`(
     `last_execute_time`     datetime      DEFAULT NULL COMMENT '上次执行成功时间',
     PRIMARY KEY (`job_id`)
 ) ENGINE = `InnoDB` DEFAULT CHARACTER SET utf8mb4 COMMENT ='定时任务';
-INSERT INTO `t_task_schedule_job`(`job_id`, `bean_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES (1, 'myDynamicTask', NULL, '0/5 * * * * *', 0, NULL, '2020-04-04 21:56:48');
+INSERT INTO `t_task_schedule_job`(`job_id`, `bean_name`, `params`, `cron_expression`, `status`, `remark`, `create_time`) VALUES (1, 'myDynamicTask', NULL, '0/5 * * * * *', 1, NULL, '2020-04-04 21:56:48');
 
 -- 定时任务日志
 drop table if exists t_task_schedule_job_log;
