@@ -2,7 +2,9 @@ package cn.acyou.framework.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.OptionalDouble;
 
 /**
  * @author youfang
@@ -55,7 +57,25 @@ public class MathUtil {
     }
 
     public static void main(String[] args) {
-        Object[] numbers = new Object[]{2,3,4,5,6};
-        System.out.println(averageDouble(numbers).intValue());
+        System.out.println(createMaxLong(18));
     }
+
+    /**
+     * 创建指定长度的最大long类型
+     *
+     * Long.MAX_VALUE: 9223372036854775807
+     *
+     * @param length 长度 <=18
+     * @return long
+     */
+    public static long createMaxLong(int length) {
+        if (length == 0){
+            return 0;
+        }
+        if (length > 18){
+            throw new IllegalArgumentException("length must be less than 18 .");
+        }
+        return Long.parseLong(StringUtil.concatLengthChar(length, '9'));
+    }
+
 }

@@ -753,6 +753,14 @@ public class RedisUtils {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
+    /**
+     * 设置过期时间
+     *
+     * @param key      key
+     * @param timeout  超时
+     * @param timeUnit 时间单位
+     * @return {@link Boolean}
+     */
     public Boolean expire(String key, long timeout, TimeUnit timeUnit) {
         logger.debug("{}|{}|{}|{}", "expire接口开始调用：", "key:" + key, "timeout:" + timeout, "timeUnit:" + timeUnit);
         return redisTemplate.expire(key, timeout, timeUnit);

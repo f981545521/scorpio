@@ -3,6 +3,7 @@ package cn.acyou.scorpio.controller.sys;
 import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
+import cn.acyou.framework.utils.IdUtil;
 import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.TreeUtil;
 import cn.acyou.framework.utils.redis.RedisLock;
@@ -61,6 +62,8 @@ public class StudentController {
     private StudentService2 studentService2;
     @Autowired
     private StudentMapper studentMapper;
+    @Autowired
+    private IdUtil idUtil;
 
     @RequestMapping(value = "testUpdateCustom", method = {RequestMethod.GET})
     @ApiOperation("testUpdateCustom")
@@ -247,5 +250,12 @@ public class StudentController {
         long end = System.currentTimeMillis();
         log.info("执行线程数:{},总耗时:{},count数为:{}", clientcount, end - start, count);
         return Result.success();
+    }
+
+    @RequestMapping(value = "idGenUtil", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("ID 生成工具")
+    public Result<?> idGenUtil(){
+        String ck = idUtil.getDatePrefixId("CK", 6);
+        return Result.success(ck);
     }
 }
