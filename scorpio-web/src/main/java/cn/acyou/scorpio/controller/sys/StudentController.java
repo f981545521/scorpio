@@ -5,6 +5,7 @@ import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.TreeUtil;
+import cn.acyou.framework.utils.redis.RedisLock;
 import cn.acyou.framework.utils.redis.RedisUtils;
 import cn.acyou.framework.valid.annotation.BaseValid;
 import cn.acyou.framework.valid.annotation.ParamValid;
@@ -34,6 +35,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author youfang
@@ -47,15 +51,14 @@ public class StudentController {
 
     @Autowired
     private WebMvcRequestHandlerProvider mvcRequestHandlerProvider;
-
     @Autowired
     private RedisUtils redisUtils;
-
+    @Autowired
+    private RedisLock redisLock;
     @Autowired
     private StudentService studentService;
     @Autowired
     private StudentService2 studentService2;
-
     @Autowired
     private StudentMapper studentMapper;
 
@@ -212,6 +215,37 @@ public class StudentController {
         studentService.addInsertAndThrowException();
         return Result.success();
     }
+    int count = 100;
+    @RequestMapping(value = "redisLock", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("redis分布式锁测试代码")
+    public Result<Void> redisLock() throws InterruptedException {
+        int clientcount = 100;
+        CountDownLatch countDownLatch = new CountDownLatch(clientcount);
 
-
+        ExecutorService executorService = Executors.newFixedThreadPool(clientcount);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < clientcount; i++) {
+            executorService.execute(() -> {
+                String redisKey = RandomUtil.randomFromPool("AA_A", "BB_B", "CC_C", "DD_D", "EE_E");
+                String lock = redisLock.lock(redisKey);
+                count++;
+                if (lock != null) {
+                    System.out.println("获取到锁）" + redisKey + "）处理业务。线程" + Thread.currentThread().getId());
+                    try {
+                        Thread.sleep(10*1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    redisLock.unLock(redisKey, lock);
+                } else {
+                    System.out.println("未获取到锁（" + redisKey + "）处理业务。线程" + Thread.currentThread().getId());
+                }
+                countDownLatch.countDown();
+            });
+        }
+        countDownLatch.await();
+        long end = System.currentTimeMillis();
+        log.info("执行线程数:{},总耗时:{},count数为:{}", clientcount, end - start, count);
+        return Result.success();
+    }
 }
