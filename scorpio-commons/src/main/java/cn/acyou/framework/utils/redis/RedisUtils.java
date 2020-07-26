@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisZSetCommands.Limit;
 import org.springframework.data.redis.connection.RedisZSetCommands.Range;
@@ -751,6 +752,31 @@ public class RedisUtils {
     public Long increment(String key, long delta) {
         logger.debug("{}|{}|{}", "increment接口开始调用：", "key:" + key, "delta:" + delta);
         return redisTemplate.opsForValue().increment(key, delta);
+    }
+    /**
+     * 自增 / 自减 并在初始时设置过期时间
+     *
+     * @param key   key
+     * @param delta 1自增1 -1减少1
+     * @param timeOut 超时时间（单位秒）
+     * @return 执行 INCR 命令之后 key 的值。
+     */
+    public Long increment(String key, long delta, long timeOut) {
+        logger.debug("{}|{}|{}", "increment接口开始调用：", "key:" + key, "delta:" + delta);
+        SessionCallback<Long> sessionCallback = new SessionCallback<Long>() {
+            @Override
+            public Long execute(RedisOperations operations) throws DataAccessException {
+                operations.multi();
+                redisTemplate.opsForValue().increment(key, delta);
+                List<?> exec = operations.exec();
+                Long incValue = (Long) exec.get(0);
+                if (incValue != null && incValue == 1){
+                    redisTemplate.expire(key, timeOut, TimeUnit.SECONDS);
+                }
+                return incValue;
+            }
+        };
+        return redisTemplate.execute(sessionCallback);
     }
 
     /**

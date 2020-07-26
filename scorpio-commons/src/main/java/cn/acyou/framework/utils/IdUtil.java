@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author youfang
@@ -40,10 +39,7 @@ public class IdUtil {
         String formatDate = DateUtil.getCurrentDateShortFormat();
         //KEY:  SEQ:20200724
         String key = "SEQ:" + formatDate;
-        Long increment = redisUtils.increment(key, 1);
-        if (increment == 1) {
-            redisUtils.expire(key, 36, TimeUnit.HOURS);
-        }
+        Long increment = redisUtils.increment(key, 1, 36*60*60);
         long maxV = MathUtil.createMaxLong(length);
         if (increment > maxV) {
             throw new ServiceException("ID获取错误：超出最大值!");
