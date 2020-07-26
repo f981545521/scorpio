@@ -50,7 +50,7 @@ import java.util.concurrent.Executors;
 @Api(value = "学生", description = "学生的增删改查", tags = "学生接口")
 public class StudentController {
 
-    @Autowired
+    @Autowired(required = false)
     private WebMvcRequestHandlerProvider mvcRequestHandlerProvider;
     @Autowired
     private RedisUtils redisUtils;
