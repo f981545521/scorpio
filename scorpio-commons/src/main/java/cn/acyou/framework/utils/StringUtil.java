@@ -11,6 +11,11 @@ public class StringUtil {
     /**
      * 拼接重复字符到指定长度
      *
+     * <pre>
+     * StringUtil.concatLengthChar(4, '9')     = 9999
+     * StringUtil.concatLengthChar(4, '0')     = 0000
+     * StringUtil.concatLengthChar(5, '8')     = 88888
+     * </pre>
      * @param length    长度
      * @param character 字符
      * @return {@link String}
