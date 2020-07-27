@@ -3,13 +3,14 @@ CREATE DATABASE IF NOT EXISTS scorpio DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_bi
 
 USE scorpio;
 
-CREATE TABLE `student`(
-    `id`    int(10) NOT NULL AUTO_INCREMENT,
-    `name`  varchar(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
-    `age`   int(3) NOT NULL DEFAULT '0',
-    `birth` datetime not null default now(),
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_bin COMMENT ='学生';
+CREATE TABLE `student` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
+  `age` int(3) NOT NULL DEFAULT '0',
+  `birth` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_student_age` (`age`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=100029 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Demo For Student';
 
 INSERT INTO `student` VALUES ('1', '刘备', '34', now());
 INSERT INTO `student` VALUES ('2', '曹操', '45', now());
