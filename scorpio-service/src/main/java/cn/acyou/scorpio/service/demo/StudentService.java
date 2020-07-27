@@ -18,4 +18,8 @@ public interface StudentService extends Service<Student> {
     void testSelectAndUpdateAndSelect();
 
     void addInsertAndThrowException();
+
+    void testConcurrentOpt(Long id, Long dealt);
+
+    void testConcurrentOptMinus(Long dealt);
 }

@@ -103,4 +103,52 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         this.insertSelective(addStudent);
         System.out.println(addStudent);
     }
+
+    /**
+     * 测试结果：
+     * 不同线程修改同一条记录，会等待之前事务提交
+     * 不同线程修改不同记录，没有影响
+     *
+     * 并发访问同一个接口也是一样的，修改同一条数据会等之前的提交。修改不同的记录就是立即执行没有影响
+     *
+     */
+    @Override
+    @Transactional
+    public void testConcurrentOpt(Long id, Long dealt) {
+        log.info("——————————————————测试并发修改与回滚——————————————————" + dealt);
+        if (dealt > 0){
+            synIncr(id, dealt);
+            try {
+                Thread.sleep(10*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info("休息结束，线程完成");
+        }else {
+            synIncr(id, dealt);
+            log.info("不休息，线程完成");
+        }
+    }
+    @Override
+    @Transactional
+    public void testConcurrentOptMinus(Long dealt) {
+        log.info("——————————————————测试并发修改与回滚——————————————————" + dealt);
+        if (dealt > 0){
+            synIncr(1L, dealt);
+            try {
+                Thread.sleep(10*1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.info("休息结束，线程完成");
+        }else {
+            synIncr(1L, dealt);
+            log.info("不休息，线程完成");
+        }
+    }
+
+    private void synIncr(Long id, long delta){
+        baseMapper.incrementAge(id, delta);
+    }
+
 }

@@ -2,6 +2,7 @@ package cn.acyou.scorpio.system.mapper;
 
 import cn.acyou.framework.mapper.Mapper;
 import cn.acyou.scorpio.system.entity.Student;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author youfang
@@ -9,4 +10,5 @@ import cn.acyou.scorpio.system.entity.Student;
  **/
 public interface StudentMapper extends Mapper<Student> {
 
+    void incrementAge(@Param("id") long id, @Param("delta") long delta);
 }

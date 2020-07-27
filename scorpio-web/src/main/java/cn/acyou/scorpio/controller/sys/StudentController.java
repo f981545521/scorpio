@@ -258,4 +258,17 @@ public class StudentController {
         String ck = idUtil.getDatePrefixId("CK", 6);
         return Result.success(ck);
     }
+
+    @RequestMapping(value = "testConcurrentOpt", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("并发操作")
+    public Result<?> testConcurrentOpt(Long id, Long dealt){
+        studentService.testConcurrentOpt(id, dealt);
+        return Result.success();
+    }
+    @RequestMapping(value = "testConcurrentOptMinus", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("并发操作")
+    public Result<?> testConcurrentOptMinus(Long dealt){
+        studentService.testConcurrentOptMinus(dealt);
+        return Result.success();
+    }
 }
