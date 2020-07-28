@@ -1,0 +1,11 @@
+### Http Requests
+
+### 测试 Get请求
+GET https://pagead2.googlesyndication.com/getconfig/sodar?sv=200&tid=gda&tv=r20200723&st=env
+Content-Type: application/json; charset=utf-8
+
+### 测试 Post请求
+POST https://www.ceppedu.com/system/to-iscLoginPage.html
+Accept: */*
+Cache-Control: no-cache
+
