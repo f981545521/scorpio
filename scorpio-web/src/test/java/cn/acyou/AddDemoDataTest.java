@@ -17,8 +17,9 @@ import java.util.List;
 public class AddDemoDataTest extends ApplicationTests {
     @Autowired
     private StudentService studentService;
+
     @Test
-    public void prepareData(){
+    public void prepareStudentData() {
         List<Student> students = new ArrayList<>();
         for (int i = 0; i < 50000; i++) {
             Student student = new Student();
@@ -30,8 +31,9 @@ public class AddDemoDataTest extends ApplicationTests {
         studentService.insertList(students);
         System.out.println("———————— over ——————————");
     }
+
     @Test
-    public void test1(){
+    public void testSelectAll() {
         System.out.println("ok");
         List<Student> students = studentService.selectAll();
         System.out.println(students);
