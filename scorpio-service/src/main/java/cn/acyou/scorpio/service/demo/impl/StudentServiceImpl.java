@@ -106,10 +106,13 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     /**
      * 测试结果：
-     * 不同线程修改同一条记录，会等待之前事务提交
-     * 不同线程修改不同记录，没有影响
+     * conclusion1： 不同线程修改同一条记录，会等待之前事务提交
+     * conclusion2： 不同线程修改不同记录，没有影响
      *
      * 并发访问同一个接口也是一样的，修改同一条数据会等之前的提交。修改不同的记录就是立即执行没有影响
+     *
+     * 测试：集群部署的时候，会存在问题吗？
+     * 不存在：同单机的测试结果：conclusion1、conclusion2
      *
      */
     @Override
