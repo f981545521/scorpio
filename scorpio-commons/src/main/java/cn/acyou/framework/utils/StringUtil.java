@@ -7,6 +7,8 @@ package cn.acyou.framework.utils;
  * @version [1.0.0, 2020-7-24 下午 09:31]
  **/
 public class StringUtil {
+    public static final String DOT = ".";
+    public static final String EMPTY = "";
 
     /**
      * 拼接重复字符到指定长度
