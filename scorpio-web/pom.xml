@@ -69,6 +69,14 @@
             <artifactId>Happy-Captcha</artifactId>
             <version>1.0.1</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs-client -->
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+
     </dependencies>
 
     <build>
