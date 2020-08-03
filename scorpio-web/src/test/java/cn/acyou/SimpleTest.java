@@ -1,14 +1,9 @@
 package cn.acyou;
 
-import cn.acyou.scorpio.tool.entity.ParamConfig;
-import org.junit.Test;
 import org.junit.Test;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 import javax.validation.constraints.NotNull;
-import java.beans.Introspector;
-import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -49,6 +44,15 @@ public class SimpleTest {
     public void test3(){
         System.out.println("come on");
         outName(null);
+    }
+
+    @Test
+    public void test4(){
+        Long a = -1L;
+        System.out.println(-2 > a);
+        System.out.println(-1 > a);
+        System.out.println(0 > a);
+        System.out.println(1 > a);
     }
 
     private static String outName(String name){
