@@ -78,7 +78,8 @@ public class ThreadAndPoolTest {
         System.out.println("ok");
     }
 
-    public static void main(String[] args) {
+    @Test
+    public void test2(){
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(5, 5,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<>(10));
@@ -98,6 +99,35 @@ public class ThreadAndPoolTest {
             });
         }
 
+    }
+
+    public static void main(String[] args) {
+        //疑问：List最大长度是多大
+        List<String> sourceList = new ArrayList<>();
+
+        //sourceList.add(0, "c");
+        //sourceList.add(111, "c");
+
+
+        List<String> objects = new ArrayList<>();
+        //Exception in thread "main" java.lang.OutOfMemoryError: Requested array size exceeds VM limit
+
+        for (int i = 0; i < 1000; i++) {
+            sourceList.add("1");
+        }
+
+
+
+
+        grow(sourceList);
+        //262144000
+        //Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+    }
+
+    public static void grow(List<String> sourceList){
+        sourceList.addAll(sourceList);
+        System.out.println(sourceList.size());
+        grow(sourceList);
     }
 
 
