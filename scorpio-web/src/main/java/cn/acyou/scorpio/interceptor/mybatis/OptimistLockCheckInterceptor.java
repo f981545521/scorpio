@@ -56,11 +56,8 @@ public class OptimistLockCheckInterceptor implements Interceptor {
                             Executor executor = (Executor) invocation.getTarget();
                             Connection connection = executor.getTransaction().getConnection();
                             Object databaseVersion = null;
-                            //select version = 35 from table WHERE id = 1;   正确：1，错误：0，不存在：null
-                            PreparedStatement stmt = connection.prepareStatement("SELECT "
-                                    + versionColumnName + "= ? FROM "
-                                    + tableName
-                                    + " WHERE " + idColumnName + " = ?");
+                            //select version = 35 from table WHERE id = 1;  result -  正确：1，错误：0，不存在：null
+                            PreparedStatement stmt = connection.prepareStatement(String.format("SELECT %s = ? FROM %s WHERE %s = ?", versionColumnName, tableName, idColumnName));
                             stmt.setObject(1, idColumnValue);
                             stmt.setObject(2, versionColumnValue);
                             log.info(stmt.toString());
