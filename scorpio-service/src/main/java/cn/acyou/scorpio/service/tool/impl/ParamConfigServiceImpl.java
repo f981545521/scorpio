@@ -1,10 +1,14 @@
 package cn.acyou.scorpio.service.tool.impl;
 
 import cn.acyou.framework.model.PageData;
-import cn.acyou.framework.utils.FastJsonUtil;
+import cn.acyou.framework.service.ServiceImpl;
+import cn.acyou.framework.utils.JsonUtil;
 import cn.acyou.framework.utils.redis.RedisUtils;
 import cn.acyou.scorpio.dto.tool.constant.ToolRedisKey;
 import cn.acyou.scorpio.dto.tool.param.QueryParamConfigListReq;
+import cn.acyou.scorpio.service.tool.ParamConfigService;
+import cn.acyou.scorpio.tool.entity.ParamConfig;
+import cn.acyou.scorpio.tool.mapper.ParamConfigMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +16,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import cn.acyou.framework.service.ServiceImpl;
-import cn.acyou.scorpio.tool.entity.ParamConfig;
-import cn.acyou.scorpio.tool.mapper.ParamConfigMapper;
-import cn.acyou.scorpio.service.tool.ParamConfigService;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -78,7 +78,7 @@ public class ParamConfigServiceImpl extends ServiceImpl<ParamConfigMapper, Param
         String redisKey = ToolRedisKey.TOOL_PARAM_CONFIG_INFO + code;
         String redisResult = redisUtil.get(redisKey);
         if (StringUtils.isNotBlank(redisResult)) {
-            paramConfig = FastJsonUtil.jsonStrToBean(redisResult, ParamConfig.class);
+            paramConfig = JsonUtil.jsonStrToBean(redisResult, ParamConfig.class);
             return paramConfig;
         }
         //从数据库中查询用户数据
@@ -87,7 +87,7 @@ public class ParamConfigServiceImpl extends ServiceImpl<ParamConfigMapper, Param
         paramConfig.setCode(code);
         paramConfig = paramConfigMapper.selectOne(paramConfig);
         if (paramConfig != null && paramConfig.getCode() != null) {
-            redisUtil.set(redisKey, FastJsonUtil.toJsonString(paramConfig));
+            redisUtil.set(redisKey, JsonUtil.toJsonString(paramConfig));
         }
         return paramConfig;
     }

@@ -122,6 +122,10 @@ public class ThreadAndPoolTest {
         grow(sourceList);
         //262144000
         //Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
+
+        //设置-Xmx10G后，在到524288000的时候Arrays.copyOf() 扩容的时候也发生了OOM
+        //由于内存的的限制，似乎List的大小不会达到Integer.MAX_VALUE 21个亿
+        //疑问：如果内存达到的时候会怎么样？
     }
 
     public static void grow(List<String> sourceList){

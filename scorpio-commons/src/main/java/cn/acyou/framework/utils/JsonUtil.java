@@ -9,7 +9,7 @@ import java.util.Map;
  * @author youfang
  * @version [1.0.0, 2019/11/20]
  **/
-public class FastJsonUtil {
+public class JsonUtil {
 
     /**
      * 使用JSON的方式，将map转换为bean
