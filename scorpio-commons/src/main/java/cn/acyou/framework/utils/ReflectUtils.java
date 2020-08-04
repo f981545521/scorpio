@@ -14,6 +14,26 @@ import java.util.List;
 public class ReflectUtils {
 
     /**
+     * 递归寻找Field
+     *
+     * @param annotatedClass  clazz
+     * @param annotationClass 注解
+     * @return {@link Field}
+     */
+    public static Field recursiveFieldFinder(Class<?> annotatedClass,
+                                       Class<? extends Annotation> annotationClass) {
+        for (Field f : annotatedClass.getDeclaredFields()) {
+            if (f.isAnnotationPresent(annotationClass)) {
+                return f;
+            }
+        }
+        if (annotatedClass.getSuperclass() != null) {
+            return recursiveFieldFinder(annotatedClass.getSuperclass(),
+                    annotationClass);
+        }
+        return null;
+    }
+    /**
      * 根据属性名获取属性
      */
     public static Field getField(String fieldName, Class<?> clazz) {
