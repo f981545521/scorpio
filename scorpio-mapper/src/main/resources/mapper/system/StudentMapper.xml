@@ -18,5 +18,19 @@
         update student set age = age + #{delta} where id = #{id}
     </update>
 
+<!--
+    <select id="staticTest" resultType="cn.acyou.scorpio.system.entity.Student">
+        select * from student where
+        <include refid="cn.acyou.scorpio.base.BaseMapper.data_scope_sql"/>
+    </select>-->
+
+    <!-- 方法必须为静态方法，使用的是OGNL表达式，表达式格式为：${@prefix@methodName(传递参数名称)} -->
+    <select id="staticTest" resultType="cn.acyou.scorpio.system.entity.Student">
+        select * from student where
+            name = '${@cn.acyou.framework.utils.DateUtil@getCurrentDateFormat(name)}'
+            --Preparing: select * from student where name='2020-08-05 40'
+    </select>
+
+
 
 </mapper>

@@ -50,7 +50,7 @@ public class OptimistLockCheckInterceptor implements Interceptor {
                         String idColumnName = idField.getAnnotation(Column.class).name();
                         String versionColumnName = versionEntityField.getAnnotation(Column.class).name();
 
-                        Object idColumnValue = ReflectUtils.getFieldValue(parameterObject, versionEntityField)
+                        Object idColumnValue = ReflectUtils.getFieldValue(parameterObject, versionEntityField);
                         Object versionColumnValue = ReflectUtils.getFieldValue(parameterObject, idField);
                         if (!idColumnName.equals("") && !versionColumnName.equals("") && idColumnValue != null && versionColumnValue != null) {
                             Executor executor = (Executor) invocation.getTarget();

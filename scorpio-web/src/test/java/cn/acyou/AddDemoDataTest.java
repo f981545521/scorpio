@@ -4,6 +4,7 @@ import cn.acyou.framework.utils.DateUtil;
 import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.scorpio.service.demo.StudentService;
 import cn.acyou.scorpio.system.entity.Student;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,8 @@ import java.util.List;
 public class AddDemoDataTest extends ApplicationTests {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private StudentMapper studentMapper;
 
     @Test
     public void prepareStudentData() {
@@ -37,5 +40,10 @@ public class AddDemoDataTest extends ApplicationTests {
         System.out.println("ok");
         List<Student> students = studentService.selectAll();
         System.out.println(students);
+    }
+    @Test
+    public void testRefidSql() {
+        studentMapper.staticTest("yyyy-MM-dd ss");
+        System.out.println("ok");
     }
 }

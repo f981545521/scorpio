@@ -22,7 +22,7 @@ public class IdUtil {
      * @param prefix 前缀
      * @return {@link String}
      */
-    public String getDatePrefix4BitId(String prefix) {
+    public String getDatePrefixId(String prefix) {
         return getDatePrefixId(prefix, 4);
     }
 
