@@ -271,4 +271,9 @@ public class StudentController {
         studentService.testConcurrentOptMinus(dealt);
         return Result.success();
     }
+    @RequestMapping(value = "testProxy", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("* 测试动态代理")
+    public Result<?> testProxy(){
+        return Result.success();
+    }
 }

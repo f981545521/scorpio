@@ -13,7 +13,7 @@ public class Result<T> implements Serializable {
     private boolean success = true;
     private T data;
 
-    private static final int SUCCESS_CODE = 0;
+    private static final int SUCCESS_CODE = 200;
     private static final String SUCCESS_MESSAGE = "处理成功";
     private static final int ERROR_CODE = 500;
     private static final String ERROR_MESSAGE = "未知异常，请联系管理员";
