@@ -14,11 +14,37 @@ public class ThreadAndPoolTest {
 
     @Test
     public void test1(){
+        //指定：corePoolSize = 0、maximumPoolSize = Integer.MAX_VALUE 的线程池
+        //线程池为无限大，当执行第二个任务时第一个任务已经完成，会复用执行第一个任务的线程，而不用每次新建线程。
+        //创建一个可缓存线程池，如果线程池长度超过处理需要，可灵活回收空闲线程，若无可回收，则新建线程。
         ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+
+
+        //指定：corePoolSize、maximumPoolSize 的线程池
+        //(创建一个定长线程池，可控制线程最大并发数，超出的线程会在队列中等待。)
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+
+
+        //指定：corePoolSize、maximumPoolSize 为1的线程池
+        //**创建一个单线程化的线程池，它只会用唯一的工作线程来执行任务，保证所有任务按照指定顺序(FIFO, LIFO, 优先级)执行。**
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
-        ExecutorService scheduledExecutor = Executors.newScheduledThreadPool(10);
-        ExecutorService workStealingPool = Executors.newWorkStealingPool(10);
+
+
+        //可以延迟和定期执行的线程池     (创建一个定长线程池，支持定时及周期性任务执行。)
+        ScheduledExecutorService  scheduledExecutor = Executors.newScheduledThreadPool(10);
+        scheduledExecutor.schedule(() -> System.out.println("ok"), 1, TimeUnit.DAYS);
+        //                                                                          初始延迟和周期执行
+        scheduledExecutor.scheduleAtFixedRate(() -> System.out.println("ok"), 2, 3, TimeUnit.HOURS);
+        //创建一个具有抢占式操作的线程池
+        /*
+         *  * 假设共有三个线程同时执行, A, B, C
+         *  * 当A,B线程池尚未处理任务结束,而C已经处理完毕,则C线程会从A或者B中窃取任务执行,这就叫工作窃取
+         *  * 假如A线程中的队列里面分配了5个任务，而B线程的队列中分配了1个任务，当B线程执行完任务后，它会主动的去A线程中窃取其他的任务进行执行
+         *  * WorkStealingPool 背后是使用 ForkJoinPool实现的
+         */
+        //ForkJoinPool
+        ExecutorService workStealingExecutor = Executors.newWorkStealingPool(10);
+        ForkJoinPool forkJoinPool = new ForkJoinPool(10, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, true);
 
     }
 

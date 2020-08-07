@@ -98,7 +98,7 @@ public class PinYinHelper {
                 String shortPy = PinyinHelper.getShortPinyin(str);
                 if (StringUtils.isNotEmpty(shortPy)) {
                     char c = shortPy.charAt(0);
-                    if ((c > 'A' && c < 'Z') || (c > 'a' && c < 'z')) {
+                    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z')) {
                         return shortPy.substring(0, 1);
                     }
                 }
@@ -143,8 +143,8 @@ public class PinYinHelper {
 
 
     public static void main(String[] args) {
-        String str = "SKU";
-        String pinyin = parsePinyinInitial("SKU");
+        String str = "阿莫西林";
+        String pinyin = parsePinyinInitial(str);
         System.out.println(str + " result ：" + pinyin);
     }
 
