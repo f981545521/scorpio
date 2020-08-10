@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author youfang
@@ -45,5 +46,10 @@ public class AddDemoDataTest extends ApplicationTests {
     public void testRefidSql() {
         studentMapper.staticTest("yyyy-MM-dd ss");
         System.out.println("ok");
+    }
+    @Test
+    public void test222() {
+        Map<Integer, Student> integerStudentMap = studentMapper.selectAgeSameStudent();
+        System.out.println(integerStudentMap);
     }
 }

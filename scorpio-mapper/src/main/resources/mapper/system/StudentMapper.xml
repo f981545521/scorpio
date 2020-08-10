@@ -31,6 +31,10 @@
             --Preparing: select * from student where name='2020-08-05 40'
     </select>
 
+    <select id="selectAgeSameStudent" resultType="cn.acyou.scorpio.system.entity.Student">
+        select * from student where id = 1
+    </select>
+
 
 
 </mapper>
