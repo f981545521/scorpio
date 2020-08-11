@@ -145,8 +145,14 @@ AQS内部定义了一个static final的内部类Node，用于实现等待队列C
 AQS还存放一个int类型的属性state，用于表示当前的同步状态。
 
 
+### 补充
+- ReentrantLock   重入锁
 
+- ReentrantReadWriteLock  重入读写锁
 
+- StampedLock（读写锁的一个改进版本）
+
+- ConcurrentHashMap 采用AQS
 
 
 

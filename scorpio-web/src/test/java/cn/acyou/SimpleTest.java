@@ -76,6 +76,14 @@ public class SimpleTest {
         System.out.println(1 > a);
     }
 
+    @Test
+    public void test4112(){
+        Long a = 110L;
+        assert a == 110;
+        assert a == 111;
+        System.out.println("ok");
+    }
+
     private static String outName(String name){
         //assert name != null;//java.lang.AssertionError
         Assert.notNull(name, "name 不能为空！");//cn.acyou.framework.exception.AssertException: name 不能为空！
