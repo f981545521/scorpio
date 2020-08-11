@@ -78,11 +78,46 @@ JDK1.6之前synchronized使用的是重量级锁，JDK1.6之后进行了优化�
 
 
 ### AQS
+AQS：AbstractQueuedSynchronizer抽象的队列式同步器。
+     
+AQS定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch
 
 
 
+AbstractQueuedSynchronizer会把所有的请求线程构成一个CLH队列，当一个线程执行完毕（lock.unlock()）时会激活自己的后继节点，
+但正在执行的线程并不在队列中，而那些等待执行的线程全部处于阻塞状态.
 
+java.util.concurrent包（之后简称JUC包）中，提供了大量的同步与并发的工具类，是多线程编程的“利器”。其中locks包下，包含了多种锁，如ReentrantLock独占锁、ReentrantReadWriteLock读写锁、Semaphore信号量（共享锁）等，而这些锁有一个共同的基础类：AbstractQueuedSynchronizer。
 
+AQS是一个抽象类，不可以被实例化，它的设计之初就是为了让子类通过继承来实现多样的功能的。它内部提供了一个FIFO的等待队列，用于多个线程等待一个事件（锁）。它有一个重要的状态标志——state，该属性是一个int值，表示对象的当前状态（如0表示lock，1表示unlock）。AQS提供了三个protected final的方法来改变state的值，分别是：getState、setState(int)、compareAndSetState(int, int)。根据修饰符，它们是不可以被子类重写的，但可以在子类中进行调用，这也就意味着子类可以根据自己的逻辑来决定如何使用state值。
+
+AQS的子类应当被定义为内部类，作为内部的helper对象。事实上，这也是juc种锁的做法，如ReentrantLock，便是通过内部的Sync对象来继承AQS的。AQS中定义了一些未实现的方法（抛出UnsupportedOperationException异常）
+
+tryAcquire(int) 尝试获取state
+
+tryRelease(int) 尝试释放state
+
+tryAcquireShared(int) 共享的方式尝试获取
+
+tryReleaseShared(int) 共享的方式尝试释放
+
+isHeldExclusively() 判断当前是否为独占锁
+
+这些方法是子类需要实现的，可以选择实现其中的一部分。根据实现方式的不同，可以分为两种：独占锁和共享锁。其中JUC中锁的分类为:
+
+独占锁：ReentrantLock、ReentrantReadWriteLock.WriteLock
+
+共享锁：ReentrantReadWriteLock.ReadLock、CountDownLatch、CyclicBarrier、Semaphore
+
+其实现方式为：
+
+独占锁实现的是tryAcquire(int)、tryRelease(int)
+
+共享锁实现的是tryAcquireShared(int)、tryReleaseShared(int)
+
+#### 实现细节
+AQS内部定义了一个static final的内部类Node，用于实现等待队列CLH，满足FIFO结构。
+AQS还存放一个int类型的属性state，用于表示当前的同步状态。
 
 
 

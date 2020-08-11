@@ -1,9 +1,14 @@
 package cn.acyou;
 
+import org.assertj.core.util.Arrays;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 /**
@@ -11,6 +16,8 @@ import java.util.UUID;
  * @version [1.0.0, 2020-4-5 下午 12:09]
  **/
 public class SimpleTest {
+
+    private static final Logger log = LoggerFactory.getLogger(SimpleTest.class);
 
     public static void main(String[] args) {
         //String shortClassName = ClassUtils.getShortName(TestTask.class);
@@ -44,6 +51,20 @@ public class SimpleTest {
     public void test3(){
         System.out.println("come on");
         outName(null);
+    }
+
+    @Test
+    public void test88(){
+        log.info("hello, i'm {}, age {}。", "james", 10);
+        String format = MessageFormat.format("加工失败。本次可加工数量为{0}，此次加工数量为{1}。", 100, 200);
+        System.out.println(format);
+        System.out.println(String.format("加工失败。本次可加工数量为%s，此次加工数量为%s。", 100, 200));
+        String[] argumentArray = Arrays.array("100", "200");
+        System.out.println(MessageFormatter.arrayFormat("加工失败。本次可加工数量为{}，此次加工数量为{}。", argumentArray).getMessage());
+        //System.out.println(ExtendedMessageFormat.format("加工失败。本次可加工数量为{}，此次加工数量为{}。", argumentArray));
+
+
+
     }
 
     @Test
