@@ -176,7 +176,7 @@ public class StudentController {
         List<RequestHandler> requestHandlers = mvcRequestHandlerProvider.requestHandlers();
         return Result.success();
     }
-    @RequestMapping(value = "cookieTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "cookieTest", method = {RequestMethod.GET})
     @ApiOperation("cookie测试")
     public Result<Void> cookieTest(HttpServletResponse response){
         Cookie cookie = new Cookie("scorpio-test", RandomUtil.createRandomStr(10));
@@ -196,13 +196,13 @@ public class StudentController {
     public Result<Void> cookieTest2(){
         return Result.success();
     }
-    @RequestMapping(value = "voParamTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "voParamTest", method = {RequestMethod.GET})
     @ApiOperation("复杂参数测试")
     public Result<Void> voParamTest(@RequestBody StudentVo studentVo){
         System.out.println(studentVo);
         return Result.success();
     }
-    @RequestMapping(value = "singleParamTest", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "singleParamTest", method = {RequestMethod.GET})
     @ApiOperation("单个参数测试")
     public Result<Void> singleParamTest(@RequestBody String name){
         System.out.println(name);
@@ -212,14 +212,14 @@ public class StudentController {
         return Result.success();
     }
 
-    @RequestMapping(value = "insertAndThrowException", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "insertAndThrowException", method = {RequestMethod.GET})
     @ApiOperation("插入并抛出异常会回滚吗")
     public Result<Void> insertAndThrowException(){
         studentService.addInsertAndThrowException();
         return Result.success();
     }
     int count = 100;
-    @RequestMapping(value = "redisLock", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "redisLock", method = {RequestMethod.GET})
     @ApiOperation("redis分布式锁测试代码")
     public Result<Void> redisLock() throws InterruptedException {
         int clientcount = 100;
@@ -252,31 +252,31 @@ public class StudentController {
         return Result.success();
     }
 
-    @RequestMapping(value = "idGenUtil", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "idGenUtil", method = {RequestMethod.GET})
     @ApiOperation("ID 生成工具")
     public Result<?> idGenUtil(){
         String ck = idUtil.getDatePrefixId("CK", 6);
         return Result.success(ck);
     }
 
-    @RequestMapping(value = "testConcurrentOpt", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "testConcurrentOpt", method = {RequestMethod.GET})
     @ApiOperation("并发操作")
     public Result<?> testConcurrentOpt(Long id, Long dealt){
         studentService.testConcurrentOpt(id, dealt);
         return Result.success();
     }
-    @RequestMapping(value = "testConcurrentOptMinus", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "testConcurrentOptMinus", method = {RequestMethod.GET})
     @ApiOperation("并发操作")
     public Result<?> testConcurrentOptMinus(Long dealt){
         studentService.testConcurrentOptMinus(dealt);
         return Result.success();
     }
-    @RequestMapping(value = "testProxy", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "testProxy", method = {RequestMethod.GET})
     @ApiOperation("测试动态代理")
     public Result<?> testProxy(){
         return Result.success();
     }
-    @RequestMapping(value = "testInsertSync", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "testInsertSync", method = {RequestMethod.GET})
     @ApiOperation("测试testInsertSync")
     public Result<?> testInsertSync(){
         studentService.testInsertSync();
