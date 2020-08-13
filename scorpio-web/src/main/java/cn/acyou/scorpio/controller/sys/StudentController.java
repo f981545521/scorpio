@@ -272,8 +272,14 @@ public class StudentController {
         return Result.success();
     }
     @RequestMapping(value = "testProxy", method = {RequestMethod.GET, RequestMethod.POST})
-    @ApiOperation("* 测试动态代理")
+    @ApiOperation("测试动态代理")
     public Result<?> testProxy(){
+        return Result.success();
+    }
+    @RequestMapping(value = "testInsertSync", method = {RequestMethod.GET, RequestMethod.POST})
+    @ApiOperation("测试testInsertSync")
+    public Result<?> testInsertSync(){
+        studentService.testInsertSync();
         return Result.success();
     }
 }

@@ -150,6 +150,20 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         }
     }
 
+    @Override
+    public void testInsertSync() {
+        log.info("用户为空，新增一条停用的用户数据。");
+        taskExecutor.execute(() -> {
+            Student student = new Student();
+            student.setName("小花");
+            student.setAge(22);
+            student.setBirth(new Date());
+            baseMapper.insertSelective(student);
+            log.info("添加成功！");
+        });
+        throw new ServiceException("用户为空，新增一条停用的用户数据。");
+    }
+
     private void synIncr(Long id, long delta){
         baseMapper.incrementAge(id, delta);
     }

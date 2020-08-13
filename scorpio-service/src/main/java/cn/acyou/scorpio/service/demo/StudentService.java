@@ -22,4 +22,7 @@ public interface StudentService extends Service<Student> {
     void testConcurrentOpt(Long id, Long dealt);
 
     void testConcurrentOptMinus(Long dealt);
+
+    void testInsertSync();
+
 }
