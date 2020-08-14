@@ -1,4 +1,4 @@
-package cn.acyou.framework.service;
+package cn.acyou.framework.utils;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -206,9 +206,9 @@ public class BarCodeUtil2 {
 
     public static void main(String[] args) {
         //logo
-        File logoFile = new File("D://temp/hdfsimage.png");
+        File logoFile = new File("D://temp/logo.jpg");
         //背景图片
-        File bgFile = new File("D://temp/hdfsimage.png");
+        File bgFile = new File("D://temp/logo.jpg");
         //生成图片
         File qrCodeFile = new File("D://temp/hdfsimage222.png");
         //二维码内容
