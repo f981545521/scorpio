@@ -5,6 +5,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.oned.Code128Writer;
 import com.google.zxing.pdf417.PDF417Writer;
 import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -246,7 +247,7 @@ public class BarCodeUtil {
     /**
      * 给二维码图片加上文字
      */
-    private static void pressText(String pressText, BufferedImage image) {
+    public static void pressText(String pressText, BufferedImage image) {
         pressText = new String(pressText.getBytes(), StandardCharsets.UTF_8);
         Graphics g = image.createGraphics();
         g.setColor(Color.BLACK);
@@ -263,11 +264,19 @@ public class BarCodeUtil {
 
     public static void main(String[] args) throws Exception {
 
-        createLogoQrCode(new FileOutputStream(new File("D:\\temp\\qrcode3.jpg")), "D:\\temp\\logo.jpg", "4191699341779402753asdsadsadafss", 300);
+        //createLogoQrCode(new FileOutputStream(new File("D:\\temp\\qrcode3.jpg")), "D:\\temp\\logo.jpg", "4191699341779402753asdsadsadafss", 300);
         //String s = readQrCode(new FileInputStream(new File("D:\\temp\\qrcode2.jpg")));
         //System.out.println(s);
 
         //boolean code = createPdf417Code(new FileOutputStream(new File("D:\\temp\\pdf417.jpg")), "4191699341779402753");
 
+        Code128Writer code128Writer = new Code128Writer();
+        Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
+        hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
+        hints.put(EncodeHintType.MARGIN, "20");
+        BitMatrix bitMatrix = code128Writer.encode("12331244345", BarcodeFormat.CODE_128, 400, 150, hints);
+        BufferedImage image = MatrixToImageWriter.toBufferedImage(bitMatrix);
+        pressText("12331244345", image);
+        ImageIO.write(image, DEFAULT_IMAGE_FORMAT, new FileOutputStream(new File("D:\\temp\\code128.jpg")));
     }
 }
