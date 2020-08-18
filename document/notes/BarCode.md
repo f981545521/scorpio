@@ -8,3 +8,5 @@
 > 生成的码如上图所示，有的码没有识别字符，就没有识别字符。
 >
 >
+### BarCode4j参考文档
+[BarCode4j参考文档](http://barcode4j.sourceforge.net/trunk/barcode-xml.html)
