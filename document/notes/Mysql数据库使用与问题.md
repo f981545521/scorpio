@@ -16,3 +16,21 @@
 > 3、windows 在数据库安装目录下的 my.ini
 
 3. 重启服务
+
+#### mybatis最大执行SQL的长度
+写一个10wList数据的查询：
+>  Packet for query is too large (4500277 > 4194304). You can change this value on the server by setting the max_allowed_packet' variable.
+>
+查看大小：show VARIABLES like '%max_allowed_packet%';
+默认为：4194304 = 4*1024*1024 即：4M
+
+命令行修改：
+`set global max_allowed_packet = 6*1024*1024;`
+
+配置文件修改：
+可以编辑 my.cnf（windows 下 my.ini，linux 下一般是/etc/my.cnf）来修改 ,在[mysqld]段或者 mysql 的 server 配置段增加下面配置：
+```
+[mysqld]
+max_allowed_packet=6M
+```
+
