@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author youfang
@@ -21,6 +22,25 @@ public class AddDemoDataTest extends ApplicationTests {
     private StudentService studentService;
     @Autowired
     private StudentMapper studentMapper;
+
+    @Test
+    public void testSelectEntityCanBeNull(){
+        Student student = studentMapper.testSelectEntityCanBeNull();
+        System.out.println(student);
+    }
+
+    @Test
+    public void testSelectListCanBeNull(){
+        List<Student> students = studentMapper.testSelectListCanBeNull();
+        System.out.println(students);
+        List<Student> students1 = students.stream().filter(x->x.getId() != null).collect(Collectors.toList());
+        List<Student> students2 = students.stream().filter(x->x.getId() == null).collect(Collectors.toList());
+
+        System.out.println("ok");
+        System.out.println(students1);
+        System.out.println(students2);
+    }
+
 
     @Test
     public void prepareStudentData() {

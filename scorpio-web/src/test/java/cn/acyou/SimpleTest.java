@@ -16,6 +16,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author youfang
@@ -137,5 +138,28 @@ public class SimpleTest {
         Assert.notNull(name, "name 不能为空！");//cn.acyou.framework.exception.AssertException: name 不能为空！
         System.out.println(name);
         return name;
+    }
+
+    @Test
+    public void testLanbada(){
+        List<Student> jsonStrList = new ArrayList<>();
+        Student student = new Student();
+        student.setId(22);
+        student.setName("信息");
+        student.setAge(22);
+        jsonStrList.add(student);
+        Student student2 = new Student();
+        student2.setId(23);
+        student2.setName("信息3");
+        student2.setAge(23);
+        jsonStrList.add(student2);
+
+        List<Student> students = jsonStrList.stream().filter(x->x.getId() != null).collect(Collectors.toList());
+        List<Student> students2 = jsonStrList.stream().filter(x->x.getId() == null).collect(Collectors.toList());
+
+        System.out.println("ok");
+        System.out.println(students);
+        System.out.println(students2);
+
     }
 }

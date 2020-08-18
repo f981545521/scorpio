@@ -21,4 +21,8 @@ public interface StudentMapper extends Mapper<Student> {
     @MapKey("id")
     Map<Integer, Student> selectAgeSameStudent();
 
+    List<Student> testSelectListCanBeNull();
+
+    Student testSelectEntityCanBeNull();
+
 }
