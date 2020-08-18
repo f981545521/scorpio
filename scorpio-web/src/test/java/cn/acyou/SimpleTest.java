@@ -1,5 +1,9 @@
 package cn.acyou;
 
+import cn.acyou.scorpio.system.entity.Student;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.TypeReference;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -9,6 +13,8 @@ import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -82,6 +88,48 @@ public class SimpleTest {
         assert a == 110;
         assert a == 111;
         System.out.println("ok");
+    }
+    @Test
+    public void testJSON1(){
+        List<String> jsonStrList = new ArrayList<>();
+        jsonStrList.add("{\"age\":22,\"id\":20,\"name\":\"小王\"}");
+        jsonStrList.add("{\"age\":23,\"id\":20,\"name\":\"小王\"}");
+        jsonStrList.add("{\"age\":24,\"id\":20,\"name\":\"小王\"}");
+        jsonStrList.add("{\"age\":25,\"id\":20,\"name\":\"小王\"}");
+        String s = JSON.toJSONString(jsonStrList);
+        //[{"age":22,"id":22,"name":"信息"},{"age":23,"id":23,"name":"信息3"}]
+        System.out.println(s);
+        JSONArray objects = JSON.parseArray(s);
+
+        List<Student> students1 = JSON.parseArray(s, Student.class);
+        System.out.println(students1);
+        List<Student> students = JSON.parseObject(s, new TypeReference<List<Student>>(){});
+        System.out.println(students);
+    }
+    @Test
+    public void testJSON2(){
+        List<Student> jsonStrList = new ArrayList<>();
+        Student student = new Student();
+        student.setId(22);
+        student.setName("信息");
+        student.setAge(22);
+        jsonStrList.add(student);
+        Student student2 = new Student();
+        student2.setId(23);
+        student2.setName("信息3");
+        student2.setAge(23);
+        jsonStrList.add(student2);
+
+
+
+        String s = JSON.toJSONString(jsonStrList);
+        System.out.println(s);
+        JSONArray objects = JSON.parseArray(s);
+
+        List<Student> students1 = JSON.parseArray(s, Student.class);
+        System.out.println(students1);
+        List<Student> students = JSON.parseObject(s, new TypeReference<List<Student>>(){});
+        System.out.println(students);
     }
 
     private static String outName(String name){

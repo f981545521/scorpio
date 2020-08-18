@@ -75,6 +75,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public void testSelectAndUpdateAndSelect() {
         Integer userId = 7;
         Student dbStudent = baseMapper.selectByPrimaryKey(userId);
+        System.out.println(dbStudent);
         Student updateStudent = new Student();
         updateStudent.setId(userId);
         updateStudent.setName(RandomUtil.randomUserName());

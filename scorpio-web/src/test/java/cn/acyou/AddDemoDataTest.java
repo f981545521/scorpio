@@ -52,4 +52,8 @@ public class AddDemoDataTest extends ApplicationTests {
         Map<Integer, Student> integerStudentMap = studentMapper.selectAgeSameStudent();
         System.out.println(integerStudentMap);
     }
+    @Test
+    public void test2224() {
+        studentService.testSelectAndUpdateAndSelect();
+    }
 }
