@@ -34,3 +34,27 @@
 max_allowed_packet=6M
 ```
 
+#### mysql-如何选择直到总和达到某个值
+[如何选择直到总和达到某个值](http://www.cocoachina.com/articles/97874)
+
+您需要一个累加的总和才能起作用.一种方法使用变量：
+```
+select t.*
+from (select *, (@sum := @sum + number) as cume_number
+      from test cross join
+           (select @sum := 0) params
+      order by id 
+     ) t
+where cume_number < 9 or (cume_number >= 9 and cume_number - number < 9);
+```
+
+
+
+
+
+
+
+
+
+
+
