@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -161,5 +162,18 @@ public class SimpleTest {
         System.out.println(students);
         System.out.println(students2);
 
+    }
+
+    @Test
+    public void atest(){
+        String a = "ttt";
+        String s = Optional.ofNullable(a).orElse("sssss");
+        System.out.println(s);
+
+        //boolean present = Optional.of(a).isPresent();
+        //System.out.println(present);
+        //String s2 = Optional.of(a).orElse("");
+        //System.out.println(s2);
+        //System.out.println(a + "" + "ok");
     }
 }
