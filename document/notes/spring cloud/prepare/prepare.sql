@@ -17,5 +17,6 @@ CREATE TABLE `t_product` (
     `product_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `product_name` varchar(200) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
     `status` int(3) NOT NULL DEFAULT '0',
+    `stock_number` int(3) NOT NULL DEFAULT '0',
     PRIMARY KEY (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='Product';
