@@ -176,4 +176,11 @@ public class SimpleTest {
         //System.out.println(s2);
         //System.out.println(a + "" + "ok");
     }
+
+    @Test
+    public void btest(){
+        String s = "Unable to find instance for aquarius-order";
+        System.out.println(s.indexOf("Unable to find instance for"));
+        System.out.println(s.substring(s.indexOf("Unable to find instance for ") + "Unable to find instance for ".length()));
+    }
 }
