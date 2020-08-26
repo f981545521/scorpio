@@ -35,6 +35,7 @@ import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -281,5 +282,24 @@ public class StudentController {
     public Result<?> testInsertSync(){
         studentService.testInsertSync();
         return Result.success();
+    }
+    @RequestMapping(value = "testException", method = {RequestMethod.GET})
+    @ApiOperation("测试testException")
+    public Result<?> testException(String key){
+        log.info("测试testException");
+        if ("e".equals(key)) {
+            int i = 1/0;
+        }
+        String ex = "java.lang.ArithmeticException: / by zero\n" +
+                "\tat cn.acyou.scorpio.controller.sys.StudentController.testException(StudentController.java:290)\n" +
+                "\tat cn.acyou.scorpio.controller.sys.StudentController$$FastClassBySpringCGLIB$$1d8a863.invoke(<generated>)\n" +
+                "\tat org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)";
+        System.out.println(ex);
+        Student student = new Student();
+        student.setName(ex);
+        student.setAge(22);
+        student.setBirth(new Date());
+        studentMapper.insertSelective(student);
+        return Result.success(key);
     }
 }
