@@ -8,6 +8,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -29,7 +30,16 @@ public class GlobalExceptionHandler {
     public Result<Object> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, Exception e){
         Result<Object> resultInfo = Result.error();
         //org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported
-        resultInfo.setMessage(e.getMessage());
+        resultInfo.setMessage(String.format("接口[%s]不支持['%s']请求方式。", request.getRequestURI(), request.getMethod()));
+        return resultInfo;
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    @ResponseBody
+    public Result<Object> handleNoHandlerFoundException(HttpServletRequest request, Exception e){
+        Result<Object> resultInfo = Result.error();
+        //org.springframework.web.servlet.NoHandlerFoundException: No handler found for GET /student/idGenUtil4
+        resultInfo.setMessage(String.format("接口[%s]不存在，请检查！", request.getRequestURI()));
         return resultInfo;
     }
 
