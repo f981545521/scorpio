@@ -1,5 +1,7 @@
 package cn.acyou.framework.model;
 
+import org.slf4j.helpers.MessageFormatter;
+
 import java.io.Serializable;
 
 /**
@@ -7,6 +9,8 @@ import java.io.Serializable;
  * @date 2020/03/19 11:59
  **/
 public class Result<T> implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private int code;
     private String message;
@@ -84,6 +88,9 @@ public class Result<T> implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+    public void setMessage(String formatPattern, Object... args) {
+        this.message = MessageFormatter.format(formatPattern, args).getMessage();
     }
 
     public boolean isSuccess() {

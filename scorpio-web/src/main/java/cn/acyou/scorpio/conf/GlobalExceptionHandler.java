@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
         return resultInfo;
     }
 
+    /**
+     * 需要在Properties文件中配置
+     *
+     * #支持404
+     * #出现错误时, 直接抛出异常
+     * spring.mvc.throw-exception-if-no-handler-found=true
+     * #不要为我们工程中的资源文件建立映射
+     * spring.resources.add-mappings=false
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseBody
     public Result<Object> handleNoHandlerFoundException(HttpServletRequest request, Exception e){
