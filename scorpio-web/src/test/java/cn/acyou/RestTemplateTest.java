@@ -1,6 +1,7 @@
 package cn.acyou;
 
 
+import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.scorpio.system.entity.Student;
 import com.alibaba.fastjson.serializer.SerializerFeature;
@@ -123,6 +124,29 @@ public class RestTemplateTest {
         ResponseEntity<Result<List<Student>>> responseEntity = restTemplate
                 .exchange(url, HttpMethod.POST, request,
                         new ParameterizedTypeReference<Result<List<Student>>>() {
+                        });
+
+        System.out.println(responseEntity.getBody());
+    }
+
+
+    /**
+     * PageData泛型
+     */
+    @Test
+    public void test2345(){
+        String url = "http://localhost:8054/rest/testPost4";
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setAccept(Lists.newArrayList(MediaType.APPLICATION_JSON));
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("name", "knight");
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        // + 泛型
+        ResponseEntity<Result<PageData<Student>>> responseEntity = restTemplate
+                .exchange(url, HttpMethod.POST, request,
+                        new ParameterizedTypeReference<Result<PageData<Student>>>() {
                         });
 
         System.out.println(responseEntity.getBody());

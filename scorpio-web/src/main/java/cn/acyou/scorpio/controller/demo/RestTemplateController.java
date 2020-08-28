@@ -1,7 +1,10 @@
 package cn.acyou.scorpio.controller.demo;
 
+import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
 import cn.acyou.scorpio.system.entity.Student;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +20,9 @@ import java.util.List;
 @RestController
 @RequestMapping("rest")
 public class RestTemplateController {
+    @Autowired
+    private StudentMapper studentMapper;
+
     @GetMapping("test1")
     public String test1() {
         return "ok";
@@ -53,6 +59,14 @@ public class RestTemplateController {
         student.setAge(22);
         students.add(student);
         return Result.success(students);
+    }
+
+
+    @PostMapping(value = "testPost4")
+    public Result<PageData<Student>> testPost4(String name) {
+        System.out.println("testPost4 参数name:" + name);
+        PageData<Student> studentPageData = PageData.startPage(1, 10).selectMapper(studentMapper.selectAll());
+        return Result.success(studentPageData);
     }
 
 
