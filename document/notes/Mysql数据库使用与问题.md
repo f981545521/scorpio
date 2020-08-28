@@ -47,6 +47,15 @@ from (select *, (@sum := @sum + number) as cume_number
      ) t
 where cume_number < 9 or (cume_number >= 9 and cume_number - number < 9);
 ```
+#### 别的设备不能访问
+开启允许外部访问
+```
+update user set host = '%' where user = 'root';
+FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION;
+```
+
+
 
 
 
