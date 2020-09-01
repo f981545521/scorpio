@@ -18,17 +18,19 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class MessageWebSocket extends TextWebSocketHandler {
     //在线用户列表
-    private static final Map<Integer, WebSocketSession> users;
+    private static final Map<Integer, WebSocketSession> users = new ConcurrentHashMap<>();
     //用户标识
     private static final String CLIENT_ID = "userId";
 
-    static {
-        users = new ConcurrentHashMap<>();
-    }
-
+    /**
+     * 收到客户端发送的消息
+     * @param session 客户端session
+     * @param message 消息
+     * @throws Exception ex
+     */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        WebSocketMessage respMessage = new TextMessage("你好，客户端：服务端已经收到你发的消息！" + message);
+        WebSocketMessage<String> respMessage = new TextMessage("你好，客户端：服务端已经收到你发的消息！" + message);
         session.sendMessage(respMessage);
         log.info("Web Socket Handler : " + message.getPayload());
         super.handleTextMessage(session, message);
@@ -146,7 +148,7 @@ public class MessageWebSocket extends TextWebSocketHandler {
             }
         }
 
-        return  allSendSuccess;
+        return allSendSuccess;
     }
 
 }
