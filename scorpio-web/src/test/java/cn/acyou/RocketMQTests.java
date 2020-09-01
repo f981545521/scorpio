@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
  * @version [1.0.0, 2020/8/28]
  **/
 public class RocketMQTests {
+
+    private String producerGroup = "SCORPIO-GROUP";
     /**
      * 1、Producer端发送同步消息
      * 这种可靠性同步地发送方式使用的比较广泛，比如：重要的消息通知，短信通知。
@@ -31,7 +33,7 @@ public class RocketMQTests {
     @Test
     public void test1() throws Exception{
         // 实例化消息生产者Producer
-        DefaultMQProducer producer = new DefaultMQProducer("Producer_Demo");
+        DefaultMQProducer producer = new DefaultMQProducer(producerGroup);
         // 设置NameServer的地址
         producer.setNamesrvAddr("localhost:9876");
         // 启动Producer实例
