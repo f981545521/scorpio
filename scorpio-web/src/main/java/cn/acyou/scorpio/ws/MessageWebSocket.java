@@ -1,6 +1,8 @@
 package cn.acyou.scorpio.ws;
 
+import cn.acyou.framework.utils.redis.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.*;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -21,6 +23,8 @@ public class MessageWebSocket extends TextWebSocketHandler {
     private static final Map<Integer, WebSocketSession> users = new ConcurrentHashMap<>();
     //用户标识
     private static final String CLIENT_ID = "userId";
+    @Autowired
+    private RedisUtils redisUtils;
 
     /**
      * 收到客户端发送的消息
