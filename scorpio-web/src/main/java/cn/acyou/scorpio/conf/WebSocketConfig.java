@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.conf;
 
+import cn.acyou.scorpio.interceptor.WebSocketInterceptor;
 import cn.acyou.scorpio.ws.MessageWebSocket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,9 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(messageWebSocket, "/messages").setAllowedOrigins("*");
+        registry.addHandler(messageWebSocket, "/messages")
+                .setAllowedOrigins("*")
+                .addInterceptors(new WebSocketInterceptor());
     }
 
 }

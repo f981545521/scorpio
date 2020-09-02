@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class MessageWebSocket extends TextWebSocketHandler {
     //在线用户列表
-    private static final Map<Integer, WebSocketSession> users = new ConcurrentHashMap<>();
+    private static final Map<Long, WebSocketSession> users = new ConcurrentHashMap<>();
     //用户标识
     private static final String CLIENT_ID = "userId";
     @Autowired
@@ -34,6 +34,10 @@ public class MessageWebSocket extends TextWebSocketHandler {
      */
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        Long userId = (Long) session.getAttributes().get("userId");
+        if (users.get(userId) == null) {
+            users.put(userId, session);
+        }
         WebSocketMessage<String> respMessage = new TextMessage("你好，客户端：服务端已经收到你发的消息！" + message);
         session.sendMessage(respMessage);
         log.info("Web Socket Handler : " + message.getPayload());
@@ -46,7 +50,7 @@ public class MessageWebSocket extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         log.info("成功建立连接");
-        Integer userId = getClientId(session);
+        Long userId = getClientId(session);
         if (userId != null) {
             users.put(userId, session);
             session.sendMessage(new TextMessage("成功建立socket连接"));
@@ -89,7 +93,7 @@ public class MessageWebSocket extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         log.error("连接已关闭：" + status);
-        Integer clientId = getClientId(session);
+        Long clientId = getClientId(session);
         if (clientId != null){
             users.remove(clientId);
         }
@@ -108,9 +112,9 @@ public class MessageWebSocket extends TextWebSocketHandler {
      * @param session
      * @return
      */
-    private Integer getClientId(WebSocketSession session) {
+    private Long getClientId(WebSocketSession session) {
         try {
-            Integer clientId = (Integer) session.getAttributes().get(CLIENT_ID);
+            Long clientId = (Long) session.getAttributes().get(CLIENT_ID);
             return clientId;
         } catch (Exception e) {
             return null;
@@ -120,7 +124,7 @@ public class MessageWebSocket extends TextWebSocketHandler {
     /**
      * 发送信息给指定用户
      */
-    public boolean sendMessageToUser(Integer clientId, TextMessage message) {
+    public boolean sendMessageToUser(Long clientId, TextMessage message) {
         if (users.get(clientId) == null) return false;
         WebSocketSession session = users.get(clientId);
         if (!session.isOpen()) return false;
@@ -138,9 +142,9 @@ public class MessageWebSocket extends TextWebSocketHandler {
      */
     public boolean sendMessageToAllUsers(TextMessage message) {
         boolean allSendSuccess = true;
-        Set<Integer> clientIds = users.keySet();
+        Set<Long> clientIds = users.keySet();
         WebSocketSession session = null;
-        for (Integer clientId : clientIds) {
+        for (Long clientId : clientIds) {
             try {
                 session = users.get(clientId);
                 if (session.isOpen()) {
