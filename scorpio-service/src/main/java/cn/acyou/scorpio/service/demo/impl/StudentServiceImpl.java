@@ -38,7 +38,7 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public void studentTest() {
         Example example = builderExample()
                 .where(Sqls.custom()
-                        .andGreaterThan("birth", DateUtil.parseDate("2020-04-01")))
+                        .andGreaterThan("birth", DateUtil.parseDefaultDate("2020-04-01")))
                 .orderByDesc("age")
                 .build();
         List<Student> students = baseMapper.selectByExample(example);

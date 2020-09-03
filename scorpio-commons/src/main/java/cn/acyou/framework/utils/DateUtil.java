@@ -13,7 +13,7 @@ public final class DateUtil {
 
     public static final String SHORT_DATE_PATTERN = "yyyyMMdd";
     public static final String DEFAULT_DATE_FORMAT_PATTERN = "yyyy-MM-dd";
-    public static final String SPECIFIC_DATE_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String SPECIFIC_DATE_TIME_FORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_DAY_MIN_TIME = " 00:00:00";
     public static final String DATE_DAY_MAX_TIME = " 23:59:59";
     public static final String DATE_SERIES_FORMAT_PATTERN = "yyyyMMddHHmmss";
@@ -49,11 +49,11 @@ public final class DateUtil {
     }
 
     public static String getDateFormat(Date date) {
-        return getDateFormat(date, SPECIFIC_DATE_FORMAT_PATTERN);
+        return getDateFormat(date, SPECIFIC_DATE_TIME_FORMAT_PATTERN);
     }
 
     public static String getCurrentDateFormat() {
-        return getDateFormat(new Date(), SPECIFIC_DATE_FORMAT_PATTERN);
+        return getDateFormat(new Date(), SPECIFIC_DATE_TIME_FORMAT_PATTERN);
     }
 
     public static String getCurrentDateFormat(String format) {
@@ -72,8 +72,22 @@ public final class DateUtil {
         return new DateTime(date).toString(format);
     }
 
-    public static Date parseDate(String dateStr) {
+    /**
+     * 解析具体的日期
+     * @param dateStr yyyy-MM-dd HH:mm:ss 类型
+     * @return Date类型
+     */
+    public static Date parseDefaultDate(String dateStr) {
         return parseDate(dateStr, DEFAULT_DATE_FORMAT_PATTERN);
+    }
+
+    /**
+     * 解析具体的时间
+     * @param dateStr yyyy-MM-dd HH:mm:ss 类型
+     * @return Date类型
+     */
+    public static Date parseSpecificDateTime(String dateStr) {
+        return parseDate(dateStr, SPECIFIC_DATE_TIME_FORMAT_PATTERN);
     }
 
     public static Date parseDate(String dateStr, String format) {

@@ -24,3 +24,14 @@
      
     # GitHub End
 ```
+### 约定
+- POJO（Plain Ordinary Java Object）:
+
+    在本规约中，POJO 专指只有 setter/getter/toString 的简单类，包括 DO/DTO/BO/VO 等。
+
+- DTO(Data Transfer Object) 数据传输对象
+- PO(persistant object) 持久对象
+
+    通常对应数据模型 ( 数据库 )
+    
+    
