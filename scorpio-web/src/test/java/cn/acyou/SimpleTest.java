@@ -1,5 +1,6 @@
 package cn.acyou;
 
+import cn.acyou.framework.utils.BeanUtil;
 import cn.acyou.scorpio.system.entity.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -13,10 +14,7 @@ import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -182,5 +180,13 @@ public class SimpleTest {
         String s = "Unable to find instance for aquarius-order";
         System.out.println(s.indexOf("Unable to find instance for"));
         System.out.println(s.substring(s.indexOf("Unable to find instance for ") + "Unable to find instance for ".length()));
+    }
+    @Test
+    public void ctest(){
+        Student student = new Student();
+        student.setName("王二小");
+        student.setAge(23);
+        HashMap<String, Object> stringObjectHashMap = BeanUtil.convertToMap(student);
+        System.out.println(stringObjectHashMap);
     }
 }
