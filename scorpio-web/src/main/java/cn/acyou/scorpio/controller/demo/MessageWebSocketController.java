@@ -32,7 +32,7 @@ public class MessageWebSocketController {
 
     @RequestMapping(value = "/message", method = {RequestMethod.POST})
     @ResponseBody
-    public String sendMessage(Integer id, String message) {
+    public String sendMessage(Long id, String message) {
         message = 1 + " | 对你说：" + message;
         if (id != null){
             webSocket.sendMessageToUser(id, new TextMessage(message));
