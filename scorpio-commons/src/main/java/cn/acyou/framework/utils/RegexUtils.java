@@ -11,7 +11,9 @@ import java.util.regex.Pattern;
  * @author youfang
  * @version [1.0.0, 2019年11月23日]
  */
+@Deprecated
 public class RegexUtils {
+
     /**
      * 判断是否是正确的IP地址
      *

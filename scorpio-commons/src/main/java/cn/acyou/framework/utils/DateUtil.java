@@ -606,6 +606,25 @@ public final class DateUtil {
         return new DateTime(milliseconds).toDate();
     }
 
+
+    /**
+     * 现在的时间在指定的时间范围内
+     * <pre>
+     *      DateUtil.nowInTimeRange("08:00:00", "17:00:00") -> 当前时间是不是在这个范围内
+     * </pre>
+     *
+     * @param timeStart 时间开始  in format "hh:mm:ss"
+     * @param timeEnd   时间结束  in format "hh:mm:ss"
+     * @return boolean
+     */
+    public static boolean nowInTimeRange(String timeStart, String timeEnd){
+        Date nowDate = new Date();
+        String dateFormat = getDateFormat(nowDate, DEFAULT_DATE_FORMAT_PATTERN);
+        Date startDate = parseSpecificDateTime(dateFormat + " " + timeStart);
+        Date endDate = parseSpecificDateTime(dateFormat + " " + timeEnd);
+        return nowDate.after(startDate) && nowDate.before(endDate);
+    }
+
     public static void main(String[] args) {
         Date d1 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("1993-10-01").toDate();
         //Date d2 = DateTimeFormat.forPattern("yyyy-MM-dd").parseDateTime("2019-09-12").toDate();

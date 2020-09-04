@@ -1,6 +1,7 @@
 package cn.acyou;
 
 import cn.acyou.framework.utils.BeanUtil;
+import cn.acyou.framework.utils.RegexUtil;
 import cn.acyou.scorpio.system.entity.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -13,6 +14,7 @@ import org.slf4j.helpers.MessageFormatter;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Time;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -188,5 +190,23 @@ public class SimpleTest {
         student.setAge(23);
         HashMap<String, Object> stringObjectHashMap = BeanUtil.convertToMap(student);
         System.out.println(stringObjectHashMap);
+    }
+    private static final String WORK_TIME = "08:00:00-17:00:00";
+    @Test
+    public void dtest(){
+        Time startTime = Time.valueOf("08:00:00");
+        Time endTime = Time.valueOf("17:00:00");
+
+        Time nowTime = new Time(System.currentTimeMillis());
+
+        //System.out.println(DateUtil.nowInTimeRange("08:00:00", "17:00:00"));
+
+        String s = "08:00:00";
+        System.out.println(s.matches("\\d\\d:\\d\\d:\\d\\d"));
+
+        System.out.println(RegexUtil.isTime("08:00:00"));
+        System.out.println(RegexUtil.isTime("18:00:00"));
+        System.out.println(RegexUtil.isTime("28:00:00"));
+        System.out.println(RegexUtil.isTime("08:60:00"));
     }
 }
