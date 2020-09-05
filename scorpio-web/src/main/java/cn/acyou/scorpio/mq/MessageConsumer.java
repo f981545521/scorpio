@@ -4,6 +4,7 @@ import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.utils.RandomUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.core.RocketMQPushConsumerLifecycleListener;
@@ -15,7 +16,14 @@ import org.springframework.stereotype.Service;
  **/
 @Slf4j
 @Service
-@RocketMQMessageListener(topic = "userTopic", consumerGroup = "string_consumer")
+@RocketMQMessageListener(
+        topic = "user-topic",
+        consumerGroup = "user-consumer",
+        selectorExpression = "*",
+        consumeMode = ConsumeMode.ORDERLY, //顺序消费
+        //消息广播 messageModel = MessageModel.BROADCASTING,
+        enableMsgTrace = true, //开启消息轨迹
+        customizedTraceTopic = "trace-topic")
 public class MessageConsumer implements RocketMQListener<String>, RocketMQPushConsumerLifecycleListener {
     /**
      * 只要没有异常出现，那么就会消费成功，有异常出现了就重新进行发送
@@ -23,7 +31,7 @@ public class MessageConsumer implements RocketMQListener<String>, RocketMQPushCo
     @Override
     public void onMessage(String message) {
         log.info("MessageConsumer 收到消息：" + message);
-        if (RandomUtil.randomAge() > 30){
+        if (RandomUtil.randomAge() > 90){
             log.info("发生异常");
             throw new ServiceException("unexpect exception.");
         }
