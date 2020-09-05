@@ -209,4 +209,17 @@ public class SimpleTest {
         System.out.println(RegexUtil.isTime("28:00:00"));
         System.out.println(RegexUtil.isTime("08:60:00"));
     }
+
+    @Test
+    public void etest() throws Exception{
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("ok..");
+            }
+        }, 10000, 5000);
+    }
+
+
 }

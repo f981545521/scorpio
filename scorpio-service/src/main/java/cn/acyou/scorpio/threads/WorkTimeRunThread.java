@@ -21,7 +21,7 @@ public class WorkTimeRunThread extends Thread {
 
     @Override
     public void run() {
-        /*
+        /**
          * 参考：https://help.aliyun.com/document_detail/141779.html?spm=a2c4g.11186623.6.631.f3b75627NytP7A
          * RocketMQ 客户端中，基本上都是通过while (true)来实现的
          * <pre>
@@ -33,6 +33,9 @@ public class WorkTimeRunThread extends Thread {
          *        }
          * </pre>
          *
+         * 参考：{@link Timer.mainLoop}
+         *
+         * 6个延时队列的实现方案: http://www.dockone.io/article/10139
          */
         while (true) {
             if (new Date().before(DateUtil.parseSpecificDateTime("2020-09-04 23:20:00"))) {
