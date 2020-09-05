@@ -21,7 +21,19 @@ public class WorkTimeRunThread extends Thread {
 
     @Override
     public void run() {
-
+        /*
+         * 参考：https://help.aliyun.com/document_detail/141779.html?spm=a2c4g.11186623.6.631.f3b75627NytP7A
+         * RocketMQ 客户端中，基本上都是通过while (true)来实现的
+         * <pre>
+         *        static void Main(string[] args){
+         *             // 在当前线程循环消费消息，建议是多开个几个线程并发消费消息
+         *             while (true){
+         *                  。。。。
+         *             }
+         *        }
+         * </pre>
+         *
+         */
         while (true) {
             if (new Date().before(DateUtil.parseSpecificDateTime("2020-09-04 23:20:00"))) {
                 log.info("WorkTimeRunThread running ok .");

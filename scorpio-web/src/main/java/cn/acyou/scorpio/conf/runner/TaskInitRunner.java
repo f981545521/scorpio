@@ -47,6 +47,10 @@ public class TaskInitRunner implements ApplicationRunner {
 
         //启动线程监听
         WorkTimeRunThread workTimeRunThread = new WorkTimeRunThread();
+        /*
+         *  开启守护线程后，在没有用户线程可服务时将自动离开
+         */
+        workTimeRunThread.setDaemon(true);
         workTimeRunThread.start();
     }
 }
