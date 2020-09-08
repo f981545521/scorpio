@@ -11,9 +11,9 @@
  ```
 > 1、不同的系统，mysql 的配置文件名以及路径不同
 
-> 2、Mac或Linux文件  /etc/my.cnf
+> 2、Mac或Linux文件  `/etc/my.cnf`
 
-> 3、windows 在数据库安装目录下的 my.ini
+> 3、windows 在 `C:\ProgramData\MySQL\MySQL Server 8.0`
 
 3. 重启服务
 
@@ -28,7 +28,7 @@
 `set global max_allowed_packet = 6*1024*1024;`
 
 配置文件修改：
-可以编辑 my.cnf（windows 下 my.ini，linux 下一般是/etc/my.cnf）来修改 ,在[mysqld]段或者 mysql 的 server 配置段增加下面配置：
+可以编辑 my.cnf来修改 ,在[mysqld]段或者 mysql 的 server 配置段增加下面配置：
 ```
 [mysqld]
 max_allowed_packet=6M
