@@ -29,9 +29,23 @@
 
     在本规约中，POJO 专指只有 setter/getter/toString 的简单类，包括 DO/DTO/BO/VO 等。
 
-- DTO(Data Transfer Object) 数据传输对象
-- PO(persistant object) 持久对象
+    
+- POJO 是 DO/DTO/BO/VO 的统称，禁止命名成 xxxPOJO。
+- DTO(Data Transfer Object):数据传输对象
 
-    通常对应数据模型 ( 数据库 )
-    
-    
+- Po(Parameter Object):请求参数
+
+	接收提交的参数，增、删、改	类型操作
+- So(Search Object):分页查询参数对象
+
+	接收提交的参数，查询		类型
+- Bo(Business Object): 业务对象
+
+	内部转换使用
+- Vo(View Object)：展示对象
+
+	页面响应信息，接口返回使用
+
+- DO(Data Object):此对象与数据库表结构一一对应，通过 DAO 层向上传输数据源对象。
+
+- PO（Persistent Object）：持久化对象
