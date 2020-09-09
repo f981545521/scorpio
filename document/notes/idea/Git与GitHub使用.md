@@ -7,17 +7,18 @@ $ git config user.email
 
 2.修改全局用户名和邮箱地址：
 ```
-$ git config --global user.name  "username"     
-$ git config --global user.email "email"       
+$ git config --global user.name  youfang
+$ git config --global user.email youfang@acyou.cn
 ```
  
 3.修改局部用户名和邮箱地址:
 ```
 $ cd ~/you project                       
-$ git config user.name  "username"      
-$ git config user.email "email" 
+$ git config user.name youfang
+$ git config user.email youfang@acyou.cn
 ```
 
+- [Git 参考手册](https://git-scm.com/book/zh/v2)
 - [GitHub 使用指南](https://docs.github.com/cn/github/getting-started-with-github)
 - [更改作者信息](https://docs.github.com/cn/github/using-git/changing-author-info)
 
@@ -48,10 +49,3 @@ fi
 ```
 4. 运行脚本。
 5. git push --force --tags origin 'refs/heads/*'
-
-
-
-
--- test commit
--- test commit2
--- test commit3
