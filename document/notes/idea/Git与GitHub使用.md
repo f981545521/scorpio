@@ -48,3 +48,6 @@ fi
 ```
 4. 运行脚本。
 5. git push --force --tags origin 'refs/heads/*'
+
+
+
