@@ -27,6 +27,10 @@ Try-Confirm-Cancel 编程，需要对应的confirm、cancel方法的逻辑，太
 - 消息回查
 Producer 端一直没有对 Half Message(半消息) 进行 二次确认。这是Brock服务器会定时扫描长期处于半消息的消息，会主动询问 Producer端 该消息的最终状态(Commit或者Rollback)，该消息即为消息回查。
 
+### Seata事务框架
+
+阿里开源
+
 ### 再研究
 - [微服务架构的分布式事务解决方案](https://wenku.baidu.com/video/courseview/41ea27fff705cc175527093e?fr=baidu&fromplaylist=1)
 
