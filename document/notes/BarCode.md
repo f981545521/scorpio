@@ -1,3 +1,9 @@
+---
+title: BarCode生成
+date: 2020-09-11 15:27:12
+tags: 
+---
+
 ## BarCode生成
 
 ### BarCode4j

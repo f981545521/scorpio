@@ -302,4 +302,15 @@ public class StudentController {
         studentMapper.insertSelective(student);
         return Result.success(key);
     }
+
+    @RequestMapping(value = "testResponseBodyMaxLength", method = {RequestMethod.GET})
+    @ApiOperation("测试返回值的最大长度")
+    public Result<?> testResponseBodyMaxLength(){
+        List<String> strings = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            //TODO:
+            strings.add("ok");
+        }
+        return Result.success(strings);
+    }
 }
