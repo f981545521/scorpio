@@ -4,8 +4,14 @@ date: 2020-09-12 00:05:10
 tags: 
 ---
 ## oauth授权
+- [spring-security-oauth（GitHub 项目源码）](https://github.com/spring-projects/spring-security-oauth)
 - [参考文档](http://javajgs.com/archives/1479)
 - [oauth2-demo](https://github.com/lexburner/oauth2-demo)
+- [springcloud-oauth](https://gitee.com/copoile/springcloud-oauth2)
+- [系列文章 - 从零开始的Spring Security Oauth2](http://blog.didispace.com/spring-security-oauth2-xjf-1/)
+- [spring-security-oauth2-example 数据库版](https://github.com/wanghongfei/spring-security-oauth2-example)
+- [Auth-service Redis版](https://github.com/keets2012/Auth-service)
+- [microservice-integration 网关整合版](https://gitee.com/keets/microservice-integration)
 
 
 ### 1. 授权码模式使用
