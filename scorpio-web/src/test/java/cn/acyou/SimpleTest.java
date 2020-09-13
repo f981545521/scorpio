@@ -6,6 +6,7 @@ import cn.acyou.scorpio.system.entity.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.TypeReference;
+import org.apache.commons.collections4.map.ListOrderedMap;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -219,6 +220,35 @@ public class SimpleTest {
                 System.out.println("ok..");
             }
         }, 10000, 5000);
+    }
+
+    @Test
+    public void ftest() throws Exception{
+        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        hashMap.put("222", "fsdf");
+        hashMap.put("33", "fsdf");
+        hashMap.put("45", "fsdf");
+        hashMap.put("67", "fsdf");
+        System.out.println(hashMap);
+
+        ListOrderedMap<String, String> listOrderedMap = new ListOrderedMap<>();
+        listOrderedMap.put("222", "fsdf");
+        listOrderedMap.put("33", "fsdf");
+        listOrderedMap.put("45", "fsdf");
+        listOrderedMap.put("67", "fsdf");
+
+        listOrderedMap.put(0, "888", "ok");
+        System.out.println(listOrderedMap);
+    }
+
+    @Test
+    public void gtest(){
+        List<String> list = new ArrayList<>();
+        list.add("111");
+        list.add("222");
+        list.add("1411");
+        list.add("445");
+        System.out.println(list);
     }
 
 
