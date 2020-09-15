@@ -79,13 +79,18 @@ spring-boot -> v2.3.3.RELEASE
 #### 阶段号规则：
 - Alpha(αbai)：预览版，或du者叫内部测试版；一般不向外zhi部发布，会有很多Bug；一般只有测试人员使用。
 - Beta(β)：测试版，或者叫公开测试版；这个阶段的版本会一直加入新的功能；在 Alpha版之后推出。
-- RC：(Release　Candidate) 用在软件上就是候选版本。系统平台上就是发行候选版本。RC版不会再加入新的功能了，主要着重于除错。`v2.1.0.RC1`
+- RC：(Release　Candidate) 用在软件上就是候选版本。系统平台上就是发行候选版本。RC版不会再加入新的功能了，主要着重于除错。`springboot -> v2.1.0.RC1`
 - RELEASE：STABLE版：稳定版。在开源软件中，都有stable版，这个就是开源软件的最终发行版，用户可以放心大胆的用了。
     > GA：General Availability  正式发布的版本，在国外都是用GA来说明release版本的。
     >
     > STABLE：稳定版。
+- M1：(Mn)：M是milestone的缩写，是里程碑版本。`springboot -> v2.1.0.M4`
 - OEM：是给计算机厂商随着计算机贩卖的，也就是随机版。只能随机器出货，不能零售。
     > 原厂设备制造商OEM（Original Equipment Manufacturer）是受托厂商按来样厂商之需求与授权，按照厂家特定的条件而生产，所有的设计图等都完全依照来样厂商的设计来进行制造加工。
+
+#### 参考项目
+- [Spring Projects GitHub地址](https://github.com/spring-projects)
+- [Alibaba Projects GitHub地址](https://github.com/alibaba/)
 
 ## Git查看日志命令
 
