@@ -17,7 +17,7 @@ public class RandomUtil {
      * @param length     长度
      * @return 字符串
      */
-    public static String createRandom(boolean numberFlag, int length) {
+    public static String random(boolean numberFlag, int length) {
         StringBuilder retStr = new StringBuilder();
         String strTable = numberFlag ? "1234567890" : "1234567890abcdefghijkmnpqrstuvwxyz";
         int len = strTable.length();
@@ -40,6 +40,18 @@ public class RandomUtil {
 
         return retStr.toString();
     }
+    /**
+     * 生成随机数字
+     *
+     * @param length     长度
+     * @return 数字
+     */
+    public static Integer randomInt(int length) {
+        if (length <= 0){
+            return 0;
+        }
+        return new Random().nextInt(length);
+    }
 
     /**
      * 递归生成指定长度的随机字符串
@@ -47,12 +59,12 @@ public class RandomUtil {
      * @param length 长度
      * @return 字符串
      */
-    public static String createRandomStr(int length) {
+    public static String randomStr(int length) {
         String str = UUID.randomUUID().toString().replace("-", "");
         if (length < str.length()) {
             return str.substring(str.length() - length);
         }
-        return str + createRandomStr(length - str.length());
+        return str + randomStr(length - str.length());
     }
 
     /**
@@ -341,4 +353,6 @@ public class RandomUtil {
         //String result = createRandomStr(180);
         //System.out.println(result + ":" + result.length());
     }
+
+
 }

@@ -3,6 +3,7 @@ package cn.acyou.scorpio.controller.sys;
 import cn.acyou.framework.exception.ServiceException;
 import cn.acyou.framework.model.PageData;
 import cn.acyou.framework.model.Result;
+import cn.acyou.framework.utils.DateUtil;
 import cn.acyou.framework.utils.IdUtil;
 import cn.acyou.framework.utils.RandomUtil;
 import cn.acyou.framework.utils.TreeUtil;
@@ -180,7 +181,7 @@ public class StudentController {
     @RequestMapping(value = "cookieTest", method = {RequestMethod.GET})
     @ApiOperation("cookie测试")
     public Result<Void> cookieTest(HttpServletResponse response){
-        Cookie cookie = new Cookie("scorpio-test", RandomUtil.createRandomStr(10));
+        Cookie cookie = new Cookie("scorpio-test", RandomUtil.randomStr(10));
         cookie.setHttpOnly(true);
         //过期时间：1年
         cookie.setMaxAge(365 * 24 * 60 * 60);
@@ -306,11 +307,15 @@ public class StudentController {
     @RequestMapping(value = "testResponseBodyMaxLength", method = {RequestMethod.GET})
     @ApiOperation("测试返回值的最大长度")
     public Result<?> testResponseBodyMaxLength(){
-        List<String> strings = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            //TODO:
-            strings.add("ok");
+        List<Student> students = new ArrayList<>();
+        for (int i = 0; i < 50000; i++) {
+            Student student = new Student();
+            student.setName(RandomUtil.randomUserName());
+            student.setAge(RandomUtil.randomAge());
+            student.setId(RandomUtil.randomInt(6));
+            student.setBirth(DateUtil.randomDate());
+            students.add(student);
         }
-        return Result.success(strings);
+        return Result.success(students);
     }
 }
