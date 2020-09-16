@@ -308,7 +308,11 @@ public class StudentController {
     @ApiOperation("测试返回值的最大长度")
     public Result<?> testResponseBodyMaxLength(){
         List<Student> students = new ArrayList<>();
-        for (int i = 0; i < 50000; i++) {
+        /**
+         * 50000  -> 436ms
+         * 100000 -> 887ms
+         */
+        for (int i = 0; i < 100000; i++) {
             Student student = new Student();
             student.setName(RandomUtil.randomUserName());
             student.setAge(RandomUtil.randomAge());
