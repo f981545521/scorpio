@@ -331,6 +331,7 @@ PDF417
 ^XZ
 ```
 
+- [ZPL命令 实现打印中文](https://blog.csdn.net/oonukeoo/article/details/81533851)
 - [Zebra ZPL条形码打印机上如何下载和使用TrueType或External字体](http://www.chongshang.com.cn/manual/ZPL_font.shtml)
 
 
