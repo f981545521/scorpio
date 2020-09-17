@@ -50,6 +50,25 @@ CREATE TABLE `t_task_schedule_job_log`(
     KEY `job_id` (`job_id`)
 ) ENGINE = `InnoDB` DEFAULT CHARACTER SET utf8mb4 COMMENT ='定时任务日志';
 
+-- student表不行了，换个复杂点的表
+CREATE TABLE `sys_user` (
+    `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+    `role_id` bigint DEFAULT NULL COMMENT '角色ID',
+    `user_name` varchar(50) NOT NULL COMMENT '用户真实姓名',
+    `signature` varchar(300) DEFAULT NULL COMMENT '用户签名',
+    `sex` int DEFAULT '1' COMMENT '性别 1男 2女',
+    `phone` varchar(11) NOT NULL COMMENT '用户手机号',
+    `age` int NOT NULL DEFAULT '0' COMMENT '年龄',
+    `birthday` date DEFAULT NULL COMMENT '生日',
+    `password` varchar(50) NOT NULL COMMENT '密码',
+    `status` int NOT NULL DEFAULT 1 COMMENT '状态 0禁用 1正常',
+    `create_user` bigint DEFAULT NULL COMMENT '创建人',
+    `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间,默认当前时间',
+    `update_user` bigint DEFAULT NULL COMMENT '修改人',
+    `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='系统用户表';
+
 
 
 
