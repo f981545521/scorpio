@@ -251,5 +251,14 @@ public class SimpleTest {
         System.out.println(list);
     }
 
+    @Test
+    public void test2123(){
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 50; i++) {
+            sb.append(String.format("%03d", i));
+        }
+        System.out.println(sb.toString());
+    }
+
 
 }
