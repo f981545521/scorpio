@@ -2,5 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.acyou.scorpio.system.mapper.UserMapper">
 
-
+    <sql id="tes1">
+        select user_id, role_id, user_name, signature, sex, phone, age, birthday, password, status, create_user, create_time, update_user, update_time from sys_user
+    </sql>
 </mapper>
