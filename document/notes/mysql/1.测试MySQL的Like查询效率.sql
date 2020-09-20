@@ -43,9 +43,16 @@ END WHILE;
 END
 
 -- 1.3 调用存储过程
+-- 数字是要增加记录的数量
+-- 100w 1600s 26min
+-- 200w 3122s 26min
+-- call insert_product3(2000000)
+-- > OK
+-- > 时间: 3122.488s
 call insert_product3(1000);
 
-> 数字是要增加记录的数量
+
+
 
 
 
