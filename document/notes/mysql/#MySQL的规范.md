@@ -5,6 +5,8 @@ tags:
 ---
 ## MySQL的规范
 
+
+### Count问题
 >
 > 阿里巴巴开发规范的**SQL 语句**章节中
 > 1. 【强制】不要使用 count(列名)或 count(常量)来替代 count(*)，count(*)是 SQL92 定义的标
@@ -17,4 +19,8 @@ tags:
 
 参照[实战说明](1.测试MySQL的Like查询效率.md)后得到结论：以后还是用count(*)
 
+
+### Between 包含问题
+
+Mysql和Oracle的between and都是闭区间，包含两端的值
 
