@@ -260,5 +260,26 @@ public class SimpleTest {
         System.out.println(sb.toString());
     }
 
+    @Test
+    public void test2126563(){
+        System.out.println(storageZpl("22222"));
+    }
+
+    /**
+     * 库位码 打印ZPL
+     *
+     * @param code 代码
+     * @return {@link String}
+     */
+    private static String storageZpl(String code){
+        StringBuilder sb = new StringBuilder();
+        sb.append("^XA" +
+                "^FO40,25" +
+                "^BCN,180,Y,N,N" +
+                "^FD").append(code).append("^FS")
+                .append("^XZ");
+
+        return sb.toString();
+    }
 
 }
