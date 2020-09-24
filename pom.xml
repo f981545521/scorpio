@@ -173,6 +173,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
+                        <!-- formal(正式的)目录下，所有的以TestCase结尾的文件，加入自动测试。 -->
                         <include>formal/**/*TestCase.java</include>
                     </includes>
                 </configuration>

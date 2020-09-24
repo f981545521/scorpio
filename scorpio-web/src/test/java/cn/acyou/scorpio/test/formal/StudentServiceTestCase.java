@@ -1,10 +1,14 @@
 package cn.acyou.scorpio.test.formal;
 
+import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.test.formal.base.ApplicationBaseTests;
 import cn.acyou.scorpio.service.demo.StudentService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Commit;
 import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
 
 /**
  * @author youfang
@@ -16,9 +20,24 @@ public class StudentServiceTestCase extends ApplicationBaseTests {
     private StudentService studentService;
 
     @Test
-    @Rollback
-    public void test1(){
+    @Rollback//加入注解 或者 默认 会回滚
+    public void testRollback(){
         studentService.addAStudent();
-        System.out.println("执行了测试用例");
+        System.out.println("执行了测试用例 testRollback");
+    }
+    @Test
+    @Commit//如果需要提交事务，使用此注解
+    public void testCommit(){
+        studentService.addAStudent();
+        System.out.println("执行了测试用例 testCommit");
+    }
+
+
+    @Test
+//  @Commit
+    public void testSQl(){
+        System.out.println("执行测试用例 testSQl...");
+        List<Student> students = studentService.selectAll();
+        System.out.println(students);
     }
 }
