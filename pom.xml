@@ -26,6 +26,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencyManagement>
@@ -171,7 +172,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <includes>
+                        <include>formal/**/*TestCase.java</include>
+                    </includes>
                 </configuration>
             </plugin>
             <plugin>

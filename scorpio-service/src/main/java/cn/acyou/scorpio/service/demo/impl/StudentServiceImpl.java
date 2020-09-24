@@ -55,7 +55,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         student.setAge(RandomUtil.randomAge());
         student.setBirth(new Date());
         baseMapper.insert(student);
-        int i = 1/0;
     }
 
     @Override
