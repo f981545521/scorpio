@@ -22,3 +22,13 @@
 
     ![](../../images/ideaUse_4.png)
 
+### 提高IDEA的启动速度
+- 方法一：Help -> Edit Custom VM Options...
+- 方法二：编辑文件：`C:\Users\acyou\.IntelliJIdea2019.3\config\idea64.exe.vmoptions`
+
+```
+-Xms1G
+-Xmx2G
+-XX:ReservedCodeCacheSize=500m
+
+```

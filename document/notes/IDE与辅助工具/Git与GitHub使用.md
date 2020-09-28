@@ -1,4 +1,10 @@
 ## Git 与 GitHub
+### 客户端
+- [Git.exe 下载地址](https://git-scm.com/downloads)
+- [TortoiseGit](https://tortoisegit.org/download/)
+     1. 先安装语言包
+     2. 安装程序
+
 ### 使用前配置（必须）
 1.查看用户名和邮箱地址
 ```

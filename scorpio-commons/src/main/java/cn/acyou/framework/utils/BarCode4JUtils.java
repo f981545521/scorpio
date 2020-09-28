@@ -33,7 +33,6 @@ public class BarCode4JUtils {
      * @param message       要生成的文本
      * @param withQuietZone 是否两边留白
      * @param hideText      隐藏可读文本
-     * @return 图片对应的字节码
      */
     public static void generateBarCode128(String message, Double height, Double width, boolean withQuietZone, boolean hideText) {
         Code128Bean bean = new Code128Bean();
@@ -63,14 +62,13 @@ public class BarCode4JUtils {
             canvas.finish();
             fileOutputStream.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
     /**
      * 生成Pdf417码
      *
      * @param message       要生成的文本
-     * @return 图片对应的字节码
      */
     public static void generateBarPdf417(String message, Double height, Double width, boolean withQuietZone, boolean hideText) {
         PDF417Bean bean = new PDF417Bean();
@@ -99,7 +97,7 @@ public class BarCode4JUtils {
             canvas.finish();
             fileOutputStream.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -107,7 +105,6 @@ public class BarCode4JUtils {
      * 生成UPC码
      *
      * @param message       要生成的文本
-     * @return 图片对应的字节码
      */
     public static void generateBarUpc(String message, Double height, Double width, boolean withQuietZone, boolean hideText) {
         UPCABean bean = new UPCABean();
@@ -137,7 +134,7 @@ public class BarCode4JUtils {
             canvas.finish();
             fileOutputStream.close();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -157,19 +154,16 @@ public class BarCode4JUtils {
             //Open output file
             File outputFile = new File("D:\\temp\\barcode4j.png");
             OutputStream out = new FileOutputStream(outputFile);
-            try {
-                //Set up the canvas provider for monochrome JPEG output
-                BitmapCanvasProvider canvas = new BitmapCanvasProvider(
-                        out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+            //Set up the canvas provider for monochrome JPEG output
+            BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+                    out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
 
-                //Generate the barcode
-                bean.generateBarcode(canvas, "123456");
+            //Generate the barcode
+            bean.generateBarcode(canvas, "123456");
 
-                //Signal end of generation
-                canvas.finish();
-            } finally {
-                out.close();
-            }
+            //Signal end of generation
+            canvas.finish();
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
