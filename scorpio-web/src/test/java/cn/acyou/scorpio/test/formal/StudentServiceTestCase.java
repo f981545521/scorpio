@@ -3,6 +3,7 @@ package cn.acyou.scorpio.test.formal;
 import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.test.formal.base.ApplicationBaseTests;
 import cn.acyou.scorpio.service.demo.StudentService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Commit;
@@ -24,6 +25,10 @@ public class StudentServiceTestCase extends ApplicationBaseTests {
     public void testRollback(){
         studentService.addAStudent();
         System.out.println("执行了测试用例 testRollback");
+        List<Student> students = studentService.selectAll();
+        //initDb.sql 里面4条记录 + 刚添加的一条记录都会被查出
+        Assert.assertEquals(students.size(), 5);
+        System.out.println(students);
     }
     @Test
     @Commit//如果需要提交事务，使用此注解
