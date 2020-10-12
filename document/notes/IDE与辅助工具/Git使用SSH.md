@@ -20,7 +20,7 @@ PS C:\Users\acyou> ssh-keygen -t rsa -C "youfang@acyou.cn"
 
 ![](../../images/git_ssh1.png)
 
-## 第三步：将文件内容复制到平台
+## 第三步：将`id_rsa.pub`文件内容复制到平台
 
 ![](../../images/git_ssh2.png)
 
