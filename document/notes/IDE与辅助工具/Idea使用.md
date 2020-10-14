@@ -32,3 +32,15 @@
 -XX:ReservedCodeCacheSize=500m
 
 ```
+
+### 如何让IntelliJ IDEA像eclipse一样同一窗口查看多个项目
+
+点击File -> Project Structure-Modules -> + -> import Module -> 选择项目 -> Maven ...
+
+![](../../images/idea_project_2.png)
+
+最终效果图
+
+![](../../images/idea_project_1.png)
+
+> 原理：打开一下项目，把另外一个项目作为一个module导入到这个项目里。
