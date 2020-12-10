@@ -56,11 +56,56 @@ public class PrinterUtil {
                 "\n" +
                 "^FO30,140\n" +
                 "^B7N,8,4,5,,N\n" +
-                "^FD " + content + " ^FS\n" +
+                "^FD" + content + "^FS\n" +
                 "\n" +
                 "^FO70,220\n" +
                 "^A2N,20,10\n" +
-                "^FD " + content + " ^FS\n" +
+                "^FD" + content + "^FS\n" +
+                "\n" +
+                "^XZ";
+    }
+
+    /**
+     * 格式商品代码
+     *
+     * @param title         标题
+     * @param specification 规范
+     * @param goodsModel    产品模型
+     * @param expiryDate    截止日期
+     * @param content       内容
+     * @return {@link String}
+     */
+    public static String formatGoodsCode(String title, String specification, String goodsModel, String expiryDate, String content) {
+        return "^XA\n" +
+                "^SEE:GB18030.DAT^FS\n" +
+                "^CWZ,E:SIMSUN.FNT\n" +
+                "^CI26\n" +
+                "^JMA^LL300^PW400^MD10^PR2^PON^LRN^LH0,0\n" +
+                "\n" +
+                "\n" +
+                "^FO20,20\n" +
+                "^AZN,35,35\n" +
+                "^FD " + title + "^FS\n" +
+                "\n" +
+                "^FO20,60\n" +
+                "^AZN,20,20\n" +
+                "^FD 规格:"+specification+"^FS\n" +
+                "\n" +
+                "^FO20,85\n" +
+                "^AZN,20,20\n" +
+                "^FD 型号:"+goodsModel+"^FS\n" +
+                "\n" +
+                "^FO20,110\n" +
+                "^AZN,20,20\n" +
+                "^FD 效期:"+expiryDate+"^FS\n" +
+                "\n" +
+                "^FO30,140\n" +
+                "^B7N,8,4,5,,N\n" +
+                "^FD" + content + "^FS\n" +
+                "\n" +
+                "^FO70,220\n" +
+                "^A2N,20,10\n" +
+                "^FD" + content + "^FS\n" +
                 "\n" +
                 "^XZ";
     }
