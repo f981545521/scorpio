@@ -25,4 +25,6 @@ public interface StudentMapper extends Mapper<Student> {
 
     Student testSelectEntityCanBeNull();
 
+    List<Student> getStudentsByAge(Integer age);
+
 }

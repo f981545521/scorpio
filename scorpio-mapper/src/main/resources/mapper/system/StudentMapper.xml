@@ -41,6 +41,14 @@
     <select id="testSelectEntityCanBeNull" resultType="cn.acyou.scorpio.system.entity.Student">
         select * from  student where age = 10000
     </select>
+    <select id="getStudentsByAge" resultType="cn.acyou.scorpio.system.entity.Student">
+        select * from  student
+        <where>
+            <if test="age!=null">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
 
 
 </mapper>

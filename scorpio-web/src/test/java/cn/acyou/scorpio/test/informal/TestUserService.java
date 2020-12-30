@@ -2,7 +2,9 @@ package cn.acyou.scorpio.test.informal;
 
 import cn.acyou.framework.utils.DateUtil;
 import cn.acyou.framework.utils.RandomUtil;
+import cn.acyou.scorpio.system.entity.Student;
 import cn.acyou.scorpio.system.entity.User;
+import cn.acyou.scorpio.system.mapper.StudentMapper;
 import cn.acyou.scorpio.system.mapper.UserMapper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,14 @@ import java.util.List;
 public class TestUserService extends ApplicationTests {
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private StudentMapper studentMapper;
 
+    @Test
+    public void test2(){
+        List<Student> studentsByAge = studentMapper.getStudentsByAge(22);
+        System.out.println(studentsByAge);
+    }
     @Test
     public void test1(){
         List<User> users = new ArrayList<>();
