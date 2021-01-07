@@ -24,6 +24,19 @@ public class TestUserService extends ApplicationTests {
     private StudentMapper studentMapper;
 
     @Test
+    public void testInsertListSelective(){
+        List<Student> students = new ArrayList<>();
+        Student student = new Student();
+        student.setAge(88);
+        student.setName("GG");
+        students.add(student);
+        Student student2 = new Student();
+        student2.setAge(88);
+        students.add(student2);
+        studentMapper.insertListSelective(students);
+        System.out.println(students);
+    }
+    @Test
     public void test2(){
         List<Student> studentsByAge = studentMapper.getStudentsByAge(22);
         System.out.println(studentsByAge);
