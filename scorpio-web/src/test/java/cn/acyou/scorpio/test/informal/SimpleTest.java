@@ -5,6 +5,7 @@ import cn.acyou.framework.utils.RegexUtil;
 import cn.acyou.scorpio.system.entity.Student;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.assertj.core.util.Arrays;
@@ -280,6 +281,17 @@ public class SimpleTest {
                 .append("^XZ");
 
         return sb.toString();
+    }
+
+    @Test
+    public void test23423(){
+        String jsonStr = "{\"enableRfid\":\"false\"}";
+        JSONObject jsonObject = JSON.parseObject(jsonStr);
+        System.out.println(jsonObject.getBooleanValue("enableRfid"));
+        System.out.println("ok");
+        JSONObject jsonObject1 = new JSONObject();
+        System.out.println(jsonObject1.getBooleanValue("enableRfid"));
+        System.out.println("ok2");
     }
 
 }
