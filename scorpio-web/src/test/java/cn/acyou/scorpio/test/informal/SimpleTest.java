@@ -282,4 +282,10 @@ public class SimpleTest {
         return sb.toString();
     }
 
+    @Test
+    public void test234(){
+        Date date = new Date();
+        System.out.println(date);
+    }
+
 }

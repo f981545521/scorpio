@@ -26,10 +26,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.RequestHandler;
 import springfox.documentation.spring.web.plugins.WebMvcRequestHandlerProvider;
 
@@ -321,5 +318,30 @@ public class StudentController {
             students.add(student);
         }
         return Result.success(students);
+    }
+
+    @RequestMapping(value = "testParams1", method = {RequestMethod.POST})
+    @ApiOperation("测试参数")
+    public Result<?> testParams1(@RequestParam String name, @RequestParam Integer age){
+        System.out.println("NAME" + name);
+        return Result.success(name);
+    }
+    @RequestMapping(value = "testParams2/{name}", method = {RequestMethod.POST})
+    @ApiOperation("测试参数")
+    public Result<?> testParams2(@PathVariable("name") String name){
+        System.out.println("NAME" + name);
+        return Result.success(name);
+    }
+    @RequestMapping(value = "testParams3", method = {RequestMethod.POST})
+    @ApiOperation("测试参数")
+    public Result<?> testParams3(@RequestBody String name){
+        System.out.println("NAME" + name);
+        return Result.success(name);
+    }
+    @RequestMapping(value = "testParams4/{age}", method = {RequestMethod.POST})
+    @ApiOperation("测试参数")
+    public Result<?> testParams4(String code, @RequestParam("name") String name, @PathVariable("age") String age, @RequestBody String interest){
+        System.out.println("NAME" + name);
+        return Result.success(name);
     }
 }
