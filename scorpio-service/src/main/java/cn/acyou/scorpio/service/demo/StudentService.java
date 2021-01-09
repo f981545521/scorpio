@@ -25,4 +25,6 @@ public interface StudentService extends Service<Student> {
 
     void testInsertSync();
 
+    void testInsertSelect();
+
 }

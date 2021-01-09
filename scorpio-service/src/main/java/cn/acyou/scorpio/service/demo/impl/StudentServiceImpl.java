@@ -168,4 +168,16 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
         baseMapper.incrementAge(id, delta);
     }
 
+    @Override
+    public void testInsertSelect() {
+        Student student = new Student();
+        student.setName("小花");
+        student.setAge(22);
+        student.setBirth(new Date());
+        baseMapper.insertSelective(student);
+
+        Example age = builderExample().where(Sqls.custom().andGreaterThan("age", 0)).build();
+        List<Student> students = baseMapper.selectByExample(age);
+        System.out.println(students);
+    }
 }

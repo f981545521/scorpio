@@ -127,7 +127,15 @@ Example Use:
     @CachePut(value="sys:student#2000", key="#id")  2000S过期
 ```
 
-
+### 注意
+cacheable基于spring的动态代理，当方法里写方法时，自调用不会走代理类。
+#### 方法1：
+1. 启动类上加注解：
+@EnableAspectJAutoProxy(exposeProxy = true)
+2. 获取当前的代理对象
+Object o = AopContext.currentProxy();
+#### 方法2：
+使用SpringHelper获取Bean对象。
 
 #### 参考文档
 [SpringBoot基础系列-SpringCache使用](https://www.jianshu.com/p/6db623355e11)

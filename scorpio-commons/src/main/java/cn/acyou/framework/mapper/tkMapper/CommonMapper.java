@@ -2,10 +2,7 @@ package cn.acyou.framework.mapper.tkMapper;
 
 import cn.acyou.framework.mapper.tkMapper.annotation.LogicDelete;
 import cn.acyou.framework.mapper.tkMapper.provide.CommonMapperProvider;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -88,4 +85,14 @@ public interface CommonMapper<T> {
      */
     @DeleteProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
     int deleteLogicByPrimaryKeyList(Collection idList);
+
+    /**
+     * 批量插入，支持批量插入的数据库可以使用，例如MySQL,H2等，另外该接口限制实体包含`id`属性并且必须为自增列
+     * null 时使用数据库默认值
+     * @param recordList 记录
+     * @return 影响行数
+     */
+    @Options(useGeneratedKeys = true)
+    @InsertProvider(type = CommonMapperProvider.class, method = "dynamicSQL")
+    int insertListSelective(Collection<? extends T> recordList);
 }
