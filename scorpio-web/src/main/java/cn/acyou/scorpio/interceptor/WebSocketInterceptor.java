@@ -25,6 +25,8 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
             log.debug("WebSocket:用户[ xxx ]已经建立连接");
             //测试提交分支 1
 
+            //测试提交分支 2
+
             // 标记用户
             Long userId = (Long) session.getAttribute("loginUser");
             if (userId != null) {
