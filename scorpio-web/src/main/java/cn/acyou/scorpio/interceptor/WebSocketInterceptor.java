@@ -23,6 +23,7 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
             HttpSession session = servletRequest.getServletRequest().getSession(false);
 
             log.debug("WebSocket:用户[ xxx ]已经建立连接");
+            //测试提交分支 1
 
             // 标记用户
             Long userId = (Long) session.getAttribute("loginUser");
