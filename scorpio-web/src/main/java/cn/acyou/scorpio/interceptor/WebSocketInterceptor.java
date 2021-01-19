@@ -27,6 +27,8 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
 
             //测试提交分支 2
 
+            //测试提交分支 3
+
             // 标记用户
             Long userId = (Long) session.getAttribute("loginUser");
             if (userId != null) {
