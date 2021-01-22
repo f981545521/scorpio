@@ -5,8 +5,12 @@ import cn.acyou.framework.dynamicds.DataSourceType;
 import cn.acyou.framework.service.ServiceImpl;
 import cn.acyou.scorpio.salve.entity.StudentSlave;
 import cn.acyou.scorpio.salve.mapper.StudentSlaveMapper;
+import cn.acyou.scorpio.service.demo.StudentService;
 import cn.acyou.scorpio.service.slave.StudentSlaveService;
+import cn.acyou.scorpio.system.entity.Student;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +23,9 @@ import java.util.List;
  **/
 @Slf4j
 @Service
-@DS(value = DataSourceType.SLAVE)
 public class StudentSlaveServiceImpl extends ServiceImpl<StudentSlaveMapper, StudentSlave> implements StudentSlaveService {
+    @Autowired
+    private StudentService studentService;
     /**
      * 查询全部结果
      *
@@ -28,7 +33,15 @@ public class StudentSlaveServiceImpl extends ServiceImpl<StudentSlaveMapper, Stu
      */
     @Override
     public List<StudentSlave> selectAll() {
-        return super.selectAll();
+        List<StudentSlave> studentSlaves = thisService().selectStudents();
+        List<Student> students = studentService.selectAll();
+        System.out.println(studentSlaves);
+        System.out.println(students);
+        return studentSlaves;
+    }
+
+    private StudentSlaveService thisService(){
+        return (StudentSlaveService) AopContext.currentProxy();
     }
 
     @Override
