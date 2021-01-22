@@ -52,7 +52,6 @@ public class StudentServiceTestCase extends ApplicationTests {
     @Test
 //  @Commit
     public void testSQ2(){
-        DynamicDataSourceContextHolder.setDataSourceType("slave");
         List<StudentSlave> students = studentSlaveService.selectAll();
         System.out.println(students);
     }

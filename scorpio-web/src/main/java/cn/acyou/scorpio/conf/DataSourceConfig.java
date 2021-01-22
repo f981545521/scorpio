@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 多数据源配置
  * @author youfang
  * @version [1.0.0, 2021/1/22]
  **/
@@ -34,8 +35,8 @@ public class DataSourceConfig {
     @Primary
     public DynamicDataSource dataSource(DataSource masterDataSource, DataSource slaveDataSource) {
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceType.MASTER.name(), masterDataSource);
-        targetDataSources.put(DataSourceType.SLAVE.name(), slaveDataSource);
+        targetDataSources.put(DataSourceType.MASTER, masterDataSource);
+        targetDataSources.put(DataSourceType.SLAVE, slaveDataSource);
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         dynamicDataSource.setTargetDataSources(targetDataSources);
         dynamicDataSource.setDefaultTargetDataSource(masterDataSource);
