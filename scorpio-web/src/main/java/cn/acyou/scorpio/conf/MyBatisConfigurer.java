@@ -12,11 +12,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
-import javax.sql.DataSource;
 import java.util.Properties;
 
 /**
@@ -28,7 +28,7 @@ import java.util.Properties;
 public class MyBatisConfigurer implements TransactionManagementConfigurer {
 
     @Autowired
-    private DataSource dataSource;//注入数据源
+    private LazyConnectionDataSourceProxy dataSource;//注入数据源
 
     @Bean(name = "sqlSessionFactory")
     protected SqlSessionFactoryBean getSqlSessionFactoryBean() {
