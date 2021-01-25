@@ -28,7 +28,7 @@ public class StudentSlaveController {
     @GetMapping(value = "selectAll")
     @ApiOperation("selectAll")
     public Result<List<StudentSlave>> selectAll(){
-        List<StudentSlave> studentSalves = studentSlaveService.selectStudents();
+        List<StudentSlave> studentSalves = studentSlaveService.selectAll();
         return Result.success(studentSalves);
     }
 }
