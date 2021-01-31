@@ -23,6 +23,17 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
             HttpSession session = servletRequest.getServletRequest().getSession(false);
 
             log.debug("WebSocket:用户[ xxx ]已经建立连接");
+            //测试提交分支 1
+
+            //测试提交分支 2
+
+            //测试提交分支 3
+
+            //测试提交分支 4
+
+            //测试提交分支 5
+
+            //测试提交分支 6
 
             // 标记用户
             Long userId = (Long) session.getAttribute("loginUser");
@@ -37,6 +48,6 @@ public class WebSocketInterceptor implements HandshakeInterceptor {
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler handler, Exception e) {
-
+        //release 修改的 1
     }
 }
