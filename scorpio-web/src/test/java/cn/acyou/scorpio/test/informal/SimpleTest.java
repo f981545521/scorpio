@@ -1,5 +1,6 @@
 package cn.acyou.scorpio.test.informal;
 
+import cn.acyou.framework.utils.BeanCopyUtil;
 import cn.acyou.framework.utils.BeanUtil;
 import cn.acyou.framework.utils.RegexUtil;
 import cn.acyou.scorpio.system.entity.Student;
@@ -7,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.map.ListOrderedMap;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
@@ -298,6 +300,18 @@ public class SimpleTest {
     public void test234(){
         Date date = new Date();
         System.out.println(date);
+    }
+    @Test
+    public void test2343() throws Exception{
+        Student student = new Student();
+        student.setName("小三");
+        Student student2 = new Student();
+        student2.setAge(12);
+        System.out.println(student);
+        System.out.println(student2);
+
+        BeanCopyUtil.merge(student, student2);
+        System.out.println(student);
     }
 
 }

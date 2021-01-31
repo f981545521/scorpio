@@ -3,6 +3,9 @@ package cn.acyou.framework.utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,4 +32,18 @@ public class BeanCopyUtil {
         }
         return list;
     }
+
+    public static <M> void merge(M target, M destination) throws Exception {
+        BeanInfo beanInfo = Introspector.getBeanInfo(target.getClass());
+        for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
+            if (descriptor.getWriteMethod() != null) {
+                Object originalValue = descriptor.getReadMethod().invoke(target);
+                if (originalValue == null) {
+                    Object defaultValue = descriptor.getReadMethod().invoke(destination);
+                    descriptor.getWriteMethod().invoke(target, defaultValue);
+                }
+            }
+        }
+    }
+
 }
