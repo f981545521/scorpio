@@ -1,0 +1,24 @@
+# 企业微信开发
+## 微信公众号获取access_token
+GET https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid={{wx_qy_corpid}}&corpsecret={{wx_qy_app_secret}}
+Accept: application/json
+
+> {% client.global.set("access_token", response.body.access_token); %}
+
+### 获取部门列表
+GET https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token={{access_token}}
+Accept: application/json
+
+> {% client.global.set("department_id", response.body.department[0].id); %}
+
+### 随便发起一个请求。设置departMent_id
+GET {{sui_bian}}
+Accept: application/json
+
+> {% client.global.set("department_id", "222"); %}
+
+### 查看部门人员列表
+GET https://qyapi.weixin.qq.com/cgi-bin/user/simplelist?access_token={{access_token}}&department_id={{department_id}}&fetch_child=FETCH_CHILD
+Accept: application/json
+
+

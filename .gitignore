@@ -9,10 +9,6 @@
 /.classpath
 /.project
 /.keep
-.idea/
-*.iml
-out/
-.DS_Store
 *.orig
 
 */.settings
@@ -27,7 +23,7 @@ out/
 
 # IntelliJ
 *.iml
-.idea/
+.idea
 
 # Maven
 target/
