@@ -214,7 +214,7 @@ public class RegexUtil {
      * @param c char
      * @return boolean
      */
-    private static boolean isChinese(char c) {
+    public static boolean isChinese(char c) {
         Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
         return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
                 || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
